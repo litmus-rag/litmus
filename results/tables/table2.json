@@ -1,0 +1,40 @@
+{
+  "corpus_a": {
+    "litmus_question_type_distribution": {
+      "single_chunk": 12,
+      "cross_doc": 11,
+      "unanswerable": 8,
+      "adversarial": 7
+    },
+    "litmus_noise_distribution": {
+      "vocab_mismatch": 15,
+      "clean": 23
+    },
+    "ragas_synthesizer_distribution": {
+      "single_hop_specific_query_synthesizer": 13,
+      "multi_hop_abstract_query_synthesizer": 13,
+      "multi_hop_specific_query_synthesizer": 13
+    },
+    "litmus_n": 38,
+    "ragas_n": 39
+  },
+  "corpus_b": {
+    "litmus_question_type_distribution": {
+      "single_chunk": 5,
+      "cross_doc": 2,
+      "unanswerable": 12,
+      "adversarial": 5
+    },
+    "litmus_noise_distribution": {
+      "vocab_mismatch": 12,
+      "clean": 12
+    },
+    "ragas_synthesizer_distribution": {
+      "single_hop_specific_query_synthesizer": 8,
+      "multi_hop_abstract_query_synthesizer": 2,
+      "multi_hop_specific_query_synthesizer": 8
+    },
+    "litmus_n": 24,
+    "ragas_n": 18
+  }
+}

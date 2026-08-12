@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "litmus-rag"
+version = "0.1.0"
+description = "Synthetic eval set generation and binary-decomposition scoring for RAG systems"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "litellm>=1.50",
+    "numpy>=1.26",
+    "tiktoken>=0.7",
+    "pydantic>=2.0",
+    "rich>=13.0",
+    "tqdm>=4.66",
+    "aiohttp>=3.9",
+    "pymupdf>=1.24",
+    "python-docx>=1.1",
+    "beautifulsoup4>=4.12",
+    "chardet>=5.2",
+    "sentence-transformers>=3.0",
+    "truststore>=0.9",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+report = [
+    "pandas>=2.0",
+    "jinja2>=3.1",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "pytest-mock>=3.14",
+    "hypothesis>=6.100",
+    "pandas>=2.0",
+    "jinja2>=3.1",
+]
+
+[project.scripts]
+litmus = "litmus.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "live: requires a real LLM call against the configured deployment",
+]

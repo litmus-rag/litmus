@@ -1,0 +1,71 @@
+{
+  "corpus_a": {
+    "litmus_1x": {
+      "n": 38,
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.07894736842105265,
+        "correctness": 0.13157894736842113,
+        "abstention": 0.21052631578947367
+      }
+    },
+    "litmus_2x": {
+      "n": 48,
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.04166666666666663,
+        "correctness": 0.22916666666666663,
+        "abstention": 0.25
+      }
+    },
+    "ragas_1x": {
+      "n": 39,
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.28205128205128205,
+        "correctness": 0.23076923076923084,
+        "abstention": 0.17948717948717952
+      }
+    },
+    "ragas_2x": {
+      "n": 47,
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.17021276595744683,
+        "correctness": 0.17021276595744678,
+        "abstention": 0.23404255319148937
+      }
+    }
+  },
+  "corpus_b": {
+    "litmus_1x": {
+      "n": 24,
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.04166666666666663,
+        "correctness": 0.125,
+        "abstention": 0.08333333333333337
+      }
+    },
+    "litmus_2x": {
+      "n": 29,
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.0,
+        "correctness": 0.2068965517241379,
+        "abstention": 0.10344827586206895
+      }
+    },
+    "ragas_1x": {
+      "n": 18,
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.0,
+        "correctness": 0.05555555555555558,
+        "abstention": 0.0
+      }
+    },
+    "ragas_2x": {
+      "n": 22,
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.0,
+        "correctness": 0.045454545454545414,
+        "abstention": 0.045454545454545414
+      }
+    }
+  },
+  "note": "Yes-rate spread at 1x (v3) and 2x (v4) corpus size. Bridge-entity candidate counts in the paper's Table 6 are from generation logs and are NOT recomputed here."
+}

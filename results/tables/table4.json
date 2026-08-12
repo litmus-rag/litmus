@@ -1,0 +1,10 @@
+{
+  "corpus": "musique",
+  "answerable_candidates_checked": 30,
+  "discarded_as_leaked": 24,
+  "discard_rate": 0.8,
+  "unanswerable_exempt_count": 12,
+  "final_answerable_records": 6,
+  "final_eval_set_size": 18,
+  "note": "Measures filter sensitivity on litmus's own generated questions over MuSiQue passages -- not a reproduction of SeedRG's leakage-rate numbers on MuSiQue's original human-written questions."
+}

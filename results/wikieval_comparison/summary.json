@@ -1,0 +1,47 @@
+{
+  "faithfulness": {
+    "litmus": {
+      "n": 50,
+      "wins": 48,
+      "ties": 2,
+      "losses": 0,
+      "accuracy": 0.98
+    },
+    "ragas": {
+      "n": 50,
+      "wins": 49,
+      "ties": 0,
+      "losses": 1,
+      "accuracy": 0.98
+    },
+    "paper_reported_ragas": 0.95
+  },
+  "answer_relevance": {
+    "litmus_C1_proxy": {
+      "n": 50,
+      "wins": 37,
+      "ties": 13,
+      "losses": 0,
+      "accuracy": 0.87
+    },
+    "ragas": {
+      "n": 50,
+      "wins": 22,
+      "ties": 9,
+      "losses": 19,
+      "accuracy": 0.53
+    },
+    "paper_reported_ragas": 0.78
+  },
+  "context_relevance": {
+    "ragas": {
+      "n": 50,
+      "wins": 0,
+      "ties": 50,
+      "losses": 0,
+      "accuracy": 0.5
+    },
+    "paper_reported_ragas": 0.7,
+    "note": "no litmus equivalent metric exists"
+  }
+}

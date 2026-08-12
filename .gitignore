@@ -1,0 +1,34 @@
+# --- secrets ---
+conf
+.env
+*.key
+
+# --- virtualenvs ---
+.venv/
+venv/
+
+# --- python build / bytecode ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# --- test + tool caches ---
+.pytest_cache/
+.hypothesis/
+tests/.live_runs/
+
+# --- litmus runtime caches / checkpoints ---
+.litmus_cache*/
+
+# --- downloaded third-party datasets (re-fetchable via eval_study/fetch_*.py) ---
+eval_study/.scratch/
+
+# --- editor / OS ---
+.DS_Store
+.idea/
+.vscode/
+
+# --- local agent settings ---
+.claude/settings.local.json

@@ -1,0 +1,150 @@
+[
+  {
+    "question": "As an astrophyscis educator studying supernovae, how is uranium thoght to be formed during a type II supernova event, and what dose the context say about the proces involved?",
+    "contexts": [
+      "Nucleosynthesis\n\nSupernova nucleosynthesis within exploding stars by fusing carbon and oxygen is responsible for the abundances of elements between magnesium (atomic number 12) and nickel (atomic number 28). Supernova nucleosynthesis is also thought to be responsible for the creation of rarer elements heavier than iron and nickel, in the last few seconds of a type II supernova event. The synthesis of these heavier elements absorbs energy (endothermic) as they are created, from the energy produced during the supernova explosion. Some of those elements are created from the absorption of multiple neutrons (the R process) in the period of a few seconds during the explosion. The elements formed in supernovas include the heaviest elements known, such as the long - lived elements uranium and thorium."
+    ],
+    "ground_truth": "The context says that supernova nucleosynthesis is thought to be responsible for creating rarer elements heavier than iron and nickel in the last few seconds of a type II supernova event. It explains that some of these elements are created through the absorption of multiple neutrons, called the R process, during the explosion. The elements formed in supernovas include the heaviest elements known, such as the long-lived elements uranium and thorium.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Can you tell me who J. Michael Finley plays in I Can Only Imagine and what the movie be about with the song and his family relationship stuff?",
+    "contexts": [
+      "I Can Only Imagine (film)\n\nI Can Only Imagine is a 2018 American Christian drama film directed by the Erwin Brothers and written by Alex Cramer, Jon Erwin and Brent McCorkle, based on the story behind the MercyMe song of the same name, the best - selling Christian single of all time. The film stars J. Michael Finley as Bart Millard, the lead singer who wrote the song about his relationship with his father (Dennis Quaid). Madeline Carroll, Priscilla Shirer, Cloris Leachman, and Trace Adkins also star."
+    ],
+    "ground_truth": "J. Michael Finley stars as Bart Millard in I Can Only Imagine. The film is a 2018 American Christian drama based on the story behind the MercyMe song of the same name, and it is about Bart Millard, the lead singer who wrote the song about his relationship with his father.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "As a fan of anime and video game voice acting, I would like to know: which American performer is described here as being best known for a deep and booming voice across numerous anime and video games, and what notable roles are listed for him in the context?",
+    "contexts": [
+      "Jamieson Price\n\nJamieson Kent Price (born April 28, 1961) is an American voice actor, best known for his deep and booming voice for numerous anime and video games. He is known as the voice of Largo the Black Lion in \"Tales of the Abyss\", Iron Tager from the \"BlazBlue\" series, the Count of Monte Cristo in \"Gankutsuou\", Ovan in \".hack//G.U.\", and Galbalan, the main villain of \"\" and Milton Grimm from \"Ever After High\". Price also had a part in the 2000 movie \"The Patriot\"."
+    ],
+    "ground_truth": "Jamieson Kent Price is an American voice actor who is best known for his deep and booming voice for numerous anime and video games. The context lists him as the voice of Largo the Black Lion in \"Tales of the Abyss\", Iron Tager from the \"BlazBlue\" series, the Count of Monte Cristo in \"Gankutsuou\", Ovan in \".hack//G.U.\", Galbalan, and Milton Grimm from \"Ever After High\". It also states that Price had a part in the 2000 movie \"The Patriot\".",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "In Acts of the Apostles, how does Luke explain the spread of Christ's message to the Gentiles?",
+    "contexts": [
+      "Acts of the Apostles\n\nLuke -- Acts is an attempt to answer a theological problem, namely how the Messiah of the Jews came to have an overwhelmingly non-Jewish church; the answer it provides, and its central theme, is that the message of Christ was sent to the Gentiles because the Jews rejected it. Luke -- Acts can be also seen as a defense of (or ``apology ''for) the Jesus movement addressed to the Jews: the bulk of the speeches and sermons in Acts are addressed to Jewish audiences, with the Romans serving as external arbiters on disputes concerning Jewish customs and law. On the one hand Luke portrays the Christians as a sect of the Jews, and therefore entitled to legal protection as a recognised religion; on the other, Luke seems unclear as to the future God intends for Jews and Christians, celebrating the Jewishness of Jesus and his immediate followers while also stressing how the Jews had rejected God's promised Messiah."
+    ],
+    "ground_truth": "Luke explains that the message of Christ was sent to the Gentiles because the Jews rejected it. He presents this as the answer to the theological problem of how the Messiah of the Jews came to have an overwhelmingly non-Jewish church.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "As an anime and video game voice acting fan who appreciates notable performers, could you explain who Doug Lawrence is and describe the main kinds of work for which he is known, including the animated series mentioned in the context?",
+    "contexts": [
+      "Mr. Lawrence\n\nDouglas Lawrence Osowski, credited as Mr. Lawrence and sometimes Doug Lawrence, is an American voice actor, writer, director, comedian, and storyboard artist. He is known for his work as a writer and actor for the animated series Rocko's Modern Life and SpongeBob SquarePants."
+    ],
+    "ground_truth": "Douglas Lawrence Osowski, credited as Mr. Lawrence and sometimes Doug Lawrence, is an American voice actor, writer, director, comedian, and storyboard artist. He is known for his work as a writer and actor for the animated series Rocko's Modern Life and SpongeBob SquarePants.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "How did X-ray wavelenght help re-sequnce the periodic table?",
+    "contexts": [
+      "History of the periodic table\n\nIn 1914, a year before he was killed in action at Gallipoli, the English physicist Henry Moseley found a relationship between the X-ray wavelength of an element and its atomic number. He was then able to re-sequence the periodic table by nuclear charge, rather than by atomic weight. Before this discovery, atomic numbers were sequential numbers based on an element's atomic weight. Moseley's discovery showed that atomic numbers were in fact based upon experimental measurements."
+    ],
+    "ground_truth": "Henry Moseley found a relationship between an element's X-ray wavelength and its atomic number. This allowed him to re-sequence the periodic table by nuclear charge rather than by atomic weight.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Which South Park character was voiced by Isaac Hayes?",
+    "contexts": [
+      "Chef (South Park)\n\nJerome ``Chef ''McElroy is a cartoon character on the Comedy Central series South Park who was voiced by Isaac Hayes. A cafeteria worker at the local elementary school in the town of South Park, Colorado, Chef is generally portrayed as more level - headed than the other adult residents of the town, and sympathetic to the children. His guidance is often sought by the show's core group of child protagonists -- Eric Cartman, Stan Marsh, Kyle Broflovski, and Kenny McCormick -- as he is usually the only adult whom they consistently trusted. To an inadvertent fault, he frequently gives inappropriate advice, usually in the non sequitur form of a lascivious soul song."
+    ],
+    "ground_truth": "Isaac Hayes voiced Jerome \"Chef\" McElroy, known as Chef, on South Park.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "As Dr. Elena Voss i ask, what is He and what basic things say about it, like symbol, atomic number, and what kind gas it is?",
+    "contexts": [
+      "Helium\n\nHelium (from Greek: \u1f25\u03bb\u03b9\u03bf\u03c2, translit. Helios, lit. 'Sun') is a chemical element with symbol He and atomic number 2. It is a colorless, odorless, tasteless, non-toxic, inert, monatomic gas, the first in the noble gas group in the periodic table. Its boiling point is the lowest among all the elements."
+    ],
+    "ground_truth": "Helium is a chemical element with symbol He and atomic number 2. It is a colorless, odorless, tasteless, non-toxic, inert, monatomic gas, and it is the first in the noble gas group in the periodic table. Its boiling point is the lowest among all the elements.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "As Dr. Elena Voss, I wnat to explane how a Chemical element is organized in the Periodic table, so using Uranium as the exampel, what features show that it is a chemical element and how is it described within the periodic table, includng its atomic number, protons, electrons, and natral occurrence?",
+    "contexts": [
+      "<1-hop>\n\nChemical element\n\nA chemical element is a species of atoms having the same number of protons in their atomic nuclei (that is, the same atomic number, or Z). 118 elements are identified, of which the first 94 occur naturally on Earth with the remaining 24 being synthetic elements. There are 80 elements that have at least one stable isotope and 38 that have exclusively radionuclides, which decay over time into other elements. Iron is the most abundant element (by mass) making up Earth, while oxygen is the most common element in the Earth's crust.",
+      "<2-hop>\n\nPeriod (periodic table)\n\nA period in the periodic table is one of the horizontal rows, all of those elements have the same number of electron shells. Going across a period, each element has one more proton and is less metallic than its predecessor. Arranged this way, groups of elements in the same column have similar chemical and physical properties, reflecting the periodic law. For example, the alkali metals lie in the first column (group 1) and share similar properties, such as high reactivity and the tendency to lose one electron to arrive at a noble - gas electronic configuration. As of 2016 a total of 118 elements have been discovered and confirmed.",
+      "<3-hop>\n\nUranium\n\nUranium is a chemical element with symbol U and atomic number 92. It is a silvery-white metal in the actinide series of the periodic table. A uranium atom has 92 protons and 92 electrons, of which 6 are valence electrons. Uranium is weakly radioactive because all its isotopes are unstable (with half-lives of the six naturally known isotopes, uranium-233 to uranium-238, varying between 69 years and 4.5 billion years). The most common isotopes of uranium are uranium-238 (which has 146 neutrons and accounts for almost 99.3% of the uranium found in nature) and uranium-235 (which has 143 neutrons, accounting for 0.7% of the element found naturally). Uranium has the second highest atomic weight of the primordially occurring elements, lighter only than plutonium. Its density is about 70% higher than that of lead, but slightly lower than that of gold or tungsten. It occurs naturally in low concentrations of a few parts per million in soil, rock and water, and is commercially extracted from uranium-bearing minerals such as uraninite."
+    ],
+    "ground_truth": "A chemical element is defined as a species of atoms with the same number of protons in their nuclei, which is the atomic number. In the periodic table, elements are arranged so that periods are horizontal rows, and the table organizes elements by recurring chemical and physical properties. Uranium fits this definition of a chemical element because it has atomic number 92, meaning each uranium atom has 92 protons. It also has 92 electrons, with 6 valence electrons. Within the periodic table, uranium is placed in the actinide series. Uranium occurs naturally, making it one of the first 94 elements that occur naturally on Earth. It is a silvery-white metal, weakly radioactive because all of its isotopes are unstable, and it is found in low concentrations in soil, rock, and water, from which it can be commercially extracted from minerals such as uraninite.",
+    "synthesizer_name": "multi_hop_abstract_query_synthesizer"
+  },
+  {
+    "question": "Dian Bachar Curtis Armstrong notable roles voice acting deep powerful character roles",
+    "contexts": [
+      "<1-hop>\n\nDian Bachar\n\nDian Bachar (; born October 26, 1970 in Denver, Colorado) is an American actor most notable for his roles in various films by or starring his friends Trey Parker and Matt Stone, such as \"Cannibal! The Musical\" (George Noon), \"Orgazmo\" (Ben Chapleski) and his most famous role as Kenny \"Squeak\" Scolari in 1998's \"BASEketball\", as well as making the occasional appearance on \"South Park\". He appeared as an alien engineer in \"Galaxy Quest\". Although the bulk of his scenes were cut, he can be seen on the DVD's \"Special Features\".",
+      "<2-hop>\n\nCurtis Armstrong\n\nCurtis Armstrong (born November 27, 1953) is an American actor known for his portrayal as Booger in the Revenge of the Nerds movies, as Herbert Viola on Moonlighting, as Miles Dalby in Risky Business, as famed record producer Ahmet Erteg\u00fcn in the film Ray, as the voice of ``Maru ''in Planes: Fire & Rescue, and for voicing Schmuley`` Snot'' Lonstein in American Dad!, and the title character in the show Dan Vs. He is also the co-host of the TBS reality television competition series King of the Nerds, in addition to the role of Metatron in the series Supernatural."
+    ],
+    "ground_truth": "Dian Bachar is noted for roles such as Kenny \"Squeak\" Scolari in \"BASEketball\", Ben Chapleski in \"Orgazmo\", George Noon in \"Cannibal! The Musical\", and an alien engineer in \"Galaxy Quest\", with occasional appearances on \"South Park\". Curtis Armstrong is known for playing Booger in the \"Revenge of the Nerds\" movies, Herbert Viola on \"Moonlighting\", Miles Dalby in \"Risky Business\", Ahmet Erteg\u00fcn in \"Ray\", and for voice roles including Maru in \"Planes: Fire & Rescue\", Schmuley \"Snot\" Lonstein in \"American Dad!\", and the title character in \"Dan Vs.\"",
+    "synthesizer_name": "multi_hop_abstract_query_synthesizer"
+  },
+  {
+    "question": "What happen with Hubert L. Lee on November 5, 1982, and what was he known for from February 1, 1951?",
+    "contexts": [
+      "<1-hop>\n\nHubert L. Lee\n\nHubert Louis Lee (February 2, 1915 \u2013 November 5, 1982) was a soldier in the United States Army during the Korean War. He received the Medal of Honor for his actions on February 1, 1951."
+    ],
+    "ground_truth": "Hubert Louis Lee died on November 5, 1982. He was known for being a soldier in the United States Army during the Korean War and for receiving the Medal of Honor for his actions on February 1, 1951.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "what happen on August 18, 2009 with The Law of Nines?",
+    "contexts": [
+      "<1-hop>\n\nThe Law of Nines\n\nThe Law of Nines is a thriller/speculative fiction novel by American author Terry Goodkind. The book was released on August 18, 2009. It debuted at #10 on the Times bestseller list."
+    ],
+    "ground_truth": "The Law of Nines was released on August 18, 2009.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "What happened in the American Dad! episode \"Rapture's Delight,\" which originally aired on December 13, 2009?",
+    "contexts": [
+      "<1-hop>\n\nRapture's Delight\n\n\"Rapture's Delight\" is the ninth episode of the sixth season of the American animated television series \"American Dad!\". It originally aired on Fox in the United States on December 13, 2009. This episode centers around Stan and Francine's life after the vast majority of the church, including Hayley and Steve, are raptured. When Stan begins to blame Francine for not getting into heaven, Francine ends their relationship and befriends a man whom she later finds out to be Jesus. Francine becomes his bride, leaving Stan behind to participate in the armageddon."
+    ],
+    "ground_truth": "In \"Rapture's Delight,\" the ninth episode of the sixth season of \"American Dad!,\" which originally aired on December 13, 2009, Stan and Francine face life after most of the church, including Hayley and Steve, are raptured. Stan blames Francine for not getting into heaven, which leads Francine to end their relationship. She then befriends a man who is later revealed to be Jesus, and she becomes his bride, leaving Stan behind to take part in the armageddon.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "What happend on November 17, 1982 to the Florida Power and Light Company Ice Plant in Melbourne, Florida?",
+    "contexts": [
+      "<1-hop>\n\nFlorida Power and Light Company Ice Plant\n\nThe Florida Power and Light Company Ice Plant (also known as the City Products Corporation Ice Plant or locally as the Ice Plant) is a historic site in Melbourne, Florida, United States. It is located at 1604 South Harbor City Boulevard. On November 17, 1982, it was added to the U.S. National Register of Historic Places."
+    ],
+    "ground_truth": "On November 17, 1982, the Florida Power and Light Company Ice Plant in Melbourne, Florida, was added to the U.S. National Register of Historic Places.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "How did the discovery of radium influence hopes about unseen energy in atoms?",
+    "contexts": [
+      "<1-hop>\n\nHistory of nuclear weapons\n\nIn the first decades of the 20th century, physics was revolutionised with developments in the understanding of the nature of atoms. In 1898, Pierre and Marie Curie discovered that pitchblende, an ore of uranium, contained a substance -- which they named radium -- that emitted large amounts of radioactivity. Ernest Rutherford and Frederick Soddy identified that atoms were breaking down and turning into different elements. Hopes were raised among scientists and laymen that the elements around us could contain tremendous amounts of unseen energy, waiting to be harnessed."
+    ],
+    "ground_truth": "Pierre and Marie Curie discovered radium in pitchblende, and because it emitted large amounts of radioactivity, it helped raise hopes that atoms and the elements around us contained tremendous amounts of unseen energy waiting to be harnessed.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "What happen to Mexico Beach, Florida on October 10, 2018, and what FEMA say after it?",
+    "contexts": [
+      "<1-hop>\n\nMexico Beach, Florida\n\nMexico Beach is a city in Bay County, Florida, United States. It is located southeast of Panama City. The population was 1,072 at the 2010 census. The community was extensively damaged by Hurricane Michael on October 10, 2018. The Federal Emergency Management Agency (FEMA) declared the community \"wiped out\" in the aftermath of the hurricane's devastating impact."
+    ],
+    "ground_truth": "On October 10, 2018, Mexico Beach, Florida was extensively damaged by Hurricane Michael. After the hurricane's devastating impact, FEMA declared the community \"wiped out.\"",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Scott Richard Grimes voice actor notable roles American Dad The Orville ER",
+    "contexts": [
+      "<1-hop>\n\nScott Grimes\n\nScott Richard Grimes (born July 9, 1971) is an American actor, voice artist, singer, and songwriter. Some of his most prominent roles include appearances in ER as Dr. Archie Morris, Party of Five as Will McCorkle, Band of Brothers as Technical Sergeant Donald Malarkey, and the animated sitcom American Dad!, voicing Steve Smith. He is also well known by cult movie fans for his role as Bradley Brown in the first two Critters films. As of September 10, 2017, he has been cast as a regular on the Fox sci - fi series, The Orville."
+    ],
+    "ground_truth": "Scott Richard Grimes is an American actor, voice artist, singer, and songwriter. His notable roles include voicing Steve Smith in American Dad!, playing Dr. Archie Morris in ER, appearing as Will McCorkle in Party of Five, Technical Sergeant Donald Malarkey in Band of Brothers, Bradley Brown in the first two Critters films, and being cast as a regular on The Orville.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "How is hydorgen releated to oxygn in abundnce?",
+    "contexts": [
+      "<1-hop>\n\nHydrogen\n\nThe energy levels of hydrogen can be calculated fairly accurately using the Bohr model of the atom, which conceptualizes the electron as \"orbiting\" the proton in analogy to the Earth's orbit of the Sun. However, the electromagnetic force attracts electrons and protons to one another, while planets and celestial objects are attracted to each other by gravity. Because of the discretization of angular momentum postulated in early quantum mechanics by Bohr, the electron in the Bohr model can only occupy certain allowed distances from the proton, and therefore only certain allowed energies.",
+      "<2-hop>\n\nOxygen\n\nOxygen is a chemical element with symbol O and atomic number 8. It is a member of the chalcogen group on the periodic table and is a highly reactive nonmetal and oxidizing agent that readily forms compounds (notably oxides) with most elements. By mass, oxygen is the third-most abundant element in the universe, after hydrogen and helium. At standard temperature and pressure, two atoms of the element bind to form dioxygen, a colorless and odorless diatomic gas with the formula O\n2. Diatomic oxygen gas constitutes 20.8% of the Earth's atmosphere. However, monitoring of atmospheric oxygen levels show a global downward trend, because of fossil-fuel burning. Oxygen is the most abundant element by mass in the Earth's crust as part of oxide compounds such as silicon dioxide, making up almost half of the crust's mass."
+    ],
+    "ground_truth": "Hydrogen and oxygen are related in abundance because the context states that oxygen is the third-most abundant element in the universe, after hydrogen and helium. This means hydrogen is more abundant than oxygen in the universe.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  }
+]

@@ -1,0 +1,1262 @@
+{
+  "litmus_faithfulness": [
+    {
+      "source": "PSLV-C56",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Uzbekistan\u2013Afghanistan\u2013Pakistan Railway Project",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "PharmaCann",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Oppenheimer (film)",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Theranostics",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Human climate niche",
+      "good_score": 0.3333333333333333,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Dasypoda radchenkoi",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Fremantle Octopus",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "FoodFutureCo",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Fiat Ecobasic",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Rainbow plaque",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Zubaydah Trail",
+      "good_score": 0.3333333333333333,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Chimnabai Clock Tower",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Shanghai Trolleybus Route 20",
+      "good_score": 0.3333333333333333,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Inter Expo Center",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Pope Benedict XVI",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Yeti Airlines Flight 691",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "SpaceX Starship",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Kyzylkum Desert",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "80th Venice Film Festival",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Myosotis angustata",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Mount Brown (Liberty County, Montana)",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Rhacophorus laoshan",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Roanoke and Tar River Railroad",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Moud Goba",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Modernizing Opioid Treatment Access Act",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Gaucho Americano",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Blakistonia plata",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Turkish Women's Football Super League",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Tomb of Alexander Stewart, Earl of Buchan",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "5th Guards Tank Brigade",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Siege of Mariupol",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "International sanctions during the Russo-Ukrainian War",
+      "good_score": 0.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Sri Lankan economic crisis (2019\u2013present)",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "2022 Hormozgan earthquakes",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Highland Park parade shooting",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Controversies involving Uber",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Moore County substation attack",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "2023 Manipur violence",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "2023 Chinese balloon incident",
+      "good_score": 0.6666666666666666,
+      "bad_score": 0.0
+    },
+    {
+      "source": "2023 Afghanistan cold snap",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "GPT-4",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Myanmar civil war (2021\u2013present)",
+      "good_score": 0.3333333333333333,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Miss Grand Dominican Republic 2023",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Wagner Group rebellion",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "2022 Sheffield gas supply outage",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Mahsa Amini protests",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Volcanism on Venus",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Pandemic prevention",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Jupiter Icy Moons Explorer",
+      "good_score": 0.6666666666666666,
+      "bad_score": 0.0
+    }
+  ],
+  "ragas_faithfulness": [
+    {
+      "source": "PSLV-C56",
+      "good_score": 1.0,
+      "bad_score": 0.6666666666666666
+    },
+    {
+      "source": "Uzbekistan\u2013Afghanistan\u2013Pakistan Railway Project",
+      "good_score": 0.9473684210526315,
+      "bad_score": 0.9090909090909091
+    },
+    {
+      "source": "PharmaCann",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Oppenheimer (film)",
+      "good_score": 1.0,
+      "bad_score": 0.5
+    },
+    {
+      "source": "Theranostics",
+      "good_score": 0.95,
+      "bad_score": 0.4857142857142857
+    },
+    {
+      "source": "Human climate niche",
+      "good_score": 0.7857142857142857,
+      "bad_score": 0.3125
+    },
+    {
+      "source": "Dasypoda radchenkoi",
+      "good_score": 0.8571428571428571,
+      "bad_score": 0.4583333333333333
+    },
+    {
+      "source": "Fremantle Octopus",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "FoodFutureCo",
+      "good_score": 1.0,
+      "bad_score": 0.5384615384615384
+    },
+    {
+      "source": "Fiat Ecobasic",
+      "good_score": 0.8,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Rainbow plaque",
+      "good_score": 0.8095238095238095,
+      "bad_score": 0.25
+    },
+    {
+      "source": "Zubaydah Trail",
+      "good_score": 0.75,
+      "bad_score": 0.05263157894736842
+    },
+    {
+      "source": "Chimnabai Clock Tower",
+      "good_score": 1.0,
+      "bad_score": 0.5
+    },
+    {
+      "source": "Shanghai Trolleybus Route 20",
+      "good_score": 0.06451612903225806,
+      "bad_score": 0.12121212121212122
+    },
+    {
+      "source": "Inter Expo Center",
+      "good_score": 1.0,
+      "bad_score": 0.3
+    },
+    {
+      "source": "Pope Benedict XVI",
+      "good_score": 1.0,
+      "bad_score": 0.5
+    },
+    {
+      "source": "Yeti Airlines Flight 691",
+      "good_score": 0.8823529411764706,
+      "bad_score": 0.16666666666666666
+    },
+    {
+      "source": "SpaceX Starship",
+      "good_score": 1.0,
+      "bad_score": 0.7692307692307693
+    },
+    {
+      "source": "Kyzylkum Desert",
+      "good_score": 1.0,
+      "bad_score": 0.625
+    },
+    {
+      "source": "80th Venice Film Festival",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Myosotis angustata",
+      "good_score": 1.0,
+      "bad_score": 0.375
+    },
+    {
+      "source": "Mount Brown (Liberty County, Montana)",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Rhacophorus laoshan",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Roanoke and Tar River Railroad",
+      "good_score": 1.0,
+      "bad_score": 0.13333333333333333
+    },
+    {
+      "source": "Moud Goba",
+      "good_score": 1.0,
+      "bad_score": 0.14814814814814814
+    },
+    {
+      "source": "Modernizing Opioid Treatment Access Act",
+      "good_score": 0.9090909090909091,
+      "bad_score": 0.2
+    },
+    {
+      "source": "Gaucho Americano",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Blakistonia plata",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Turkish Women's Football Super League",
+      "good_score": 0.8571428571428571,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "Tomb of Alexander Stewart, Earl of Buchan",
+      "good_score": 0.8,
+      "bad_score": 0.44
+    },
+    {
+      "source": "5th Guards Tank Brigade",
+      "good_score": 1.0,
+      "bad_score": 0.5
+    },
+    {
+      "source": "Siege of Mariupol",
+      "good_score": 1.0,
+      "bad_score": 0.36363636363636365
+    },
+    {
+      "source": "International sanctions during the Russo-Ukrainian War",
+      "good_score": 0.8888888888888888,
+      "bad_score": 0.5434782608695652
+    },
+    {
+      "source": "Sri Lankan economic crisis (2019\u2013present)",
+      "good_score": 0.8823529411764706,
+      "bad_score": 0.3157894736842105
+    },
+    {
+      "source": "2022 Hormozgan earthquakes",
+      "good_score": 1.0,
+      "bad_score": 0.14285714285714285
+    },
+    {
+      "source": "Highland Park parade shooting",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Controversies involving Uber",
+      "good_score": 1.0,
+      "bad_score": 0.40425531914893614
+    },
+    {
+      "source": "Moore County substation attack",
+      "good_score": 1.0,
+      "bad_score": 0.3333333333333333
+    },
+    {
+      "source": "2023 Manipur violence",
+      "good_score": 0.8947368421052632,
+      "bad_score": 0.5555555555555556
+    },
+    {
+      "source": "2023 Chinese balloon incident",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "2023 Afghanistan cold snap",
+      "good_score": 0.8571428571428571,
+      "bad_score": 0.42857142857142855
+    },
+    {
+      "source": "GPT-4",
+      "good_score": 1.0,
+      "bad_score": 0.08
+    },
+    {
+      "source": "Myanmar civil war (2021\u2013present)",
+      "good_score": 1.0,
+      "bad_score": 0.8125
+    },
+    {
+      "source": "Miss Grand Dominican Republic 2023",
+      "good_score": 1.0,
+      "bad_score": 0.09090909090909091
+    },
+    {
+      "source": "Wagner Group rebellion",
+      "good_score": 1.0,
+      "bad_score": 0.17647058823529413
+    },
+    {
+      "source": "2022 Sheffield gas supply outage",
+      "good_score": 0.8,
+      "bad_score": 0.4
+    },
+    {
+      "source": "Mahsa Amini protests",
+      "good_score": 0.75,
+      "bad_score": 0.34375
+    },
+    {
+      "source": "Volcanism on Venus",
+      "good_score": 1.0,
+      "bad_score": 0.3225806451612903
+    },
+    {
+      "source": "Pandemic prevention",
+      "good_score": 0.7,
+      "bad_score": 0.2463768115942029
+    },
+    {
+      "source": "Jupiter Icy Moons Explorer",
+      "good_score": 1.0,
+      "bad_score": 0.6666666666666666
+    }
+  ],
+  "litmus_answer_relevance_proxy": [
+    {
+      "source": "PSLV-C56",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Uzbekistan\u2013Afghanistan\u2013Pakistan Railway Project",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "PharmaCann",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Oppenheimer (film)",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Theranostics",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Human climate niche",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Dasypoda radchenkoi",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Fremantle Octopus",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "FoodFutureCo",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Fiat Ecobasic",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Rainbow plaque",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Zubaydah Trail",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Chimnabai Clock Tower",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Shanghai Trolleybus Route 20",
+      "good_score": 0.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Inter Expo Center",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Pope Benedict XVI",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Yeti Airlines Flight 691",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "SpaceX Starship",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Kyzylkum Desert",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "80th Venice Film Festival",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Myosotis angustata",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Mount Brown (Liberty County, Montana)",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Rhacophorus laoshan",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Roanoke and Tar River Railroad",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Moud Goba",
+      "good_score": 0.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Modernizing Opioid Treatment Access Act",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Gaucho Americano",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Blakistonia plata",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Turkish Women's Football Super League",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Tomb of Alexander Stewart, Earl of Buchan",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "5th Guards Tank Brigade",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Siege of Mariupol",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "International sanctions during the Russo-Ukrainian War",
+      "good_score": 0.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Sri Lankan economic crisis (2019\u2013present)",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "2022 Hormozgan earthquakes",
+      "good_score": 0.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Highland Park parade shooting",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Controversies involving Uber",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Moore County substation attack",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "2023 Manipur violence",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "2023 Chinese balloon incident",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "2023 Afghanistan cold snap",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "GPT-4",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Myanmar civil war (2021\u2013present)",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Miss Grand Dominican Republic 2023",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Wagner Group rebellion",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "2022 Sheffield gas supply outage",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Mahsa Amini protests",
+      "good_score": 1.0,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Volcanism on Venus",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Pandemic prevention",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Jupiter Icy Moons Explorer",
+      "good_score": 0.0,
+      "bad_score": 0.0
+    }
+  ],
+  "ragas_answer_relevancy": [
+    {
+      "source": "PSLV-C56",
+      "good_score": 0.9346543591354105,
+      "bad_score": 0.7482629864329003
+    },
+    {
+      "source": "Uzbekistan\u2013Afghanistan\u2013Pakistan Railway Project",
+      "good_score": 0.9009079152570472,
+      "bad_score": 0.9009079152570472
+    },
+    {
+      "source": "PharmaCann",
+      "good_score": 0.9821244353997077,
+      "bad_score": 0.9133064192153152
+    },
+    {
+      "source": "Oppenheimer (film)",
+      "good_score": 0.9058957571762445,
+      "bad_score": 0.9058957571762445
+    },
+    {
+      "source": "Theranostics",
+      "good_score": 0.7794425001420261,
+      "bad_score": 0.9048694268722937
+    },
+    {
+      "source": "Human climate niche",
+      "good_score": 0.8777089390762237,
+      "bad_score": 0.968437176518388
+    },
+    {
+      "source": "Dasypoda radchenkoi",
+      "good_score": 0.8790949615194569,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Fremantle Octopus",
+      "good_score": 0.9299399486526246,
+      "bad_score": 0.9299399486526246
+    },
+    {
+      "source": "FoodFutureCo",
+      "good_score": 0.8688731091332854,
+      "bad_score": 0.8688731091332854
+    },
+    {
+      "source": "Fiat Ecobasic",
+      "good_score": 0.9850372037488707,
+      "bad_score": 0.9850372037488707
+    },
+    {
+      "source": "Rainbow plaque",
+      "good_score": 0.8965684546116247,
+      "bad_score": 0.9557347850091892
+    },
+    {
+      "source": "Zubaydah Trail",
+      "good_score": 0.8033542614682418,
+      "bad_score": 0.9345696101734515
+    },
+    {
+      "source": "Chimnabai Clock Tower",
+      "good_score": 0.9444996699861935,
+      "bad_score": 0.9444996699861935
+    },
+    {
+      "source": "Shanghai Trolleybus Route 20",
+      "good_score": 0.9457847438531918,
+      "bad_score": 0.9506241747051541
+    },
+    {
+      "source": "Inter Expo Center",
+      "good_score": 0.9336324161111708,
+      "bad_score": 0.9467113580155818
+    },
+    {
+      "source": "Pope Benedict XVI",
+      "good_score": 0.8873257598695338,
+      "bad_score": 0.8913398969167718
+    },
+    {
+      "source": "Yeti Airlines Flight 691",
+      "good_score": 0.9865359205480987,
+      "bad_score": 0.9865359205480987
+    },
+    {
+      "source": "SpaceX Starship",
+      "good_score": 0.8074949971779422,
+      "bad_score": 0.44622403703754293
+    },
+    {
+      "source": "Kyzylkum Desert",
+      "good_score": 0.9524033906387928,
+      "bad_score": 0.8496206992531313
+    },
+    {
+      "source": "80th Venice Film Festival",
+      "good_score": 0.9389841647125564,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Myosotis angustata",
+      "good_score": 0.9844202601199584,
+      "bad_score": 0.9190555759446761
+    },
+    {
+      "source": "Mount Brown (Liberty County, Montana)",
+      "good_score": 0.9788361758004301,
+      "bad_score": 0.8936531699559649
+    },
+    {
+      "source": "Rhacophorus laoshan",
+      "good_score": 0.8848841744792851,
+      "bad_score": 0.9231851077278717
+    },
+    {
+      "source": "Roanoke and Tar River Railroad",
+      "good_score": 0.9571555653087525,
+      "bad_score": 0.9583364076280388
+    },
+    {
+      "source": "Moud Goba",
+      "good_score": 0.7515068842050646,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Modernizing Opioid Treatment Access Act",
+      "good_score": 0.8892547392990481,
+      "bad_score": 0.8892547392990481
+    },
+    {
+      "source": "Gaucho Americano",
+      "good_score": 0.9823473524001655,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Blakistonia plata",
+      "good_score": 0.9277033099864628,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Turkish Women's Football Super League",
+      "good_score": 0.8669581829887193,
+      "bad_score": 0.9121790143448982
+    },
+    {
+      "source": "Tomb of Alexander Stewart, Earl of Buchan",
+      "good_score": 0.7730248494743438,
+      "bad_score": 0.8480626981646414
+    },
+    {
+      "source": "5th Guards Tank Brigade",
+      "good_score": 0.991185960516071,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Siege of Mariupol",
+      "good_score": 0.9169778675799355,
+      "bad_score": 0.0
+    },
+    {
+      "source": "International sanctions during the Russo-Ukrainian War",
+      "good_score": 0.874593190540331,
+      "bad_score": 0.9235885132769525
+    },
+    {
+      "source": "Sri Lankan economic crisis (2019\u2013present)",
+      "good_score": 0.9560796434723322,
+      "bad_score": 0.9758261688172783
+    },
+    {
+      "source": "2022 Hormozgan earthquakes",
+      "good_score": 0.7302651014538922,
+      "bad_score": 0.526942530527912
+    },
+    {
+      "source": "Highland Park parade shooting",
+      "good_score": 0.717671241050955,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Controversies involving Uber",
+      "good_score": 0.9497577022140223,
+      "bad_score": 0.982744695951821
+    },
+    {
+      "source": "Moore County substation attack",
+      "good_score": 0.6755528745113312,
+      "bad_score": 0.0
+    },
+    {
+      "source": "2023 Manipur violence",
+      "good_score": 0.9408222258183628,
+      "bad_score": 0.9596516028498655
+    },
+    {
+      "source": "2023 Chinese balloon incident",
+      "good_score": 0.9202851046730126,
+      "bad_score": 0.8096208158527652
+    },
+    {
+      "source": "2023 Afghanistan cold snap",
+      "good_score": 0.8357696915076024,
+      "bad_score": 0.7913276358589275
+    },
+    {
+      "source": "GPT-4",
+      "good_score": 0.9371959182263195,
+      "bad_score": 0.9371959182263195
+    },
+    {
+      "source": "Myanmar civil war (2021\u2013present)",
+      "good_score": 0.790632621746783,
+      "bad_score": 0.8317346669985017
+    },
+    {
+      "source": "Miss Grand Dominican Republic 2023",
+      "good_score": 0.9360240704953022,
+      "bad_score": 0.7493144602806071
+    },
+    {
+      "source": "Wagner Group rebellion",
+      "good_score": 0.9227171554909609,
+      "bad_score": 0.9561361179266264
+    },
+    {
+      "source": "2022 Sheffield gas supply outage",
+      "good_score": 0.9311871086116943,
+      "bad_score": 0.0
+    },
+    {
+      "source": "Mahsa Amini protests",
+      "good_score": 0.8755519027554789,
+      "bad_score": 0.9550842384066301
+    },
+    {
+      "source": "Volcanism on Venus",
+      "good_score": 0.9646613839303845,
+      "bad_score": 0.8976479580421107
+    },
+    {
+      "source": "Pandemic prevention",
+      "good_score": 0.8385969600883417,
+      "bad_score": 0.9806664683265024
+    },
+    {
+      "source": "Jupiter Icy Moons Explorer",
+      "good_score": 0.8632389333382181,
+      "bad_score": 0.0
+    }
+  ],
+  "ragas_context_relevance": [
+    {
+      "source": "PSLV-C56",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Uzbekistan\u2013Afghanistan\u2013Pakistan Railway Project",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "PharmaCann",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Oppenheimer (film)",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Theranostics",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Human climate niche",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Dasypoda radchenkoi",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Fremantle Octopus",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "FoodFutureCo",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Fiat Ecobasic",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Rainbow plaque",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Zubaydah Trail",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Chimnabai Clock Tower",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Shanghai Trolleybus Route 20",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Inter Expo Center",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Pope Benedict XVI",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Yeti Airlines Flight 691",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "SpaceX Starship",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Kyzylkum Desert",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "80th Venice Film Festival",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Myosotis angustata",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Mount Brown (Liberty County, Montana)",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Rhacophorus laoshan",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Roanoke and Tar River Railroad",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Moud Goba",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Modernizing Opioid Treatment Access Act",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Gaucho Americano",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Blakistonia plata",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Turkish Women's Football Super League",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Tomb of Alexander Stewart, Earl of Buchan",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "5th Guards Tank Brigade",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Siege of Mariupol",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "International sanctions during the Russo-Ukrainian War",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Sri Lankan economic crisis (2019\u2013present)",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "2022 Hormozgan earthquakes",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Highland Park parade shooting",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Controversies involving Uber",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Moore County substation attack",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "2023 Manipur violence",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "2023 Chinese balloon incident",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "2023 Afghanistan cold snap",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "GPT-4",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Myanmar civil war (2021\u2013present)",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Miss Grand Dominican Republic 2023",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Wagner Group rebellion",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "2022 Sheffield gas supply outage",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Mahsa Amini protests",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Volcanism on Venus",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Pandemic prevention",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    },
+    {
+      "source": "Jupiter Icy Moons Explorer",
+      "good_score": 1.0,
+      "bad_score": 1.0
+    }
+  ]
+}

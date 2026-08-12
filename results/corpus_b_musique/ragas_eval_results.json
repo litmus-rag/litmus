@@ -1,0 +1,1159 @@
+{
+  "tier": "minimal",
+  "metadata": {
+    "llm": "azure/gpt-5.4",
+    "scoring": "mvp",
+    "weights": {
+      "faithfulness": 0.3333333333333333,
+      "correctness": 0.3333333333333333,
+      "abstention": 0.3333333333333333
+    },
+    "stub_rag_warnings": []
+  },
+  "records": [
+    {
+      "record_id": "ragas_0",
+      "question": "how are heavy elements like uranium formed in supernovas during nucleosynthesis",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Heavy elements like uranium are thought to form in the last few seconds of a type II supernova. According to the context, their creation happens by absorbing energy from the supernova explosion, and some are formed through the absorption of multiple neutrons in a process called the R process over a period of a few seconds. The elements formed in supernovas include very heavy elements such as uranium and thorium.",
+      "rag_contexts": [
+        "Nucleosynthesis\n\nSupernova nucleosynthesis within exploding stars by fusing carbon and oxygen is responsible for the abundances of elements between magnesium (atomic number 12) and nickel (atomic number 28). Supernova nucleosynthesis is also thought to be responsible for the creation of rarer elements heavier than iron and nickel, in the last few seconds of a type II supernova event. The synthesis of these heavier elements absorbs energy (endothermic) as they are created, from the energy produced during the supernova explosion. Some of those elements are created from the absorption of multiple neutrons (the R process) in the period of a few seconds during the explosion. The elements formed in supernovas include the heaviest elements known, such as the long - lived elements uranium and thorium.",
+        "Uranium\n\nUranium is a chemical element with symbol U and atomic number 92. It is a silvery-white metal in the actinide series of the periodic table. A uranium atom has 92 protons and 92 electrons, of which 6 are valence electrons. Uranium is weakly radioactive because all its isotopes are unstable (with half-lives of the six naturally known isotopes, uranium-233 to uranium-238, varying between 69 years and 4.5 billion years). The most common isotopes of uranium are uranium-238 (which has 146 neutrons and accounts for almost 99.3% of the uranium found in nature) and uranium-235 (which has 143 neutrons, accounting for 0.7% of the element found naturally). Uranium has the second highest atomic weight of the primordially occurring elements, lighter only than plutonium. Its density is about 70% higher than that of lead, but slightly lower than that of gold or tungsten. It occurs naturally in low concentrations of a few parts per million in soil, rock and water, and is commercially extracted from uranium-bearing minerals such as uraninite.",
+        "History of nuclear weapons\n\nIn the first decades of the 20th century, physics was revolutionised with developments in the understanding of the nature of atoms. In 1898, Pierre and Marie Curie discovered that pitchblende, an ore of uranium, contained a substance -- which they named radium -- that emitted large amounts of radioactivity. Ernest Rutherford and Frederick Soddy identified that atoms were breaking down and turning into different elements. Hopes were raised among scientists and laymen that the elements around us could contain tremendous amounts of unseen energy, waiting to be harnessed.",
+        "Vega\n\nIn astronomy, those elements with higher atomic numbers than helium are termed \"metals\". The metallicity of Vega's photosphere is only about 32% of the abundance of heavy elements in the Sun's atmosphere. (Compare this, for example, to a threefold metallicity abundance in the similar star Sirius as compared to the Sun.) For comparison, the Sun has an abundance of elements heavier than helium of about ZSol = 0.0172 \u00b1 0.002. Thus, in terms of abundances, only about 0.54% of Vega consists of elements heavier than helium.",
+        "Oganesson\n\nOganesson is a synthetic chemical element with the symbol Og and atomic number 118. It was first synthesized in 2002 at the Joint Institute for Nuclear Research (JINR) in Dubna, near Moscow in Russia, by a joint team of Russian and American scientists. In December 2015, it was recognized as one of four new elements by the Joint Working Party of the international scientific bodies IUPAC and IUPAP. It was formally named on 28 November 2016. The name is in line with the tradition of honoring a scientist, in this case the nuclear physicist Yuri Oganessian, who has played a leading role in the discovery of the heaviest elements in the periodic table. It is one of only two elements named after a person who was alive at the time of naming, the other being seaborgium; it is also the only element whose namesake is alive today.Oganesson has the highest atomic number and highest atomic mass of all known elements. The radioactive oganesson atom is very unstable, and since 2005, only five (possibly six) atoms of the nuclide 294Og have been detected. Although this allowed very little experimental characterization of its properties and possible compounds, theoretical calculations have resulted in many predictions, including some surprising ones. For example, although oganesson is a member of group 18 \u2013 the first synthetic element to be so \u2013 it may be significantly reactive, unlike all the other elements of that group (the noble gases). It was formerly thought to be a gas under normal conditions but is now predicted to be a solid due to relativistic effects. On the periodic table of the elements it is a p-block element and the last one of period 7."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims in the generated answer are supported by the retrieved context's description of type II supernova nucleosynthesis and the R process."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce any fabricated entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the formation of heavy elements to supernova nucleosynthesis in the last seconds of a type II supernova without mixing sources or entities."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers how heavy elements like uranium are formed by explaining their production in type II supernovae through multiple neutron absorption in the R process."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "Its core facts match the gold answer about heavy elements forming in the last seconds of a type II supernova via the R process."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is effectively single-part, and the answer addresses the mechanism and setting of uranium formation."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable from the provided context, this criterion is satisfied."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer gives a substantive explanation rather than refusing or deflecting."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The answer uses appropriate uncertainty by saying uranium is 'thought to form,' which matches the context's wording and there is no unresolved conflict in the evidence."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_1",
+      "question": "Who directd I Can Only Imagine, Erwin Brothers?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "I Can Only Imagine was directed by the Erwin Brothers.",
+      "rag_contexts": [
+        "I Can Only Imagine (film)\n\nI Can Only Imagine is a 2018 American Christian drama film directed by the Erwin Brothers and written by Alex Cramer, Jon Erwin and Brent McCorkle, based on the story behind the MercyMe song of the same name, the best - selling Christian single of all time. The film stars J. Michael Finley as Bart Millard, the lead singer who wrote the song about his relationship with his father (Dennis Quaid). Madeline Carroll, Priscilla Shirer, Cloris Leachman, and Trace Adkins also star.",
+        "Scott Grimes\n\nScott Richard Grimes (born July 9, 1971) is an American actor, voice artist, singer, and songwriter. Some of his most prominent roles include appearances in ER as Dr. Archie Morris, Party of Five as Will McCorkle, Band of Brothers as Technical Sergeant Donald Malarkey, and the animated sitcom American Dad!, voicing Steve Smith. He is also well known by cult movie fans for his role as Bradley Brown in the first two Critters films. As of September 10, 2017, he has been cast as a regular on the Fox sci - fi series, The Orville.",
+        "Satoru Nishita\n\nNishita worked on several of Halprin's projects in the United States and Japan, including the Lovejoy Fountain Park (as partner in charge) and the Ira Keller Fountain, both in Portland, Oregon. He was close friends with Lawrence Halprin, a co-founder of the company.",
+        "Esther\n\nEsther Queen of Persia Queen Esther (1879) by Edwin Long Queen of Persia Reign c. 479 -- c. 465 BC Coronation c. 479 Predecessor Vashti Hadassah c. 492 BC Achaemenid Empire Burial Hamadan, Iran Spouse King Xerxes I of Persia House Persia Father Abihail (biological), Mordecai (adoptive) Religion Judaism",
+        "Steve Smith (American Dad!)\n\nSteven Anita ``Steve ''Smith is a fictional character in the animated television series American Dad!, voiced by Scott Grimes. He is Stan and Francine Smith's only son and Hayley's younger brother as well as the youngest of the series' six main characters."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The retrieved context explicitly states that I Can Only Imagine is a film directed by the Erwin Brothers."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer contains no entities or facts beyond the film title and the Erwin Brothers, both present in the context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the directing credit for I Can Only Imagine to the Erwin Brothers without confusion."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers who directed I Can Only Imagine."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The generated answer matches the gold answer exactly in its core fact."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is single-part, and the answer fully addresses it."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The answer provides a direct substantive response rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The evidence is unambiguous, so giving a confident answer is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_2",
+      "question": "Who did Jamieson Price voice in \"Gankutsuou\"?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Jamieson Price voiced the Count of Monte Cristo in \"Gankutsuou\".",
+      "rag_contexts": [
+        "Jamieson Price\n\nJamieson Kent Price (born April 28, 1961) is an American voice actor, best known for his deep and booming voice for numerous anime and video games. He is known as the voice of Largo the Black Lion in \"Tales of the Abyss\", Iron Tager from the \"BlazBlue\" series, the Count of Monte Cristo in \"Gankutsuou\", Ovan in \".hack//G.U.\", and Galbalan, the main villain of \"\" and Milton Grimm from \"Ever After High\". Price also had a part in the 2000 movie \"The Patriot\".",
+        "Curtis Armstrong\n\nCurtis Armstrong (born November 27, 1953) is an American actor known for his portrayal as Booger in the Revenge of the Nerds movies, as Herbert Viola on Moonlighting, as Miles Dalby in Risky Business, as famed record producer Ahmet Erteg\u00fcn in the film Ray, as the voice of ``Maru ''in Planes: Fire & Rescue, and for voicing Schmuley`` Snot'' Lonstein in American Dad!, and the title character in the show Dan Vs. He is also the co-host of the TBS reality television competition series King of the Nerds, in addition to the role of Metatron in the series Supernatural.",
+        "Seed of Chucky\n\nBrad Dourif as the voice of Chucky Jennifer Tilly as herself / the voice of Tiffany Billy Boyd as the voice of Glen Beans El - Balawi as Human Glen Kristina Hewitt as Human Glenda Redman as himself Hannah Spearritt as Joan John Waters as Pete Peters Jason Flemyng as himself / Santa Steve Lawton as Stan Tony Gardner as himself Rebecca Santos as Fulvia Keith - Lee Castle as Bill ``Psychs ''Sykes Paul Grossman as Little Boy Simon James Morgan as Richard Stephanie Chambers as Claudia's mom Betty Simons - Denville as Claudia",
+        "Buzz Lightyear\n\nTim Allen voiced the character in the Toy Story film series and the Buzz Lightyear movie, while Patrick Warburton provided Buzz's voice for the TV series, and Pat Fraley voiced him for the video games and the attractions in Disney Parks.",
+        "Patrick Stewart\n\nIn the 1980s, Stewart began working in American television and film, with roles such as Captain Jean - Luc Picard in Star Trek: The Next Generation and its successor films, as Professor Charles Xavier in the X-Men series of superhero movies, the lead of the Starz TV series Blunt Talk, and voice roles such as CIA Deputy Director Avery Bullock in American Dad! and the poo emoji in The Emoji Movie. Having remained with the Royal Shakespeare Company, in 2008 Stewart played King Claudius in Hamlet on the West End and won a second Olivier Award."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The retrieved context explicitly states that Jamieson Price was the voice of the Count of Monte Cristo in \"Gankutsuou.\""
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer contains only the character name and show title that appear in the retrieved context, with no added facts."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the role of Count of Monte Cristo to Jamieson Price in \"Gankutsuou\" without mixing entities or sources."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers who Jamieson Price voiced in \"Gankutsuou\" by naming the character."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The generated answer exactly matches the gold answer's core fact."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has only one part, and the answer fully addresses it."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "The question is answerable, so abstention is not required and this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "Because the question is answerable, the response appropriately provides the requested information rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The evidence is unambiguous, so giving a confident answer without hedging is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_3",
+      "question": "How dose Acts portraie Christians in relashun to the Jews?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Acts portrays Christians as a sect of the Jews, and therefore as entitled to legal protection as a recognised religion. It also presents tension in that it celebrates the Jewishness of Jesus and his immediate followers while stressing that the Jews rejected God\u2019s promised Messiah.",
+      "rag_contexts": [
+        "Acts of the Apostles\n\nLuke -- Acts is an attempt to answer a theological problem, namely how the Messiah of the Jews came to have an overwhelmingly non-Jewish church; the answer it provides, and its central theme, is that the message of Christ was sent to the Gentiles because the Jews rejected it. Luke -- Acts can be also seen as a defense of (or ``apology ''for) the Jesus movement addressed to the Jews: the bulk of the speeches and sermons in Acts are addressed to Jewish audiences, with the Romans serving as external arbiters on disputes concerning Jewish customs and law. On the one hand Luke portrays the Christians as a sect of the Jews, and therefore entitled to legal protection as a recognised religion; on the other, Luke seems unclear as to the future God intends for Jews and Christians, celebrating the Jewishness of Jesus and his immediate followers while also stressing how the Jews had rejected God's promised Messiah.",
+        "New Zealand\n\nChristianity is the predominant religion in New Zealand, although its society is among the most secular in the world. In the 2013 census, 55.0% of the population identified with one or more religions, including 49.0% identifying as Christians. Another 41.9% indicated that they had no religion. The main Christian denominations are, by number of adherents, Roman Catholicism (12.6%), Anglicanism (11.8%), Presbyterianism (8.5%) and \"Christian not further defined\" (i.e. people identifying as Christian but not stating the denomination, 5.5%). The M\u0101ori-based Ringat\u016b and R\u0101tana religions (1.4%) are also Christian in origin. Immigration and demographic change in recent decades has contributed to the growth of minority religions, such as Hinduism (2.1%), Buddhism (1.5%), Islam (1.2%) and Sikhism (0.5%). The Auckland Region exhibited the greatest religious diversity.",
+        "Islamism\n\nThe quick and decisive defeat of the Arab troops during the Six-Day War by Israeli troops constituted a pivotal event in the Arab Muslim world. The defeat along with economic stagnation in the defeated countries, was blamed on the secular Arab nationalism of the ruling regimes. A steep and steady decline in the popularity and credibility of secular, socialist and nationalist politics ensued. Ba'athism, Arab socialism, and Arab nationalism suffered, and different democratic and anti-democratic Islamist movements inspired by Maududi and Sayyid Qutb gained ground.",
+        "Baptists\n\nDuring the Protestant Reformation, the Church of England (Anglicans) separated from the Roman Catholic Church. There were some Christians who were not content with the achievements of the mainstream Protestant Reformation. There also were Christians who were disappointed that the Church of England had not made corrections of what some considered to be errors and abuses. Of those most critical of the Church's direction, some chose to stay and try to make constructive changes from within the Anglican Church. They became known as \"Puritans\" and are described by Gourley as cousins of the English Separatists. Others decided they must leave the Church because of their dissatisfaction and became known as the Separatists.",
+        "1948 Arab\u2013Israeli War\n\nOn 15 May 1948, the ongoing civil war transformed into an inter-state conflict between Israel and the Arab states, following the Israeli Declaration of Independence the previous day. A combined invasion by Egypt, Jordan and Syria, together with expeditionary forces from Iraq, entered Palestine -- Jordan having declared privately to Yishuv emissaries on 2 May that it would abide by a decision not to attack the Jewish state. The invading forces took control of the Arab areas and immediately attacked Israeli forces and several Jewish settlements. The 10 months of fighting, interrupted by several truce periods, took place mostly on the former territory of the British Mandate and for a short time also in the Sinai Peninsula and southern Lebanon."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every claim in the generated answer is supported by the Acts context, including Christians as a sect of the Jews, legal protection, Jewishness of Jesus and his followers, and Jewish rejection of the Messiah."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no fabricated entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes these portrayals to Acts/Luke and does not assign them to the wrong source, group, or period."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers how Acts portrays Christians in relation to the Jews by describing both their status as a Jewish sect and the tension with Jewish rejection of the Messiah."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "Its core facts match the gold answer, with only minor wording differences such as mentioning the Jewishness of Jesus and his followers."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "Although the question is essentially single-part, the answer covers the full relevant portrayal presented in the source."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "The question is answerable, so this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "Because the question is answerable, the generated answer appropriately provides a substantive response rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The answer reflects the source's tension by saying Acts 'also presents tension,' which is appropriate given the nuanced evidence."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_4",
+      "question": "What iz Douglas Lawrence Osowski, also kredited az Mr. Lawrence and sumtimes Doug Lawrence, best known for in animation and voice acting?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Douglas Lawrence Osowski, credited as Mr. Lawrence and sometimes Doug Lawrence, is known for his work as a writer and actor for the animated series Rocko's Modern Life and SpongeBob SquarePants.",
+      "rag_contexts": [
+        "Mr. Lawrence\n\nDouglas Lawrence Osowski, credited as Mr. Lawrence and sometimes Doug Lawrence, is an American voice actor, writer, director, comedian, and storyboard artist. He is known for his work as a writer and actor for the animated series Rocko's Modern Life and SpongeBob SquarePants.",
+        "List of South Park cast members\n\nTrey Parker voices four of the main characters: Stan Marsh, Eric Cartman, Randy Marsh and Mr. Garrison. He also provides the voices of several recurring characters, such as Clyde Donovan, Mr. Hankey, Mr. Mackey, Stephen Stotch, Jimmy Valmer, Timmy Burch, Tuong Lu Kim and Phillip.",
+        "Stephen Russell\n\nStephen Russell is an American actor, writer, theater director, and voice actor best known for his voice acting in the \"Thief\" video game series as the protagonist Garrett and the Mister Handys in the \"Fallout\" series.",
+        "Patrick Stewart\n\nIn the 1980s, Stewart began working in American television and film, with roles such as Captain Jean - Luc Picard in Star Trek: The Next Generation and its successor films, as Professor Charles Xavier in the X-Men series of superhero movies, the lead of the Starz TV series Blunt Talk, and voice roles such as CIA Deputy Director Avery Bullock in American Dad! and the poo emoji in The Emoji Movie. Having remained with the Royal Shakespeare Company, in 2008 Stewart played King Claudius in Hamlet on the West End and won a second Olivier Award.",
+        "Curtis Armstrong\n\nCurtis Armstrong (born November 27, 1953) is an American actor known for his portrayal as Booger in the Revenge of the Nerds movies, as Herbert Viola on Moonlighting, as Miles Dalby in Risky Business, as famed record producer Ahmet Erteg\u00fcn in the film Ray, as the voice of ``Maru ''in Planes: Fire & Rescue, and for voicing Schmuley`` Snot'' Lonstein in American Dad!, and the title character in the show Dan Vs. He is also the co-host of the TBS reality television competition series King of the Nerds, in addition to the role of Metatron in the series Supernatural."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every claim in the generated answer is directly supported by the retrieved context entry for Mr. Lawrence."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no entities or facts beyond those explicitly stated in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the writing and acting work on Rocko's Modern Life and SpongeBob SquarePants to Douglas Lawrence Osowski."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers what he is best known for by naming his notable animation work."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core fact matches the gold answer that he is known for writing and acting on Rocko's Modern Life and SpongeBob SquarePants."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is effectively single-part and the answer addresses it fully."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a substantive response rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous, so answering without added uncertainty is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_5",
+      "question": "As sum1 who loves heartfelt true-story style dramas, can u tell me what makes General Hospital so importent in TV histroy and what records or long-running achivements it has?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "General Hospital is important in TV history because it is an American daytime television medical drama that has been on the air since April 1, 1963, on ABC.\n\nFrom the context, its major historical importance and achievements include:\n\n- It is listed by Guinness World Records as the longest-running American soap opera in production.\n- It is the second longest-running drama in American television history, after Guiding Light.\n- It is the world\u2019s third longest-running scripted drama series in production, after The Archers and Coronation Street.\n- It is the world\u2019s second-longest-running televised soap opera still in production.\n- It is the longest-running serial produced in Hollywood.\n- It is the longest-running entertainment program in ABC television history.\n- It holds the record for the most Daytime Emmy Awards for Outstanding Drama Series, with 13 wins.\n\nSo, what makes it so significant is its extraordinary longevity, its multiple \u201clongest-running\u201d distinctions, and its record-setting Daytime Emmy success.",
+      "rag_contexts": [
+        "General Hospital\n\nGeneral Hospital (commonly abbreviated GH) is an American daytime television medical drama. It is listed in Guinness World Records as the longest - running American soap opera in production and the second longest - running drama in television in American history after Guiding Light. Concurrently, it is the world's third longest - running scripted drama series in production after British serials The Archers and Coronation Street, as well as the world's second - longest - running televised soap opera still in production. General Hospital premiered on the ABC television network on April 1, 1963. Same - day broadcasts as well as classic episodes were aired on SOAPnet from January 20, 2000, to December 31, 2013, following Disney - ABC's decision to discontinue the network. General Hospital is the longest - running serial produced in Hollywood, and the longest - running entertainment program in ABC television history. It holds the record for most Daytime Emmy Awards for Outstanding Drama Series, with 13 wins.",
+        "Earl Pomerantz\n\nEarl Pomerantz (born February 4, 1945 in Toronto, Ontario, Canada) is best known for his work as a television script writer. Pomerantz created the network television series \"Major Dad\", \"Family Man\" and \"Best of the West\", and wrote scripts for such shows as \"The Mary Tyler Moore Show\", \"The Bob Newhart Show\", \"Taxi\", \"Cheers\", \"Newhart\", \"The Cosby Show\" and \"Major Dad\". He has won two Primetime Emmy Awards, a Writers Guild of America Award, the Humanitas Prize and a CableACE Award.",
+        "Gemini Division\n\nGemini Division is an American science fiction series of five- to seven-minute long episodes created by Electric Farm Entertainment which went into production in March 2008. Based on an original story by Brent Friedman the online series was developed by Joshua Stern. The show currently airs on NBC.com as part of their online content lineup. The series began August 18, 2008. The series stars Rosario Dawson, who worked with Electric Farm Entertainment on the Webby nominated cult internet series \"Afterworld\". J Alex Reed and Duane Loose will be showrunners, while Brent Friedman and Stan Rowgow serve as executive producers. The writing staff includes Brent Friedman, Andy Black, Lawrence Frank, and Jacqui Zambrano. Stan Rogow is also credited as Director and is presumed to direct a number of the episodes with the rest being directed by Neal Israel. Web content development is being managed by producers Ben Raab and Deric Hugues web content producers.",
+        "Imperialism\n\nCultural imperialism is when a country's influence is felt in social and cultural circles, i.e. its soft power, such that it changes the moral, cultural and societal worldview of another. This is more than just \"foreign\" music, television or film becoming popular with young people, but that popular culture changing their own expectations of life and their desire for their own country to become more like the foreign country depicted. For example, depictions of opulent American lifestyles in the soap opera Dallas during the Cold War changed the expectations of Romanians; a more recent example is the influence of smuggled South Korean drama series in North Korea. The importance of soft power is not lost on authoritarian regimes, fighting such influence with bans on foreign popular culture, control of the internet and unauthorised satellite dishes etc. Nor is such a usage of culture recent, as part of Roman imperialism local elites would be exposed to the benefits and luxuries of Roman culture and lifestyle, with the aim that they would then become willing participants.",
+        "Los hombres de Paco\n\nLos hombres de Paco (English: \"Paco's Men\") is a Spanish-produced television series, a drama, that originally aired from 9 October 2005 to 19 May 2010 on the Antena 3. The series has also been broadcast in Argentina, Bulgaria, Czech Republic, Poland, Hungary, Morocco, Romania, Serbia, Italy, Slovakia and Turkey. It was created by Daniel \u00c9cija and \u00c1lex Pina, and starred numerous actors; primarily Paco Tous and Pep\u00f3n Nieto."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims in the generated answer are directly supported by the retrieved General Hospital context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce any fabricated entities, dates, rankings, or award counts beyond what appears in the context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "All statements are correctly attributed to General Hospital and its historical records without mixing in facts from other entries."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly explains why General Hospital is historically important and lists its records and long-running achievements, matching the user's question."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The main facts given align with the gold answer, including its premiere date, longevity distinctions, and Emmy record."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The answer covers both parts of the question by addressing General Hospital's significance in TV history and its specific records/long-running achievements."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The answer provides a substantive response using the available documentation rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is clear and unambiguous, so answering confidently without added uncertainty is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_6",
+      "question": "How did the Protestant Reformation and Reformation lead to diferent responses in England, and what beliefs did Martin Luther emphasize when he started the Reformation?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "In England, the Protestant Reformation led to different responses through the Church of England\u2019s separation from the Roman Catholic Church. Some dissatisfied Christians stayed within the Anglican Church and tried to reform it from within; these were called Puritans. Others left the Church entirely because of their dissatisfaction and became known as Separatists.\n\nWhen Martin Luther started the Reformation, he emphasized criticism of the sale of indulgences, argued that the Pope had no authority over purgatory, and said that the Catholic doctrine of the merits of the saints had no foundation in the Bible. The Reformation also came to stress reliance on Scripture alone as the source of proper belief and the belief that faith in Jesus, not good works, is the way to obtain God\u2019s pardon for sin.",
+      "rag_contexts": [
+        "Reformation\n\nAlthough there had been significant earlier attempts to reform the Catholic Church before Luther -- such as those of Jan Hus, Peter Waldo, and John Wycliffe -- Martin Luther is widely acknowledged to have started the Reformation with the Ninety - five Theses. Luther began by criticising the sale of indulgences, insisting that the Pope had no authority over purgatory and that the Catholic doctrine of the merits of the saints had no foundation in the Bible. The Protestant Reformation, however, would come to incorporate doctrinal changes such as a complete reliance on Scripture as a source of proper belief (sola scriptura) and the belief that faith in Jesus, and not good works, is the only way to obtain God's pardon for sin (sola fide). The core motivation behind these changes was theological, though many other factors played a part, including the rise of nationalism, the Western Schism that eroded loyalty to the Papacy, the perceived corruption of the Roman Curia, the impact of humanism, and the new learning of the Renaissance that questioned much traditional thought.",
+        "Baptists\n\nDuring the Protestant Reformation, the Church of England (Anglicans) separated from the Roman Catholic Church. There were some Christians who were not content with the achievements of the mainstream Protestant Reformation. There also were Christians who were disappointed that the Church of England had not made corrections of what some considered to be errors and abuses. Of those most critical of the Church's direction, some chose to stay and try to make constructive changes from within the Anglican Church. They became known as \"Puritans\" and are described by Gourley as cousins of the English Separatists. Others decided they must leave the Church because of their dissatisfaction and became known as the Separatists.",
+        "Presbyterianism\n\nThe roots of Presbyterianism lie in the European Reformation of the 16th century; the example of John Calvin's Geneva being particularly influential. Most Reformed churches which trace their history back to Scotland are either presbyterian or congregationalist in government. In the twentieth century, some Presbyterians played an important role in the ecumenical movement, including the World Council of Churches. Many Presbyterian denominations have found ways of working together with other Reformed denominations and Christians of other traditions, especially in the World Communion of Reformed Churches. Some Presbyterian churches have entered into unions with other churches, such as Congregationalists, Lutherans, Anglicans, and Methodists. Presbyterians in the United States came largely from Scotch-Irish immigrants communities, and also from New England Yankee communities that had originally been Congregational but changed because of an agreed-upon \"Plan of Union of 1801\" for frontier areas.",
+        "Peter Agricola\n\nPeter Agricola (June 29, 1525 \u2013 July 5 or 7, 1585) was a German Renaissance humanist, educator, classical scholar and theologian, diplomat and statesman, disciple of Martin Luther, friend and collaborator of Philipp Melanchthon.",
+        "Dutch Reformed Church\n\nThe Dutch Reformed Church (in Dutch: Nederlandse Hervormde Kerk or NHK) was the largest Christian denomination in the Netherlands from the onset of the Protestant Reformation until 1930. It was the foremost Protestant denomination, and -- since 1892 -- one of the two major Reformed denominations along with the Reformed Churches in the Netherlands."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims in the generated answer are supported by the retrieved context about Puritans, Separatists, indulgences, purgatory, merits of the saints, sola scriptura, and sola fide."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce any fabricated entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the English responses to reactions within and against the Church of England and Luther\u2019s beliefs to the start of the Reformation."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers both how responses differed in England and what beliefs Luther emphasized at the start of the Reformation."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer, including Puritans versus Separatists and Luther\u2019s emphasis on indulgences, papal authority over purgatory, biblical foundation, Scripture, and faith."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has two parts, and the generated answer addresses both of them."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a substantive response and does not refuse despite the question being answerable."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is straightforward and unambiguous, so the answer appropriately states the information without unnecessary hedging."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_7",
+      "question": "What was WWKE before it became WOCA, and in what year did the station adopt the WWKE call letters and Top 40 format?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Before it became WOCA, the station was **WWKE**, a **Top 40** station. It adopted the **WWKE** call letters and the **Top 40 format in 1965**.",
+      "rag_contexts": [
+        "WOCA\n\nWOCA is a commercial radio station in Ocala, Florida, broadcasting to the Ocala area on 1370 AM. WOCA broadcasts a variety of syndicated and conservative-leaning programs, including \"The Glenn Beck Program\" and \"The Clark Howard Show\" each weekday, and Fox Sports Radio on weekends. The station also produces shows for a number of local commentators. WOCA signed on on November 19, 1957 as WHYS. In 1959, the call letters were changed to WKOS. In 1965, the station adopted a Top 40 format as WWKE. The station then switched to the current calls, WOCA in 1983.",
+        "WGLF\n\nWGLF (104.1 FM) is a classic hits radio station in the Tallahassee, Florida, market owned by Cumulus Licensing LLC. Its studios are located in the westside of Tallahassee and its transmitter is based east of the city near Lloyd, Florida.",
+        "USS Catbird (AM-68)\n\nUSS \"Catbird\" (AM-68) was the lead ship of her class of two naval trawlers, which were operated as minesweepers by the United States Navy during World War II.",
+        "Central Intelligence Agency\n\nOn 18 June 1948, the National Security Council issued Directive 10/2 calling for covert action against the USSR, and granting the authority to carry out covert operations against \"hostile foreign states or groups\" that could, if needed, be denied by the U.S. government. To this end, the Office of Policy Coordination was created inside the new CIA. The OPC was quite unique; Frank Wisner, the head of the OPC, answered not to the CIA Director, but to the secretaries of defense, state, and the NSC, and the OPC's actions were a secret even from the head of the CIA. Most CIA stations had two station chiefs, one working for the OSO, and one working for the OPC.",
+        "John Breathitt\n\nJohn Breathitt (September 9, 1786 \u2013 February 21, 1834) was the 11th Governor of Kentucky. He was the first Democrat to hold this office and was the second Kentucky governor to die in office. Shortly after his death, Breathitt County, Kentucky was created and named in his honor."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The generated answer's claims that the station was WWKE before WOCA and that it adopted the WWKE call letters and Top 40 format in 1965 are supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no entities, dates, or facts beyond those explicitly stated in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the WWKE call letters and 1965 Top 40 format change to the WOCA station history without mixing in other entities or periods."
+          }
+        }
+      },
+      "correctness": {
+        "score": 0.6666666666666666,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers what the station was before becoming WOCA and states the year it adopted the WWKE call letters and Top 40 format."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": false,
+            "reason": "The gold answer says that before WOCA the station had previously been WHYS and then WKOS before becoming WWKE, while the generated answer omits those earlier identities and simplifies the history."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has two parts, and the generated answer addresses both the prior identity and the year of the WWKE/Top 40 change."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a substantive response to the answerable question rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous, so giving a definite answer without hedging is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 0.8888888888888888,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_8",
+      "question": "How this Armenians community got so many different Protestant churches and what churches broke away from what, if Armenian Apostolic Church still most prominent in the world diaspora Protestant theme included?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "According to the context, the Armenian Apostolic Church is still the most prominent church in the Armenian community worldwide, including the diaspora. However, diaspora Armenians also belong to many other Christian denominations, including Protestant ones.\n\nThe context explains the breakaways like this:\n\n- The Armenian Evangelical Church began as a reformation within the Armenian Apostolic Church (\u201cthe Mother church\u201d) but later broke away from it.\n- The Armenian Brotherhood Church was born within the Armenian Evangelical Church, but later broke away from that church.\n\nSo the chain described is:\n\n1. Armenian Apostolic Church  \n2. Armenian Evangelical Church reform movement started in it, then separated  \n3. Armenian Brotherhood Church emerged from the Armenian Evangelical Church, then separated from it\n\nThe context also says there are many other Armenian churches belonging to Protestant denominations of various kinds, but it does not explain in more detail how all of those developed.",
+      "rag_contexts": [
+        "Armenians\n\nWhile the Armenian Apostolic Church remains the most prominent church in the Armenian community throughout the world, Armenians (especially in the diaspora) subscribe to any number of other Christian denominations. These include the Armenian Catholic Church (which follows its own liturgy but recognizes the Roman Catholic Pope), the Armenian Evangelical Church, which started as a reformation in the Mother church but later broke away, and the Armenian Brotherhood Church, which was born in the Armenian Evangelical Church, but later broke apart from it. There are other numerous Armenian churches belonging to Protestant denominations of all kinds.",
+        "Protestantism\n\nPentecostalism eventually spawned hundreds of new denominations, including large groups such as the Assemblies of God and the Church of God in Christ, both in the United States and elsewhere. There are over 279 million Pentecostals worldwide, and the movement is growing in many parts of the world, especially the global South. Since the 1960s, Pentecostalism has increasingly gained acceptance from other Christian traditions, and Pentecostal beliefs concerning Spirit baptism and spiritual gifts have been embraced by non-Pentecostal Christians in Protestant and Catholic churches through the Charismatic Movement. Together, Pentecostal and Charismatic Christianity numbers over 500 million adherents.",
+        "Dutch Reformed Church\n\nThe Dutch Reformed Church (in Dutch: Nederlandse Hervormde Kerk or NHK) was the largest Christian denomination in the Netherlands from the onset of the Protestant Reformation until 1930. It was the foremost Protestant denomination, and -- since 1892 -- one of the two major Reformed denominations along with the Reformed Churches in the Netherlands.",
+        "New Zealand\n\nChristianity is the predominant religion in New Zealand, although its society is among the most secular in the world. In the 2013 census, 55.0% of the population identified with one or more religions, including 49.0% identifying as Christians. Another 41.9% indicated that they had no religion. The main Christian denominations are, by number of adherents, Roman Catholicism (12.6%), Anglicanism (11.8%), Presbyterianism (8.5%) and \"Christian not further defined\" (i.e. people identifying as Christian but not stating the denomination, 5.5%). The M\u0101ori-based Ringat\u016b and R\u0101tana religions (1.4%) are also Christian in origin. Immigration and demographic change in recent decades has contributed to the growth of minority religions, such as Hinduism (2.1%), Buddhism (1.5%), Islam (1.2%) and Sikhism (0.5%). The Auckland Region exhibited the greatest religious diversity.",
+        "Presbyterianism\n\nThe roots of Presbyterianism lie in the European Reformation of the 16th century; the example of John Calvin's Geneva being particularly influential. Most Reformed churches which trace their history back to Scotland are either presbyterian or congregationalist in government. In the twentieth century, some Presbyterians played an important role in the ecumenical movement, including the World Council of Churches. Many Presbyterian denominations have found ways of working together with other Reformed denominations and Christians of other traditions, especially in the World Communion of Reformed Churches. Some Presbyterian churches have entered into unions with other churches, such as Congregationalists, Lutherans, Anglicans, and Methodists. Presbyterians in the United States came largely from Scotch-Irish immigrants communities, and also from New England Yankee communities that had originally been Congregational but changed because of an agreed-upon \"Plan of Union of 1801\" for frontier areas."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims in the generated answer are supported by the retrieved context, including the prominence of the Armenian Apostolic Church and the breakaway sequence of Evangelical and Brotherhood churches."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce fabricated entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The generated answer correctly attributes the reform and breakaway developments to the Armenian Apostolic, Armenian Evangelical, and Armenian Brotherhood churches without mixing them up."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers how Protestant Armenian churches arose and which churches broke away from which while noting the Armenian Apostolic Church remains most prominent."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "Its core facts match the gold answer on the prominence of the Armenian Apostolic Church and the succession of breakaways."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has multiple parts, and the answer addresses both the prominence of the Armenian Apostolic Church and the Protestant breakaway relationships described in the context."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer gives a substantive response based on the retrieved context rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "It appropriately notes that the context does not explain in more detail how all the other Protestant Armenian churches developed, reflecting the limits of the evidence."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_9",
+      "question": "Wen did Zhdanov Doctrine end under Joseph Stalin?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "The context says the Zhdanov Doctrine remained in effect until the death of Joseph Stalin in 1953.",
+      "rag_contexts": [
+        "Zhdanov Doctrine\n\nThe Zhdanov Doctrine (also called Zhdanovism or Zhdanovshchina; ) was a Soviet cultural doctrine developed by Central Committee secretary Andrei Zhdanov in 1946. It proposed that the world was divided into two camps: the \"imperialistic\", headed by the United States; and \"democratic\", headed by the Soviet Union. The main principle of the Zhdanov doctrine was often summarized by the phrase \"The only conflict that is possible in Soviet culture is the conflict between good and best\". Zhdanovism soon became a Soviet cultural policy, meaning that Soviet artists, writers and intelligentsia in general had to conform to the party line in their creative works. Under this policy, artists who failed to comply with the government's wishes risked persecution. The policy remained in effect until the death of Joseph Stalin in 1953.",
+        "Molotov\u2013Ribbentrop Pact\n\nBy the end of May, drafts were formally presented. In mid-June, the main Tripartite negotiations started. The discussion was focused on potential guarantees to central and east European countries should a German aggression arise. The USSR proposed to consider that a political turn towards Germany by the Baltic states would constitute an \"indirect aggression\" towards the Soviet Union. Britain opposed such proposals, because they feared the Soviets' proposed language could justify a Soviet intervention in Finland and the Baltic states, or push those countries to seek closer relations with Germany. The discussion about a definition of \"indirect aggression\" became one of the sticking points between the parties, and by mid-July, the tripartite political negotiations effectively stalled, while the parties agreed to start negotiations on a military agreement, which the Soviets insisted must be entered into simultaneously with any political agreement.",
+        "Islamism\n\nThe quick and decisive defeat of the Arab troops during the Six-Day War by Israeli troops constituted a pivotal event in the Arab Muslim world. The defeat along with economic stagnation in the defeated countries, was blamed on the secular Arab nationalism of the ruling regimes. A steep and steady decline in the popularity and credibility of secular, socialist and nationalist politics ensued. Ba'athism, Arab socialism, and Arab nationalism suffered, and different democratic and anti-democratic Islamist movements inspired by Maududi and Sayyid Qutb gained ground.",
+        "Ukraine\n\nFollowing the Invasion of Poland in September 1939, German and Soviet troops divided the territory of Poland. Thus, Eastern Galicia and Volhynia with their Ukrainian population became part of Ukraine. For the first time in history, the nation was united.In 1940, the Soviets annexed Bessarabia and northern Bukovina. The Ukrainian SSR incorporated the northern and southern districts of Bessarabia, northern Bukovina, and the Hertsa region. But it ceded the western part of the Moldavian Autonomous Soviet Socialist Republic to the newly created Moldavian Soviet Socialist Republic. These territorial gains of the USSR were internationally recognized by the Paris peace treaties of 1947.",
+        "Korean War\n\nOn 27 June 1950, two days after the KPA invaded and three months before the Chinese entered the war, President Truman dispatched the United States Seventh Fleet to the Taiwan Strait, to prevent hostilities between the Nationalist Republic of China (Taiwan) and the People's Republic of China (PRC). On 4 August 1950, with the PRC invasion of Taiwan aborted, Mao Zedong reported to the Politburo that he would intervene in Korea when the People's Liberation Army's (PLA) Taiwan invasion force was reorganized into the PLA North East Frontier Force. China justified its entry into the war as a response to \"American aggression in the guise of the UN\"."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The generated answer states it remained in effect until Stalin's death in 1953, which is explicitly supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "It introduces no entities, dates, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the end of the doctrine to the death of Joseph Stalin in 1953 without confusing entities or time periods."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers when the Zhdanov Doctrine ended under Joseph Stalin by giving the end point in 1953."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core fact exactly matches the gold answer that it remained in effect until Stalin's death in 1953."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is effectively single-part, and the generated answer fully addresses it."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a clear substantive response rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The evidence is unambiguous, and the answer appropriately states the result without unnecessary uncertainty."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_10",
+      "question": "In March 2013 what happen to Cyprus Popular Bank, and how was it split and who got what, also what happened later with the legacy entity and the Special Administrator after March 2013?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "In March 2013, Cyprus Popular Bank was \u201cshuttered\u201d and split into two parts.\n\n- The \u201cgood\u201d Cypriot part was merged into the Bank of Cyprus, including insured deposits under 100,000 Euro.\n- The \u201cbad\u201d part, or legacy entity, kept:\n  - all overseas operations,\n  - uninsured deposits above 100,000 Euro,\n  - old shares and bonds.\n\nThe uninsured depositors were subject to a bail-in and became the new shareholders of the legacy entity.\n\nLater, as of May 2017, the legacy entity was one of the largest shareholders of Bank of Cyprus with 4.8%, but it did not hold a board seat. It also continued to hold all the overseas operations of the defunct Cyprus Popular Bank until they would be sold by the Special Administrator.\n\nRegarding the Special Administrator after March 2013:\n- Ms Andri Antoniadou ran the legacy entity for two years, from March 2013 until 3 March 2015.\n- She resigned because of disagreements with the Governor of the Central Bank of Cyprus and the Central Bank Board members, who changed the lawyers of the legacy entity without consulting her.\n- Veteran banker Chris Pavlou then took over as Special Administrator in April 2015 and served until December 2016.",
+      "rag_contexts": [
+        "Cyprus Popular Bank\n\nCyprus Popular Bank (from 2006 to 2011 known as Marfin Popular Bank) was the second largest banking group in Cyprus behind the Bank of Cyprus until it was 'shuttered' in March 2013 and split into two parts. The 'good' Cypriot part was merged into the Bank of Cyprus (including insured deposits under 100,000 Euro) and the 'bad' part or legacy entity holds all the overseas operations as well as uninsured deposits above 100,000 Euro, old shares and bonds. The uninsured depositors were subject to a bail-in and became the new shareholders of the legacy entity. As at May 2017, the legacy entity is one of the largest shareholders of Bank of Cyprus with 4.8% but does not hold a board seat. All the overseas operations, of the now defunct Cyprus Popular Bank, are also held by the legacy entity, until they are sold by the Special Administrator, at first Ms Andri Antoniadou, who ran the legacy entity for two years, from March 2013 until 3 March 2015. She tendered her resignation due to disagreements, with the Governor of the Central Bank of Cyprus and the Central Bank Board members, who amended the lawyers of the legacy entity, without consulting her. Veteran banker Chris Pavlou who is an expert in Treasury and risk management took over as Special Administrator of the legacy entity in April 2015 until December 2016. The legacy entity is pursuing legal action against former major shareholder Marfin Investment Group.",
+        "Barnabas\n\nAlthough the date, place, and circumstances of his death are historically unverifiable, Christian tradition holds that Barnabas was martyred at Salamis, Cyprus, in 61 AD. He is traditionally identified as the founder of the Cypriot Orthodox Church. The feast day of Barnabas is celebrated on June 11.",
+        "Government-granted monopoly\n\nState Bar of Arizona Saudi Aramco British East India Company French East India Company Brewers Retail Theatre Royal, Drury Lane K -- 12 education Interest rates West Virginia American Water",
+        "Union for the Mediterranean\n\nThe meeting of UfM Senior Officials, composed of ambassadors and senior Foreign Affairs officials appointed individually by the 43 countries of the UfM, is held several times a year, at regular intervals, at the seat of the Secretariat of UfM in Barcelona or in one of the UfM countries. Its role is to discuss regional issues, guide policies and actions of the organization and to label the projects submitted to it. Each country has an equal vote and all decisions are made by consensus.",
+        "P\u014dmare V\n\nP\u014dmare V (3 November 1839 \u2013 12 June 1891) was the last monarch of Tahiti, reigning from 1877 until his forced abdication in 1880. He was the son of Queen P\u014dmare IV."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims in the generated answer are directly supported by the retrieved context about Cyprus Popular Bank and its legacy entity."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce fabricated entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the bank split, the legacy entity's holdings, and the Special Administrators' roles and dates to the proper entities and time periods."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers what happened in March 2013, how the bank was split, who received what, and what later happened with the legacy entity and Special Administrator."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer, including the shuttering, split, bail-in, later administrators, and the legacy entity's later Bank of Cyprus stake."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has multiple parts and the generated answer addresses each of them substantively."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied without requiring abstention."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a substantive response to the answerable question rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous, so the answer appropriately states the facts without unnecessary uncertainty."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_11",
+      "question": "What ship was built for and opertaed by the RAN, entered service in 1958, later did deterrence patrols during the Indonesia-Malaysia Confrontation, and then became the only Australian-built warship to serve in a shore bombardment role during the Vietnam War?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "HMAS Vendetta (D08)",
+      "rag_contexts": [
+        "HMAS Vendetta (D08)\n\nHMAS \"Vendetta\" was one of three \"Daring\" class destroyers built for and operated by the Royal Australian Navy (RAN). The destroyer was built by Williamstown Naval Dockyard and entered service in 1958. During her early career, \"Vendetta\" was deployed to the Far East Strategic Reserve on multiple occasions. In 1965 and 1966, the destroyer undertook deterrence patrols during the Indonesia-Malaysia Confrontation. Along with several runs escorting the troop transport to Vietnam, from late 1969 to early 1970 \"Vendetta\" was assigned to combat operations, and became the only Australian-built warship to serve in a shore bombardment role during the Vietnam War.",
+        "USS Catbird (AM-68)\n\nUSS \"Catbird\" (AM-68) was the lead ship of her class of two naval trawlers, which were operated as minesweepers by the United States Navy during World War II.",
+        "USS Daly (DD-519)\n\nUSS \"Daly\" (DD-519), a \"Fletcher\"-class destroyer, was a ship of the United States Navy named for Marine Sergeant Major Daniel Daly, (1873\u20131937), one of the very few people to be twice awarded the Medal of Honor.",
+        "List of destroyer classes of the United States Navy\n\nThe first major warship produced by the U.S. Navy after World War II (and in the Cold War) were \"frigates\"\u2014the ships were originally designated destroyer leaders but reclassified in 1975 as guided missile cruisers (except the became guided missile destroyers). These grew out of the last all-gun destroyers of the 1950s. In the middle 1970s the s entered service, optimized for anti-submarine warfare. A special class of guided missile destroyers was produced for the Shah of Iran, but due to the Iranian Revolution these ships could not be delivered and were added to the U.S. Navy.",
+        "USS Watts (DD-567)\n\nUSS \"Watts\" (DD-567) was a \"Fletcher\"-class destroyer of the United States Navy. It was named for Captain John Watts (\"ca.\"1778\u20131823), who fought French privateers during the Quasi-War with France."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The only factual claim made is the ship's identity, and HMAS Vendetta (D08) is explicitly supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no entities, numbers, or facts beyond the ship name and pennant number present in the context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly identifies the relevant ship without assigning any facts to the wrong vessel or time period."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers the question by naming the ship being asked about."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The generated answer matches the core fact in the gold answer: the ship is HMAS Vendetta (D08)."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "Although concise, naming the ship fully resolves the multi-clause identification question."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "The question is answerable, so this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "Because the question is answerable, the response appropriately provides the ship's name rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous about the ship's identity, so no additional uncertainty was needed."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_12",
+      "question": "March 2005 Shelly Fairchild Ride debut album release singles",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Shelly Fairchild\u2019s debut album Ride was released in March 2005 on Columbia Records, and its singles were \u201cYou Don\u2019t Lie Here Anymore,\u201d \u201cTiny Town,\u201d and \u201cKiss Me.\u201d",
+      "rag_contexts": [
+        "Ride (Shelly Fairchild album)\n\nRide is the debut album of American country music artist Shelly Fairchild, released in March 2005 (see 2005 in country music) on Columbia Records. It includes the singles \"You Don't Lie Here Anymore\", \"Tiny Town\" and \"Kiss Me\". Although \"You Don't Lie Here Anymore\" reached #35 on the U.S. country singles charts in late 2004, the other two singles failed to chart.",
+        "Concrete (Sunny Sweeney album)\n\nConcrete is the second studio album by American country music singer Sunny Sweeney. It was released on August 23, 2011 via Republic Nashville. The album includes the singles \"From a Table Away\", \"Staying's Worse Than Leaving\" and \"Drink Myself Single\", all of which have charted within the top 40 of Hot Country Songs.",
+        "The Wreckers\n\nThe Wreckers were an American country duo formed in 2005 by Michelle Branch and Jessica Harp, both of whom had solo recordings before the duo's foundation. In 2006, the duo released its debut album \"Stand Still, Look Pretty\", which produced a Number One single on the \"Billboard\" Hot Country Songs in its lead-off single \"Leave the Pieces\". The album accounted for a Top Ten hit on the same chart in \"My, Oh My\" as well. After its release, both Branch and Harp returned to being solo singers. Harp has since had Top 40 country success of her own with the single \"Boy Like Me\".",
+        "Chocolate Factory\n\nChocolate Factory is the fifth solo album by American recording artist R. Kelly, released on February 18, 2003 by Jive Records. Recording sessions took place mainly at Rockland Studios and Chicago Recording Company in Chicago, Illinois, and the album was primarily written, arranged, and produced by R. Kelly. \"Chocolate Factory\" was conceived by Kelly amid controversy over his sex scandal at the time.",
+        "Volcano Girls\n\n\"Volcano Girls\" is a single by the American alternative rock band Veruca Salt, released in 1997 on their album \"Eight Arms to Hold You\". It was written by Nina Gordon who also sang lead vocals, with Louise Post performing backup vocals. This song was used at the beginning of the dark comedy movie \"Jawbreaker\", released in 1999."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every factual claim in the answer\u2014that Ride is Shelly Fairchild\u2019s debut album, was released in March 2005 on Columbia Records, and includes those three singles\u2014is supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no entities, dates, labels, or song titles beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the album, release date, label, and singles to Shelly Fairchild\u2019s Ride without mixing in facts from other entries."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers the query by identifying the March 2005 debut album and listing its release details and singles."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer exactly in substance, including the album title, artist, release timing, label, and singles."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has multiple parts and the answer covers both the March 2005 debut album release and its singles."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The answer provides a clear substantive response rather than refusing or hedging unnecessarily."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous, so giving a confident answer without extra uncertainty is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    }
+  ]
+}

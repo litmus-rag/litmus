@@ -1,0 +1,1817 @@
+# Building Synthetic Eval Sets for RAG Systems
+
+## A Practical Strategy for Synthetic Generation, Realistic Noise, Multi-Document Coverage, and Diagnosable Scoring
+
+---
+
+## 1. Why Synthetic Eval Sets Matter
+
+A RAG system has two failure surfaces — retrieval and generation — and each fails in different ways. Without a trusted evaluation set, teams iterate blindly: tuning chunking strategies, swapping embedding models, or rewriting prompts without knowing whether things got better or worse. A synthetic eval set is your ground truth. Every design decision gets measured against it.
+
+The challenge is that most teams either skip eval entirely, or build a thin set of clean, obvious questions that flatters the system and hides real-world failure modes. Recent work formalizes this: Zhang et al. (2025) show that most existing RAG benchmarks assume error-free queries and dramatically overestimate real-world performance [QE-RAG]. Separately, SeedRG (arXiv:2605.08838, 2026) shows that many public benchmarks suffer from *knowledge leakage* — the model can answer the questions from parametric memory without any retrieval — meaning the benchmark doesn't actually test what it claims to.
+
+This document lays out a complete strategy for building synthetic eval sets that are realistic enough to surface the problems that actually hurt users in production, along with a scoring framework that produces diagnosable, actionable numbers rather than opaque scores.
+
+---
+
+## 2. The Anatomy of a Synthetic Eval Record
+
+Every record in your eval set should capture the full chain from question to evidence to answer. A minimal schema:
+
+```json
+{
+  "id": "eval-0042",
+  "question": "whats the return window for enterprise if they bought before jan",
+  "question_type": "cross-doc-synthesis",
+  "retrieval_pattern": "multi-chunk-cross-doc",
+  "noise_profile": ["typo", "indirect-phrasing"],
+  "gold_chunk_sets": [
+    ["enterprise_terms.md#chunk4", "policy_update_jan2025.md#chunk2"],
+    ["pricing_faq.md#chunk18"]
+  ],
+  "gold_answer": "Enterprise customers who purchased before January 2025 have a 60-day return window under the legacy terms. Purchases after January 1, 2025 follow the new 30-day policy.",
+  "intent_points": [
+    {"id": "P1", "text": "60-day window for pre-Jan-2025 purchases", "required": true},
+    {"id": "P2", "text": "30-day window for post-Jan-2025 purchases", "required": true},
+    {"id": "P3", "text": "Notes this is the 'legacy' vs 'new' policy distinction", "required": false}
+  ],
+  "unanswerable": false,
+  "requires_synthesis": true,
+  "difficulty": "hard",
+  "domain_tags": ["policy", "enterprise", "temporal"],
+  "scoring_notes": "Must mention both the 60-day legacy and 30-day new policy. Partial credit if only one is mentioned."
+}
+```
+
+Key fields beyond the obvious:
+
+- **gold_chunk_sets** — a list of *alternative* valid passage sets, not just one. This prevents penalizing correct retrieval that found a different valid path.
+- **intent_points** — an atomic decomposition of what the answer must convey. Each point is tagged as required or preferred. This drives partial-credit scoring and connects directly to the binary decomposition scoring in Section 6.
+- **retrieval_pattern** — categorizes the structural difficulty so you can slice metrics.
+- **noise_profile** — records what realism transformations were applied, so you can measure robustness per noise type.
+- **scoring_notes** — captures rubric edge cases that a generic "correct/incorrect" label would lose.
+
+---
+
+## 3. Question Type Taxonomy
+
+Your eval set should cover these categories deliberately, not accidentally. Aim for rough proportions tuned to your actual usage, but ensure every category has enough examples (minimum 10–15) to spot patterns.
+
+### 3.1 Single-Chunk Factual Lookup
+The answer lives in one passage. "What is the maximum file upload size?" This is the easiest case and where most RAG systems score well. Don't over-index on these — they'll inflate your numbers.
+
+### 3.2 Multi-Chunk, Same Document
+The answer requires combining information from different sections of the same document. "Summarize the eligibility criteria and the application process." The system needs to retrieve multiple chunks and the generator needs to weave them together.
+
+### 3.3 Multi-Chunk, Cross-Document
+The answer requires synthesizing information scattered across separate documents. "How does the enterprise SLA compare to the standard plan?" One doc defines enterprise terms, another defines standard. This is where most RAG systems break down, and where your eval set earns its value. Shen et al. (2025) show that most automated question generators produce "pseudo multi-hop" questions that are actually answerable from a single document; genuine cross-doc questions require bridge-entity identification across complementary documents [HopWeaver].
+
+### 3.4 Unanswerable / Out-of-Scope
+The corpus genuinely does not contain the answer. The correct behavior is abstention or a clear "I don't have information on this." Allocate 10–20% of your eval set to these. Systems that never say "I don't know" will hallucinate on these, and you need to catch that.
+
+### 3.5 Ambiguous / Multi-Interpretation
+The question has more than one reasonable reading. "What's the limit?" Limit on what — file size, API calls, users? These test whether the system asks for clarification or picks the most common interpretation. Annotate the acceptable interpretations.
+
+### 3.6 Comparative
+"How does X differ from Y?" These naturally require cross-document retrieval and structured generation. They're common in real usage and disproportionately hard.
+
+### 3.7 Procedural / How-To
+"How do I reset my API key?" These require retrieving step-by-step instructions and preserving their order. Partial retrieval (getting steps 1, 2, and 4 but missing step 3) is a distinct failure mode.
+
+### 3.8 Adversarial / Distractor-Heavy
+Questions where a naive keyword match retrieves a plausible-looking but wrong passage. "What's the cancellation policy for the Pro plan?" and the corpus has cancellation policies for Free, Pro, and Enterprise — the system needs to not blend them.
+
+### 3.9 Contradiction / Conflict Resolution
+
+Two or more documents in the corpus give conflicting answers to the same question — often because one is outdated, one is regional, or they were authored by different teams. The correct behavior is to surface the conflict rather than blend or arbitrarily pick one. Example: an HR policy doc says PTO carries over year-to-year; a newer benefits amendment says it caps at 40 hours.
+
+This category is often skipped in synthetic eval work, but it's disproportionately valuable because production corpora accumulate contradictions naturally. Annotate the gold answer to explicitly note the conflict and, if applicable, the resolution policy (prefer newer, flag to user, defer to authority document).
+
+---
+
+## 4. Solving the "Too Clean" Problem — Realistic Synthetic Generation
+
+This is the critical gap. Synthetically generated questions tend to be grammatically perfect, use the exact terminology from the source documents, and ask directly for information that maps neatly to a single passage. Real users do none of these things. The QE-RAG benchmark (Zhang et al., 2025) demonstrates that even simple keyboard-proximity typos in user queries can substantially degrade RAG performance on benchmarks where models otherwise score well — a failure mode that clean synthetic evals completely miss. Here is a systematic strategy for injecting realism.
+
+### 4.1 The Generation Pipeline
+
+Build synthetic questions in two stages: first generate a clean, correct question-answer pair from the source chunks, then apply noise and realism transformations.
+
+**Stage 1 — Clean Generation.** Use an LLM to read a chunk (or set of chunks) and generate a question that the chunk(s) answer. This gives you the gold answer and gold passages. For cross-doc questions, use bridge-entity identification: find entities that appear in multiple documents, then generate questions that require information from more than one of them [HopWeaver, Shen et al., 2025]. Microsoft's BenchmarkQED (open-source, 2025) offers a complementary framing worth considering: it distinguishes *local queries* (answerable from a small number of text regions) from *global queries* (requiring reasoning over large portions of the dataset), and supports *data-linked* multi-hop local queries that combine related local questions sharing named entities. If your users span both use cases — quick factual lookups and dataset-wide analytical questions — generate examples of each.
+
+**Stage 2 — Realism Transformation.** Take each clean question and systematically degrade it through one or more of the transformation layers below. Track which transformations were applied in the `noise_profile` field so you can measure robustness to each type independently.
+
+### 4.2 Transformation Layers
+
+#### Layer 1: Vocabulary Mismatch (Paraphrasing Away from Source Terms)
+
+This is the single most important transformation. Real users don't use the same words as your documents. If the doc says "terminate employment," the user says "get fired" or "let someone go." If the doc says "reimbursement disbursement timeline," the user says "when do I get my money back."
+
+**How to apply:** For each clean question, prompt an LLM: "Rewrite this question as if the person has never read the source document and is using everyday language. Replace all technical or formal terms with casual equivalents. Do not use any words that appear in the following passage: [source chunk]."
+
+**Examples:**
+- Source term: "multi-factor authentication enrollment" → User: "how do I set up the login code thing"
+- Source term: "pro-rated billing adjustment" → User: "will I get charged less if I cancel mid-month"
+- Source term: "service level agreement" → User: "what's the uptime guarantee"
+
+Build a domain-specific synonym/colloquialism dictionary over time and validate that your retrieval handles these mappings.
+
+#### Layer 2: Typos and Misspellings
+
+Real queries contain typos. This matters because embedding models and keyword search handle typos differently, and if your eval set is typo-free, you'll never discover that your retrieval degrades on misspelled queries. The QE-RAG benchmark (Zhang et al., 2025) documents this systematically and provides a taxonomy of realistic error patterns.
+
+**How to apply:** Programmatically introduce realistic typos at a rate of roughly 1 per 8–12 words. Use a distribution that matches real error patterns:
+- Adjacent-key swaps: "refund" → "refubd"
+- Dropped letters: "authentication" → "authenticaton"
+- Doubled letters: "process" → "processs"
+- Phonetic misspellings: "guarantee" → "garuntee"
+- Autocorrect artifacts: "kubernetes" → "kubeernetes"
+
+Don't overdo it — one or two typos per question is realistic. A question with five typos is testing a different thing entirely.
+
+#### Layer 3: Indirect and Oblique Phrasing
+
+Users often describe their situation rather than asking a direct question. Instead of "What is the PTO accrual rate for part-time employees?" they say "I just went part-time and I'm trying to figure out if I still get the same vacation days."
+
+**How to apply:** Prompt an LLM: "Rewrite this question as if the person is describing their situation in a Slack message to a coworker. They should not ask a direct question — instead they should describe what happened and what they're trying to figure out. Include some personal context."
+
+**Examples:**
+- Direct: "What is the expense reimbursement deadline?" → Indirect: "I forgot to submit my receipts from the conference last month, am I screwed or can I still get that money back?"
+- Direct: "Does the API support batch processing?" → Indirect: "I have like 10,000 records I need to run through and doing them one at a time is going to take forever, is there a better way?"
+
+#### Layer 4: Fragmented and Incomplete Queries
+
+Real users sometimes send half-formed thoughts, assume context, or use shorthand.
+
+**How to apply:** Take the clean question and strip it down — remove qualifiers, drop the subject, use pronouns without antecedents.
+
+**Examples:**
+- Full: "What is the maximum number of users allowed on the Enterprise plan?" → Fragment: "user limit enterprise?"
+- Full: "How do I configure SSO with Okta?" → Fragment: "okta sso setup how"
+- Full: "Can I transfer my license to another team member?" → Fragment: "transfer license to someone else possible?"
+
+#### Layer 5: Wrong Assumptions Baked In
+
+Users frequently ask questions that contain incorrect premises. "Why was the free trial extended to 60 days?" when it wasn't — it's still 30 days. "How do I access the analytics dashboard in the basic plan?" when analytics is only in Pro.
+
+**How to apply:** Take a correct question and introduce a plausible but wrong assumption. The gold answer should correct the assumption while still being helpful.
+
+**Examples:**
+- Wrong premise: "How do I downgrade from annual to monthly billing?" when downgrading mid-contract isn't supported.
+- Wrong premise: "Where do I find the Python SDK?" when only a JavaScript SDK exists.
+
+These are especially valuable because they test whether the system blindly answers the question as asked (confirming the wrong assumption) or corrects the user. Annotate the gold answer to include the correction.
+
+#### Layer 6: Multi-Question / Compound Queries
+
+Real users often ask multiple things in one message. "What's the pricing for enterprise and also can you do annual billing and is there a discount?"
+
+**How to apply:** Merge 2–3 related clean questions into one run-on query. The gold answer should address all parts, and the gold chunk set should include passages for each sub-question.
+
+#### Layer 7: Language and Register Variation
+
+If your user base is multilingual or includes non-native speakers, include questions with code-switching, non-standard grammar, or mixed-language queries. Even within English, register varies enormously — a support ticket from a CTO reads differently than one from an intern.
+
+**How to apply:** Prompt an LLM to rewrite the question at different formality levels: very casual (Slack-style), standard (email), and formal (enterprise support ticket). Include some questions with ESL grammar patterns if that reflects your user base.
+
+### 4.3 Transformation Application Strategy
+
+Don't apply every transformation to every question. Use a realistic distribution:
+
+- ~30% of questions get vocabulary mismatch only (most common real-world divergence)
+- ~20% get vocabulary mismatch + indirect phrasing
+- ~15% get typos + fragments
+- ~10% get wrong assumptions
+- ~10% get compound queries
+- ~15% stay clean (you still need baseline performance on well-formed queries)
+
+Track the applied transformations so you can compute per-transformation performance breakdowns. If your system handles typos fine but collapses on vocabulary mismatch, that's a clear signal about where to invest.
+
+---
+
+## 5. Handling Multiple Valid Retrieval Paths
+
+A fundamental property of real document corpora is information redundancy — the same fact often appears in multiple places, phrased differently, at different levels of detail. Your eval framework must account for this or it will systematically undercount correct retrievals.
+
+### 5.1 Annotating Alternative Chunk Sets
+
+For each question, annotate all valid chunk sets that could support a correct answer. A "chunk set" is the minimum group of passages needed. Some questions have a single chunk that's sufficient; others require combining two or three. Sometimes those combinations come from different documents entirely.
+
+Structure it as a list of alternatives:
+
+```
+gold_chunk_sets: [
+  ["doc_a#chunk3"],                           // sufficient alone
+  ["doc_b#chunk7", "doc_c#chunk2"],           // alternative pair
+  ["doc_d#chunk15"]                            // another standalone
+]
+```
+
+The retrieval is scored as a hit if the retrieved set *contains* any one of these complete sets.
+
+### 5.2 Set-Level vs. Chunk-Level Recall
+
+**Chunk-level recall** asks: of all the gold chunks across all valid sets, how many did we retrieve? This is useful but misleading for cross-doc questions. If the answer needs chunks A and B together, and you retrieved A but not B, chunk-level recall says 50% but the question is 100% unanswerable.
+
+**Set-level recall** asks: did we retrieve at least one complete gold chunk set? This is the metric that predicts whether generation can succeed. Track both, but weight set-level recall more heavily in your decision-making. Brehme et al. (2026) formalize this intuition as *Context-Aware Retriever Evaluation* (CARE): individual chunks may appear irrelevant in isolation while being jointly essential, so evaluators must consider the full retrieved set rather than assessing each context independently. Their experiments on HotpotQA, MuSiQue, and SQuAD show CARE consistently outperforms isolated-context evaluation for multi-hop reasoning. **Practical implication:** when running LLM judges for cross-doc questions (Section 6.2), present the full retrieved context together rather than asking about each chunk separately.
+
+### 5.3 Discovering Alternative Paths
+
+Single-annotator labeling systematically underestimates the number of valid retrieval paths. Use this workflow:
+
+1. Annotator A writes the question and finds their gold chunk set.
+2. Annotator B, without seeing A's annotation, independently searches the corpus for passages that answer the question.
+3. If B finds a different valid set, add it to the alternatives.
+4. Optionally, run your actual retrieval system and manually review what it found — sometimes it retrieves a valid passage the annotators missed.
+
+### 5.4 Handling Contradictions Across Documents
+
+When two documents give conflicting answers, annotate both and add a `contradiction` flag. Define a policy: should the system prefer the more recent document, flag the conflict to the user, or apply some other resolution? Your gold answer should reflect this policy, and your scoring rubric should check for it. Contradiction handling is a first-class question type (Section 3.9), not an edge case.
+
+---
+
+## 6. Scoring Rubric Design
+
+### 6.1 Retrieval Metrics
+
+| Metric | What It Measures | When It Matters |
+|---|---|---|
+| Recall@K | Fraction of gold chunks in top K results | Always |
+| Set Recall@K | Whether any complete gold chunk set is in top K | Cross-doc synthesis questions |
+| Precision@K | Fraction of top K results that are gold chunks | When context window is constrained |
+| MRR (Mean Reciprocal Rank) | Position of first relevant chunk | When rank order affects generation |
+| Gold Chunk Rank | Positions of gold chunks in the retrieved list | Diagnosing "lost in the middle" issues |
+
+RAGAS (Es et al., 2024) also provides *context precision* and *context recall* metrics implemented reference-free, using LLM judges to assess whether retrieved chunks are relevant and complete relative to the gold answer. These complement the hard-labeled metrics above and are useful when gold chunk annotation is incomplete.
+
+### 6.2 Binary Decomposition for Answer Scoring
+
+Rather than asking a judge LLM for a single holistic score ("Rate this answer's faithfulness from 1–5"), decompose each evaluation dimension into atomic binary (yes/no) questions. This approach, formalized in the BINEVAL framework (Cho et al., 2026, arXiv:2606.27226), produces scores that are interpretable, debuggable, and directly actionable.
+
+**Why binary decomposition outperforms holistic scoring.** A holistic score is opaque — if a RAG answer gets a 3/5 on faithfulness, you can't tell whether the problem is a hallucinated entity, a fabricated statistic, a misattribution, or a conflation of two sources. Binary decomposition surfaces exactly which claims failed. Cho et al. (2026) show that this also avoids the ceiling effects common in LLM judges, where surface-plausible answers receive perfect scores despite containing subtle errors, and that binary decomposition matches human score distributions more closely than holistic G-Eval-style judges on SummEval, Topical-Chat, and QAGS benchmarks.
+
+**How it works.** For each evaluation dimension, define a set of binary questions. An LLM evaluator answers each question independently with a yes (1) or no (0) plus a brief explanation. The dimension score is the fraction of "yes" verdicts.
+
+#### Faithfulness Dimension
+
+Decompose into questions that probe distinct failure modes:
+
+```
+F1. Is every factual claim in the answer supported by the retrieved context?
+F2. Is the answer free of fabricated information not present in any retrieved chunk?
+F3. Are all named entities (people, orgs, locations) accurately represented as they appear in the source chunks?
+F4. Are all numerical claims (dates, quantities, statistics) consistent with the source chunks?
+F5. Are causal relationships and event sequences preserved accurately from the source?
+F6. Does the answer avoid misattributing statements or actions to the wrong entity?
+F7. Does the answer avoid conflating information from separate chunks in a way that distorts meaning?
+F8. When the answer cites or attributes a claim to a source, is that source actually the one containing the claim?
+```
+
+Score: `S_faithfulness = count(yes) / 8`
+
+F8 was added based on production experience with multi-source RAG systems, where a common failure mode is "correct fact, wrong attribution" — the answer contains a true statement but attributes it to a document that doesn't actually contain it. This is distinct from F6 (misattribution across entities within a document).
+
+Each "no" verdict pinpoints the exact error type. If F3 and F6 fail, you know the system has an entity attribution problem — something a scalar "0.6 faithfulness" would never reveal.
+
+#### Correctness Dimension
+
+```
+C1. Does the answer address the question that was actually asked?
+C2. Are the core facts in the answer consistent with the gold answer?
+C3. Does the answer avoid stating the opposite of what the gold answer says?
+C4. If the question has multiple parts, does the answer address all of them?
+C5. If the gold answer involves a comparison, does the answer preserve the correct direction of the comparison?
+```
+
+#### Completeness Dimension
+
+```
+CP1. Does the answer cover the most important point from the gold answer?
+CP2. Does the answer include all key supporting details, not just the headline fact?
+CP3. If the gold answer mentions qualifications or caveats, does the answer include them?
+CP4. If the question requires cross-document synthesis, does the answer integrate information from all required sources?
+CP5. If the question involves conflicting sources, does the answer surface the conflict rather than silently picking one?
+```
+
+CP5 supports the contradiction-handling category (Section 3.9).
+
+#### Conciseness Dimension
+
+```
+CN1. Is the answer free of information that does not help answer the question?
+CN2. Does the answer avoid repeating the same point in different words?
+CN3. Does the answer avoid dumping raw chunk content without synthesizing it?
+```
+
+#### Abstention Calibration Dimension
+
+```
+A1. If the question is unanswerable from the corpus, does the answer clearly say so rather than guessing?
+A2. If the question is answerable, does the answer provide a substantive response rather than refusing?
+A3. Does the answer express appropriate uncertainty when the retrieved evidence is ambiguous or conflicting?
+```
+
+**Aggregation.** Per-dimension scores are the fraction of "yes" verdicts within that dimension. The overall answer score can be a weighted average across dimensions, with faithfulness typically weighted highest for RAG:
+
+```
+S_overall = 0.35 * S_faithfulness + 0.25 * S_correctness + 0.20 * S_completeness + 0.10 * S_conciseness + 0.10 * S_abstention
+```
+
+These weights are starting defaults, not empirically grounded norms. Adjust to match what matters most for your use case: safety-critical domains (medical, legal, financial) should push faithfulness higher; conversational assistants may weight conciseness more.
+
+**Actionability.** Because each failed binary question identifies a specific error type, you can aggregate failures across your eval set to find systemic patterns. If F6 (misattribution) fails on 40% of cross-doc questions but only 5% of single-doc questions, you know your chunk merging or context-window ordering needs work — a diagnosis that no scalar metric could surface.
+
+### 6.3 Diagnosing Whether Your Binary Questions Are Good Enough
+
+Binary decomposition only works if the questions themselves are well-designed. A bad set of binary questions — too redundant, too easy, too hard, or missing key failure modes — will produce scores that look interpretable but mislead. Three diagnostic properties determine question quality: yes-rate spread, inter-question correlation (sparsity), and failure mode coverage.
+
+#### 6.3.1 Yes-Rate Spread
+
+For each binary question, compute the **yes-rate**: the fraction of eval records where the evaluator answers "yes." This tells you how discriminating each question is.
+
+Run your binary questions across your full eval set and record the yes-rate per question. A healthy set looks like this:
+
+```
+Faithfulness dimension:
+  F1 (claims supported):          yes-rate 0.75
+  F2 (no fabrication):            yes-rate 0.82
+  F3 (entities accurate):         yes-rate 0.91
+  F4 (numbers consistent):        yes-rate 0.95
+  F5 (causal relations preserved): yes-rate 0.87
+  F6 (no misattribution):         yes-rate 0.76
+  F7 (no conflation):             yes-rate 0.68
+  F8 (source attribution correct): yes-rate 0.72
+  → Spread: 0.95 - 0.68 = 0.27
+```
+
+A wide spread (>0.20) means the questions capture different difficulty levels — some errors are common, others are rare. Each question carves out a distinct slice of quality. This is what you want.
+
+A narrow spread near 1.0 (e.g., all questions at 0.90–0.98) means all questions are too easy. Your system passes almost everything, and you can't distinguish good answers from mediocre ones. The score collapses toward the ceiling.
+
+A narrow spread near 0.0 (e.g., all questions at 0.05–0.15) means all questions are too strict. Nearly everything fails, and you can't distinguish mediocre from terrible. The score collapses toward the floor.
+
+**Target:** yes-rate spread of at least 0.20 within each dimension, with individual yes-rates distributed between 0.30 and 0.95. Questions outside this range need adjustment.
+
+#### 6.3.2 Inter-Question Correlation (Sparsity)
+
+Compute the **pairwise phi-coefficient** (φ) between every pair of binary questions within a dimension. The phi-coefficient measures association between two binary variables, ranging from -1 to 1, where 0 means no association.
+
+A "sparse" correlation matrix — one where most off-diagonal values are low — means your questions capture distinct, independent aspects of quality. A "dense" matrix — most values high — means your questions are redundant.
+
+High φ (>0.7) between two questions means they're near-duplicates. Merge them or replace one. Moderate φ (0.3–0.7) is the productive range. Low φ (<0.3) means the questions are largely independent — ideal for variance reduction.
+
+**Target metrics:** Mean off-diagonal φ below 0.40 for the dimension. At least 50% of question pairs with |φ| < 0.30. Zero or very few pairs with φ > 0.70.
+
+**Phi-coefficient formula:**
+
+```
+φ = (n₁₁ · n₀₀ - n₁₀ · n₀₁) / √(n₁· · n₀· · n·₁ · n·₀)
+```
+
+Where n₁₁ = both yes, n₀₀ = both no, n₁₀ = first yes second no, n₀₁ = first no second yes, computed across all eval records.
+
+#### 6.3.3 Failure Mode Coverage
+
+Even if your questions have good spread and low correlation, they might still miss important failure modes. Coverage asks: does every way your RAG system can fail get tested by at least one binary question?
+
+Collect a sample of known RAG failures (from production logs, manual testing, or adversarial probing) and for each failure, check whether at least one binary question would catch it. Common failure modes to verify against:
+
+```
+Retrieval-side:
+  - Wrong document retrieved (topically similar but different entity/time period)
+  - Partial retrieval (got 2 of 3 needed chunks)
+  - Distractor chunk ranked above gold chunk
+
+Generation-side:
+  - Hallucinated entity not in any chunk
+  - Fabricated statistic
+  - Misattributed statement (correct fact, wrong source/actor)
+  - Conflated information across chunks
+  - Correct facts but wrong causal direction
+  - Over-hedging (answerable but system refuses)
+  - Under-hedging (unanswerable but system guesses)
+  - Answer is correct but includes irrelevant chunk content
+  - Answer drops qualifications/caveats from source
+  - Silent conflict resolution (picks one of two contradicting sources without acknowledging the other)
+```
+
+For each failure mode, at least one binary question should reliably return "no." If a failure mode isn't covered, add a question.
+
+#### 6.3.4 Health Dashboard
+
+Run these three diagnostics whenever you add or revise binary questions:
+
+```json
+{
+  "dimension": "faithfulness",
+  "num_questions": 8,
+  "yes_rate_spread": 0.27,
+  "yes_rate_min": 0.68,
+  "yes_rate_max": 0.95,
+  "mean_phi": 0.31,
+  "pct_weak_pairs": 0.62,
+  "high_corr_pairs": [["F1", "F2", 0.81]],
+  "uncovered_failure_modes": [],
+  "verdict": "good — consider replacing F1 or F2 (φ=0.81)"
+}
+```
+
+**Thresholds for a healthy dimension:**
+
+| Diagnostic | Healthy | Needs Work | Broken |
+|---|---|---|---|
+| Yes-rate spread | >0.20 | 0.10–0.20 | <0.10 |
+| Mean φ | <0.40 | 0.40–0.60 | >0.60 |
+| % pairs with \|φ\| < 0.3 | >50% | 30–50% | <30% |
+| Pairs with φ > 0.7 | 0 | 1–2 | >2 |
+| Uncovered failure modes | 0 | 1–2 | >2 |
+
+### 6.4 Binary Decomposition for Eval Set Quality Scoring
+
+The same binary decomposition approach can be turned inward: instead of scoring RAG answers, score the quality of the eval set itself. This catches problems like vague questions, incomplete annotations, or unrealistic noise before they corrupt your metrics.
+
+**Why this matters.** A bad eval record silently poisons your numbers. If the gold answer is wrong, every correct system gets penalized. If the gold chunk annotation is incomplete, every valid alternative retrieval path looks like a failure. Scoring the eval set systematically catches these problems at scale.
+
+#### Question Quality Dimension
+
+```
+QQ1. Is the question unambiguous — would two reasonable people interpret it the same way?
+QQ2. Does the question test a real user need rather than an artificial construct?
+QQ3. If a noise transformation was applied, is the question still understandable to a native speaker?
+QQ4. Does the question avoid accidentally revealing which chunk contains the answer (no copy-pasted terminology that maps to exactly one passage)?
+QQ5. Is the question difficulty level labeled correctly (easy/medium/hard)?
+```
+
+#### Gold Answer Quality Dimension
+
+```
+GA1. Is the gold answer factually correct given the source documents?
+GA2. Is the gold answer complete — does it cover all parts of the question?
+GA3. Is the gold answer at the right level of detail (not too terse, not padding with irrelevant context)?
+GA4. If the question is unanswerable, does the gold answer correctly indicate this rather than providing a fabricated answer?
+GA5. Does the gold answer avoid containing information that is not present in any gold chunk?
+```
+
+#### Gold Chunk Annotation Quality Dimension
+
+```
+GC1. Does at least one annotated gold chunk set actually contain the information needed to answer the question?
+GC2. Are alternative valid chunk sets annotated, or is only one path marked as gold?
+GC3. Is each gold chunk set minimal — no extra chunks that don't contribute to the answer?
+GC4. If the retrieval pattern is labeled "cross-doc," do the gold chunks actually come from separate documents?
+GC5. Are the chunk IDs correct and resolvable to actual passages in the current corpus?
+```
+
+#### Noise Realism Dimension
+
+```
+NR1. Is the noise profile label accurate — does the applied transformation match what's recorded?
+NR2. Is the noise level realistic (1–2 typos, not 5)?
+NR3. After transformation, is the question still answerable by a human reading the relevant chunks?
+NR4. Does the vocabulary mismatch transformation actually avoid source-document terminology, or does it still use the exact terms?
+```
+
+#### Coverage and Diversity Dimension (scored at the set level, not per record)
+
+```
+CD1. Does the eval set include all question types from the taxonomy (Section 3)?
+CD2. Does the eval set include at least 10% unanswerable questions?
+CD3. Does every document domain in the corpus have at least 10 eval records?
+CD4. Does the noise profile distribution roughly match the targets in Section 4.3?
+CD5. Are easy, medium, and hard questions represented in roughly 30/40/30 proportions?
+CD6. Are cross-doc synthesis questions represented at a rate of at least 15%?
+CD7. Are contradiction/conflict-resolution questions represented at a rate of at least 5%?
+```
+
+Run these binary checks on every eval record using an LLM judge whenever you add or modify records. Flag records that fail more than one question within any dimension.
+
+### 6.5 Automated vs. Human Scoring
+
+Use LLM-as-judge for automated binary decomposition scoring on both answers and eval set quality. This scales but requires calibration. ARES (Saad-Falcon et al., 2024) provides a formal statistical framework for this via *prediction-powered inference*: use a small human-annotated calibration set (~150 samples) to estimate confidence intervals on automated metrics and correct for systematic judge bias. This is worth adopting when you need to defend scores to stakeholders or track statistically-meaningful improvements between system versions.
+
+For lightweight calibration, run a subset with human judges and measure agreement between human and LLM verdicts at the individual binary question level, not just the aggregate score. If agreement is below ~0.8 kappa on any individual binary question, that question's wording needs refinement. This threshold is a working heuristic rather than a hard rule — for high-stakes domains you may want higher agreement; for early-stage exploration lower is acceptable.
+
+Binary questions are easier to calibrate than Likert scales because the judgment is simpler: the evaluator decides one concrete property at a time rather than weighing multiple factors into a single number. This is also why inter-annotator agreement tends to be higher on binary decomposition than on holistic scoring (Cho et al., 2026).
+
+---
+
+## 7. Eval Set Sizing Relative to Corpus
+
+### 7.1 The Sparsity Problem
+
+Sizing an eval set in absolute terms (e.g., "200 questions is enough") ignores the most important variable: the size and diversity of your corpus. A 200-question eval set means very different things for a corpus of 50 documents versus 1,000 documents. With 1,000 documents at 10 pages each, you have roughly 10,000 pages of content. If your chunking strategy produces ~3 chunks per page, that's ~30,000 chunks. A 200-question eval set touches at most a few hundred of those chunks — coverage of roughly 1–2%.
+
+This is the sparsity problem: most of your corpus is completely untested. Your eval score tells you how the system performs on the sliver you measured, but says nothing about the 98% you didn't. A system can score 90% on your eval set while completely failing on an entire document category that has zero eval coverage.
+
+Sparsity isn't inherently bad — you can't test every chunk — but you need to manage it deliberately. The goal is not to eliminate sparsity but to ensure it's uniform across the corpus rather than clustered.
+
+### 7.2 Sizing Framework for a Concrete Corpus
+
+Take a corpus of 1,000 documents × 10 pages each as a worked example. The sizing works in three layers.
+
+#### Layer 1: Document Coverage (which documents get tested?)
+
+Not every document needs an eval question, but you need enough breadth that no major region of the corpus goes untested. The key metric is **document coverage ratio**: what fraction of documents have at least one eval question whose gold chunk references that document?
+
+**Target: 15–30% document coverage.** For 1,000 documents, that means eval questions should reference chunks from at least 150–300 distinct documents. Below 15%, you have large blind spots. Above 30%, you're spending annotation effort on breadth that would be better spent on depth.
+
+#### Layer 2: Eval Set Size (how many total questions?)
+
+The formula balances statistical power per category against corpus coverage:
+
+```
+Base size:
+  9 question types × 15 minimum per type           = 135
+  + unanswerable questions (15% of total)           =  25
+  + cross-doc synthesis (at least 20% of total)     =  40 (some overlap with above)
+  → Minimum: ~150-170 questions
+
+Corpus-adjusted addition:
+  For every 200 documents beyond the first 200,
+  add 20–30 questions targeting those documents     = +80 to +120 for 1K docs
+
+Total for 1K docs × 10 pages: 250–370 eval questions
+```
+
+This is a curated, high-quality core set. For broader regression testing, generate a larger automated set (1,000–2,000 questions) with lighter annotation.
+
+#### Layer 3: Depth per Document (how many questions per tested document?)
+
+```
+Simple documents (FAQ, glossary, single-topic):     1 question each
+Medium documents (policies, procedures, guides):    2–3 questions each
+Complex documents (contracts, technical specs):      3–5 questions each
+```
+
+### 7.3 Measuring and Managing Sparsity
+
+Track three sparsity metrics:
+
+**Document Sparsity:** `Document coverage ratio = (documents with ≥1 eval question) / (total documents)`. Target 0.15–0.30 for corpora of 500+ documents; 0.50+ for smaller corpora.
+
+**Chunk Sparsity:** `Chunk coverage ratio = (unique chunks referenced in gold_chunk_sets) / (total chunks in corpus)`. Will typically be 1–5%. Focus on distribution, not magnitude.
+
+**Domain Sparsity:** Track coverage per document category (HR policies, engineering specs, legal contracts, product guides, etc.):
+
+```json
+{
+  "domain_coverage": {
+    "hr_policies":       {"docs": 150, "docs_with_eval": 38, "ratio": 0.25, "eval_questions": 62},
+    "engineering_specs": {"docs": 300, "docs_with_eval": 55, "ratio": 0.18, "eval_questions": 85},
+    "legal_contracts":   {"docs": 200, "docs_with_eval": 42, "ratio": 0.21, "eval_questions": 70},
+    "product_guides":    {"docs": 250, "docs_with_eval": 50, "ratio": 0.20, "eval_questions": 78},
+    "support_faq":       {"docs": 100, "docs_with_eval": 22, "ratio": 0.22, "eval_questions": 30}
+  },
+  "overall_document_coverage": 0.21,
+  "total_eval_questions": 325
+}
+```
+
+If any domain has a coverage ratio below 0.10, add questions for that domain.
+
+### 7.4 Stratification Targets
+
+**By question type (Section 3):** at least 15 per category. Cross-doc, adversarial, and contradiction types should be over-represented relative to their natural frequency.
+
+**By retrieval pattern:** at least 25 single-chunk, 25 multi-chunk-same-doc, 30 multi-chunk-cross-doc, 20 unanswerable, 15 contradiction.
+
+**By noise profile:** at least 20 per major transformation type. Plus 15% clean as baseline.
+
+**By document domain:** proportional to the corpus, no domain below 15 questions.
+
+**By difficulty:** roughly 30% easy, 40% medium, 30% hard.
+
+### 7.5 Scaling Rules of Thumb
+
+| Corpus Size | Pages | Est. Chunks | Eval Set (curated) | Document Coverage |
+|---|---|---|---|---|
+| 50 docs × 10pp | 500 | ~1,500 | 100–150 | 50–70% |
+| 200 docs × 10pp | 2,000 | ~6,000 | 150–200 | 30–50% |
+| 500 docs × 10pp | 5,000 | ~15,000 | 200–280 | 20–35% |
+| 1,000 docs × 10pp | 10,000 | ~30,000 | 250–370 | 15–30% |
+| 5,000 docs × 10pp | 50,000 | ~150,000 | 400–600 | 8–15% |
+| 10,000+ docs | 100,000+ | ~300,000+ | 500–800 + sampling | 5–10% |
+
+For corpora above 5,000 documents, supplement the curated set with a larger automated set (2x–5x the curated size) using LLM-generated gold answers without human verification, for regression testing only.
+
+### 7.6 Avoiding Bias
+
+Common pitfalls:
+- Clustering eval questions around the first documents in the corpus
+- Over-representing the document types that are easiest to write questions about
+- Under-representing unanswerable questions because they feel "unproductive"
+- Writing questions that mirror the structure of the source text
+- Testing only the "important" documents and ignoring niche ones
+
+---
+
+## 8. The MVP: An 80/20 Version That Ships in a Week
+
+Everything above is the complete framework. In practice, teams don't build the complete framework before iterating — they build a minimum viable version, use it to make decisions, and expand as they learn. This section defines that minimum.
+
+The two ideas that carry most of the value are: **(a) vocabulary mismatch transformation** on synthetic questions (Section 4.2 Layer 1), and **(b) binary decomposition scoring** (Section 6.2, following Cho et al., 2026). Everything else refines these. Start there.
+
+### 8.1 The 80-Question MVP
+
+**Question mix (4 categories, not 9):**
+- 25 single-chunk factual (baseline)
+- 25 cross-doc synthesis (where systems actually break)
+- 15 unanswerable (hallucination detection)
+- 15 adversarial/distractor OR contradiction (retrieval robustness)
+
+**Noise (2 layers, not 7):**
+- 40% vocabulary mismatch (the one that matters most)
+- 20% indirect/situational phrasing
+- 20% clean baseline
+- 20% typos or fragments
+
+Skip wrong-assumptions, compound queries, and register variation for v1. Add later.
+
+**Annotation per record:** question, gold answer, one gold chunk set, unanswerable flag, noise_profile tag, intent decomposition (2–4 atomic points). No alternative chunk sets in v1 unless obvious.
+
+**Scoring: 3 dimensions × 3 binary questions = 9 total (not 5 × 5-8 = 25-40):**
+
+*Faithfulness:*
+- F1: All claims supported by retrieved chunks?
+- F2: No fabricated entities or numbers?
+- F3: No misattribution across chunks or sources?
+
+*Correctness:*
+- C1: Addresses the actual question?
+- C2: Matches gold on core facts?
+- C3: Covers all parts if compound?
+
+*Abstention:*
+- A1: Says "I don't know" when unanswerable?
+- A2: Provides substantive answer when answerable?
+
+Weight the three dimensions equally in v1: `S_overall = (S_faithfulness + S_correctness + S_abstention) / 3`. Tune weights when you have data on where your system actually fails.
+
+**Retrieval metric:** set recall@k. Just that. Add MRR/precision@k when you need them.
+
+**Judge calibration:** hand-check 20 records against the LLM judge. If the judge disagrees with you on a specific binary question consistently, rewrite that question. Skip formal kappa scoring for v1.
+
+### 8.2 Growth Path
+
+- **v1 (week 1):** 80 questions, 9 binary questions, one annotator, ship it.
+- **v2 (month 2):** Add alternative chunk sets where you noticed them during v1 failure review. Run the yes-rate spread check on your 9 binary questions — any that fire >95% or <10% get rewritten.
+- **v3 (month 3):** Grow to ~200 questions. Add wrong-assumption category. Add second annotator review for new records. Add the citation/attribution binary question (F8 in Section 6.2).
+- **v4+:** Everything else — phi diagnostics, eval-set-quality scoring, domain sparsity tracking, versioning discipline, contradiction category.
+
+### 8.3 The Non-Negotiable
+
+If you cut everything else and only keep one transformation, keep **vocabulary mismatch on 40% of questions**. This is the highest-leverage 30 minutes of prompt engineering in the entire recipe. Your eval will still predict production far better than a clean synthetic set.
+
+---
+
+## 9. Beyond RAG Q&A: Adjacent Evaluation Surfaces
+
+This document focuses on evaluating RAG *question answering*. For agentic systems that use retrieval as one capability among many, several adjacent evaluation surfaces need their own treatment. They're briefly noted here so you know what this document does and doesn't cover.
+
+**Tool routing evaluation.** For systems that route queries across multiple tools or MCP servers, whether the right tool was invoked is a separate evaluation surface from whether retrieval within that tool worked. Metrics include tool selection accuracy, tool precision (fraction of invoked tools that were needed), tool recall (fraction of required tools invoked), and tool hallucination rate (attempts to call nonexistent tools). The binary decomposition methodology in Section 6.2 transfers directly — routing dimensions can be decomposed into binary questions like "Was the correct MCP server selected?" or "Was the tool sequence in the right order?" Vocabulary mismatch (Section 4.2 Layer 1) matters even more for routing than for retrieval, because tool descriptions are the retrieval target.
+
+**Cross-knowledge-base synthesis.** When answers require combining information from structurally different sources (SQL databases, document corpora, APIs), each source may need its own eval subset plus an integration eval that tests synthesis quality across sources. The cross-doc synthesis category (Section 3.3) is a subset of this; the general case requires additional annotation of which knowledge base each fact should come from.
+
+**Multi-turn conversation.** The eval records in this document are single-turn. Extending to multi-turn requires new schema fields (turn history, resolved references, context carryover annotations) and new binary questions (did the answer correctly resolve pronoun references from prior turns? did it preserve prior context? did routing behavior remain stable?). Long-session degradation, context drift, and self-consistency across turns are all distinct failure modes worth their own evaluation.
+
+**End-to-end business workflow evaluation.** Question-level eval is a necessary but not sufficient signal for whether a system delivers business value. Workflow-level eval measures whether a chain of interactions — retrieval, synthesis, follow-up, action — successfully completes a real business task. This is closer to integration testing than to the methodology in this document.
+
+**Production monitoring.** Retrieval drift (does retrieval quality degrade as the corpus grows or shifts?), routing accuracy in production, hallucination rate on live queries, data freshness, and user satisfaction each need their own monitoring pipelines. Offline eval predicts production performance imperfectly; production monitoring closes the loop.
+
+These are complementary to the synthetic Q&A eval strategy in this document, not replacements for it. A robust agentic system likely needs all of them layered together.
+
+---
+
+## 10. Maintenance and Versioning
+
+### 10.1 Version Control
+
+Treat the eval set as code. Store it in version control with semantic versioning. Every change — adding questions, updating gold answers, revising chunk annotations — gets a version bump and a changelog entry.
+
+### 10.2 Staleness Detection
+
+When documents in your corpus are updated, flag all eval questions whose gold chunks reference modified documents. Re-validate: is the gold answer still correct? Are the gold chunks still the right passages? Do new passages now also answer this question?
+
+Automate this with a dependency tracker: map each eval question to its gold chunk document IDs, and trigger a review whenever those documents change.
+
+### 10.3 Expansion Cadence
+
+Add 10–20 new questions per quarter, prioritizing:
+- Question types where current performance is weakest
+- New document domains added to the corpus
+- Real user queries that your system failed on in production (the best source of realistic, high-value eval cases)
+
+### 10.4 Retirement
+
+Remove or archive questions when:
+- The source document has been permanently removed from the corpus
+- The question was found to be ambiguous or poorly annotated after repeated disagreements
+- The system has scored 100% on it for five consecutive eval runs (it's no longer differentiating — replace with something harder)
+
+---
+
+## 11. Research Landscape
+
+The following summarizes recent verified work on RAG evaluation and synthetic benchmark construction that informs the strategy in this document.
+
+**BINEVAL (Cho et al., 2026, arXiv:2606.27226)** — the theoretical grounding for Section 6.2. BINEVAL decomposes evaluation criteria into atomic binary questions and demonstrates on SummEval, Topical-Chat, and QAGS benchmarks that this approach yields higher rank correlation with human judgment than holistic G-Eval and UniEval, avoids ceiling effects, and produces score distributions more closely matching humans. Critically for our purposes, the paper also shows that the same question-level feedback supports iterative improvement of the evaluator prompt itself — the diagnostics in Section 6.3 are motivated by this insight.
+
+**HopWeaver (Shen et al., 2025, arXiv:2505.15087, ACL 2026)** — the state-of-the-art approach to cross-document multi-hop question synthesis. HopWeaver introduces a pipeline for identifying bridge entities across complementary documents and constructing genuine multi-hop reasoning paths, avoiding the "pseudo multi-hop" problem where LLM-generated multi-hop questions are actually answerable from single documents. Cross-doc question generation in Section 4.1 should use this approach.
+
+**SeedRG / Leakage-Free Benchmarks (arXiv:2605.08838, 2026)** — formalizes *knowledge leakage* (when questions are answerable from parametric memory alone) as a benchmark validity criterion. Reports leakage rates of 52% on HotpotQA, 62% on 2WikiMultihopQA, and 75% on QASC. Proposes a semi-synthetic pipeline using reasoning graph extraction with type-constrained entity replacement to reduce leakage. **Implication:** for any corpus that includes public content, run each eval question through the LLM with no retrieved context and discard questions it answers correctly.
+
+**RAGAS (Es et al., 2024, EACL, arXiv:2309.15217)** — the foundational reference-free RAG evaluation framework. Introduces faithfulness (proportion of claims supported by retrieved context), answer relevance, and context precision/recall metrics, all implemented without gold references. RAGAS also supports synthetic test data generation. Their claim-level faithfulness scoring is a lightweight predecessor of the binary decomposition approach; use RAGAS metrics as complementary aggregate signals alongside the more diagnostic binary decomposition.
+
+**ARES (Saad-Falcon et al., 2024, NAACL, arXiv:2311.09476)** — automates RAG evaluation using fine-tuned lightweight LM judges plus prediction-powered inference (PPI). Requires only ~150 human-annotated samples for calibration but provides statistical confidence intervals on automated metrics. **Implication:** when scores need to be defensible to stakeholders or when you want to detect statistically-meaningful improvements between system versions, use ARES-style PPI calibration on top of binary decomposition.
+
+**QE-RAG (Zhang et al., 2025, arXiv:2504.04062)** — the first RAG benchmark specifically evaluating robustness to query entry errors. Documents that even simple keyboard-proximity typos substantially degrade RAG performance on benchmarks where models otherwise score well. Provides a taxonomy of realistic error patterns (keyboard proximity, visual similarity, spelling mistakes) that directly informs Section 4.2 Layer 2.
+
+**RAGXplain (Cohen, Burg, Barkan, 2025, arXiv:2505.13538)** — quantifies RAG performance and translates raw scores into narrative explanations with actionable recommendations, using LLM reasoning to identify performance gaps and suggest targeted improvements. Reports that LLM-based metric assessments show strong alignment with human judgments and that applying RAGXplain's recommendations measurably improves system performance on public QA datasets. **Relation to this document:** binary decomposition (Section 6.2, following Cho et al., 2026) produces the fine-grained diagnostic signal; RAGXplain-style narrative synthesis is a complementary layer on top that turns those verdicts into engineering recommendations. Consider adopting both together: the binary layer for interpretability and error localization, the narrative layer for prioritization and communication with non-technical stakeholders.
+
+**EnterpriseRAG-Bench (Sun et al., 2026, arXiv:2605.05253, Onyx + UC Berkeley)** — a public benchmark consisting of a synthetic 500,000-document enterprise corpus spanning nine source types (Slack, Gmail, Linear, Google Drive, HubSpot, Fireflies, GitHub, Jira, Confluence) and 500 questions across ten categories. Their question taxonomy — including single-document lookup, multi-document reasoning, constrained retrieval, conflict resolution, and recognizing absent information — closely parallels our Section 3 taxonomy and validates the coverage model. **Scale caveat:** 500 questions across 500K documents is a ratio of 1:1,000, far sparser than what this document recommends for internal use. Their eval is designed for a public leaderboard where sparse coverage over a large synthetic corpus is appropriate; for internal diagnostic evals over a real corpus, the recommendations in Section 7 (roughly 250–370 questions for 1K docs) provide roughly 100× denser per-document coverage.
+
+**Brehme, Ströhle, Breu (2026, arXiv:2604.18234, SynIRgy Workshop at ECIR 2026)** — introduces *Context-Aware Retriever Evaluation* (CARE), showing that for multi-hop queries, evaluators must consider the full set of retrieved contexts rather than assessing each in isolation. Individual chunks may appear irrelevant on their own while being jointly relevant when combined. Experiments on HotpotQA, MuSiQue, and SQuAD with LLM judges from OpenAI, Meta, and Google demonstrate CARE consistently outperforms isolated-context evaluation. **Practical implication:** this validates our set-level recall metric (Section 5.2) over chunk-level recall for cross-doc questions, and suggests that when using LLM-as-judge for binary decomposition (Section 6.2), the full retrieved context should be presented together rather than question-by-question against individual chunks.
+
+**BenchmarkQED (Microsoft, open-source at github.com/microsoft/benchmark-qed)** — an open-source toolkit with three components: *AutoQ* generates synthetic queries spanning local (small text regions) to global (dataset-wide reasoning) scope, and supports data-linked multi-hop local queries via named entities; *AutoE* evaluates RAG answers using LLM-as-judge with metrics for relevance, comprehensiveness, diversity, and empowerment, plus assertion-based scoring; *AutoD* provides dataset sampling and summarization utilities. The local/global query distinction is a useful axis to add to the question taxonomy in Section 3 if your users perform both quick lookups and dataset-wide analytical questions.
+
+---
+
+## 12. Quick Reference — Red Flags in Your Eval Set
+
+| Red Flag | What It Means |
+|---|---|
+| >80% of questions are single-chunk lookups | You're not testing real-world difficulty |
+| 0% unanswerable questions | You can't detect hallucination |
+| All questions use source-document vocabulary | You're not testing retrieval robustness |
+| No typos or fragments | Your scores won't predict production performance |
+| Only one gold chunk set per question | You're penalizing valid alternative retrievals |
+| No contradiction or distractor cases | You're ignoring a major class of production errors |
+| Holistic 1–5 scoring instead of binary decomposition | You can't diagnose which claim types fail or why |
+| No eval set quality checks (Section 6.4) | Bad gold annotations silently corrupt your metrics |
+| Same binary questions fail >50% of the time across all records | Your binary question may be too strict or poorly worded |
+| Eval set hasn't changed in 6 months | It's probably stale |
+| Public-source corpus with no leakage check | Your benchmark may be measuring memory, not retrieval |
+| Questions never fail — 100% pass rate on some records for many runs | Those records aren't differentiating; retire them |
+
+---
+
+## 13. End-to-End Workflow Summary
+
+1. **Chunk your corpus** and build a chunk index with stable IDs.
+2. **Generate clean question-answer pairs** from chunks using an LLM, covering the question types in Section 3.
+3. **For cross-doc questions**, use bridge-entity identification (HopWeaver-style) rather than naive multi-document prompting.
+4. **If corpus includes public content**, run a leakage check — discard questions answerable from parametric memory alone.
+5. **Apply realism transformations** (Section 4) with tracked noise profiles.
+6. **Annotate gold chunk sets** including alternative valid retrieval paths, and intent decomposition (atomic points).
+7. **Add unanswerable, adversarial, contradiction, and wrong-assumption questions** manually.
+8. **Have a second annotator review** all records.
+9. **Define binary decomposition questions** for both answer scoring (Section 6.2) and eval set quality scoring (Section 6.4).
+10. **Run eval set quality checks** using binary decomposition (Section 6.4). Fix flagged records.
+11. **Stratify and balance** the final set across all dimensions (Section 7).
+12. **Run RAG evals using binary decomposition** (Section 6.2) — score answers per dimension, aggregate failures to find systemic patterns.
+13. **Version, store, and maintain** as a living artifact (Section 10).
+14. **Slice by category and by failed binary question**, and use the breakdowns to decide where to invest next.
+
+For teams building their first eval set, start with the MVP in Section 8 and grow from there.
+
+---
+
+# Appendix A — MVP Prompt Templates
+
+Ready-to-use prompts for the 80-question MVP described in Section 8. Adapt bracketed placeholders to your corpus and domain.
+
+## A.1 Clean Question Generation
+
+### A.1.1 Single-Chunk Factual
+
+```
+You are generating an evaluation question for a retrieval system.
+
+Read the following passage from [DOMAIN, e.g., "our internal HR policy documents"]:
+
+<passage>
+{chunk_text}
+</passage>
+
+Write ONE question that:
+- A real user of [PRODUCT/SYSTEM] would plausibly ask
+- Can be fully answered from this passage alone
+- Is specific enough to have a clear correct answer
+- Does NOT quote the passage verbatim
+
+Then write the gold answer, using only information from the passage.
+
+Then decompose the gold answer into 2-4 atomic intent points — the individual facts or claims that must be conveyed for the answer to count as correct. Mark each as "required" or "preferred".
+
+Output as JSON:
+{
+  "question": "...",
+  "gold_answer": "...",
+  "intent_points": [
+    {"id": "P1", "text": "...", "required": true},
+    {"id": "P2", "text": "...", "required": true},
+    {"id": "P3", "text": "...", "required": false}
+  ],
+  "reasoning": "brief note on why this passage answers the question"
+}
+```
+
+### A.1.2 Cross-Doc Synthesis (Bridge Entity Approach)
+
+```
+You are generating a cross-document evaluation question.
+
+Below are two passages that both mention [BRIDGE_ENTITY, e.g., "the Enterprise plan"]:
+
+<passage_1 source="{doc_id_1}">
+{chunk_text_1}
+</passage_1>
+
+<passage_2 source="{doc_id_2}">
+{chunk_text_2}
+</passage_2>
+
+Write ONE question that:
+- Requires information from BOTH passages to answer completely
+- Cannot be answered correctly using only one passage
+- A real user would plausibly ask
+- Is about [BRIDGE_ENTITY] and how it relates across contexts
+
+Then write the gold answer, integrating information from both.
+
+Then decompose the gold answer into atomic intent points, and for each point, mark which passage(s) it comes from.
+
+Output as JSON:
+{
+  "question": "...",
+  "gold_answer": "...",
+  "intent_points": [
+    {"id": "P1", "text": "...", "required": true, "from": ["passage_1"]},
+    {"id": "P2", "text": "...", "required": true, "from": ["passage_2"]},
+    {"id": "P3", "text": "...", "required": false, "from": ["passage_1", "passage_2"]}
+  ],
+  "why_both_needed": "explain what each passage contributes"
+}
+```
+
+### A.1.3 Unanswerable
+
+```
+You are generating an "unanswerable" evaluation question — one that a user would plausibly ask about [DOMAIN] but that our documentation does NOT cover.
+
+Here is a sample of what our documentation DOES cover:
+{list of topic areas or sample chunk headers}
+
+Write ONE question that:
+- Sounds like a reasonable user question in this domain
+- Is adjacent to but NOT covered by the documentation
+- Would tempt a naive system to hallucinate an answer
+- Is not absurd or clearly out of scope
+
+Output as JSON:
+{
+  "question": "...",
+  "gold_answer": "The documentation does not cover [specific topic]. [Optional: suggest what IS covered nearby.]",
+  "intent_points": [
+    {"id": "P1", "text": "Explicit acknowledgment that this is not documented", "required": true},
+    {"id": "P2", "text": "Optional pointer to related documented topics", "required": false}
+  ],
+  "why_unanswerable": "brief explanation"
+}
+```
+
+### A.1.4 Contradiction / Conflict
+
+```
+You are generating a contradiction evaluation question.
+
+Below are two passages from different documents that give conflicting answers to the same underlying question:
+
+<passage_1 source="{doc_id_1}" date="{date_1}">
+{chunk_text_1}
+</passage_1>
+
+<passage_2 source="{doc_id_2}" date="{date_2}">
+{chunk_text_2}
+</passage_2>
+
+Write ONE question a user would ask that both passages address, but with contradictory answers.
+
+Then write the gold answer. The gold answer should:
+- Surface the conflict explicitly ("Sources disagree...")
+- Present both positions with their sources
+- If applicable, note a resolution policy (e.g., "the more recent document supersedes")
+
+Output as JSON:
+{
+  "question": "...",
+  "gold_answer": "...",
+  "intent_points": [
+    {"id": "P1", "text": "Acknowledges that sources conflict", "required": true},
+    {"id": "P2", "text": "States position from source 1 with attribution", "required": true},
+    {"id": "P3", "text": "States position from source 2 with attribution", "required": true},
+    {"id": "P4", "text": "Notes resolution policy or defers to user", "required": false}
+  ],
+  "conflict_summary": "brief description of the conflict"
+}
+```
+
+## A.2 Vocabulary Mismatch Transformation
+
+The highest-leverage transformation. Apply to ~40% of clean questions.
+
+```
+Rewrite the following question as if the person asking has NEVER read our documentation and is using everyday, casual language.
+
+Rules:
+1. Do NOT use any of these words or their close variants: [LIST_KEY_SOURCE_TERMS from the gold chunk, 5-10 terms]
+2. Replace technical/formal terms with how a non-expert would describe the same thing
+3. Keep the underlying question the same — same answer should still apply
+4. Sound like a real user typing in a hurry, not a polished FAQ entry
+
+Original question: {clean_question}
+
+Source terminology to avoid: {extracted_key_terms}
+
+Output only the rewritten question, no explanation.
+```
+
+**Companion prompt to extract terms to avoid (run first):**
+
+```
+List the 5-10 most distinctive technical or formal terms in this passage that a casual user would be unlikely to use:
+
+<passage>
+{chunk_text}
+</passage>
+
+Output as a JSON array of strings.
+```
+
+## A.3 Indirect/Situational Phrasing
+
+Apply to ~20% of clean questions.
+
+```
+Rewrite the following question as if the person is describing their situation in a Slack message to a coworker.
+
+Rules:
+1. Do NOT ask a direct question — describe what happened and what they're trying to figure out
+2. Include some personal context (what they were doing, why it matters to them)
+3. Sound informal — contractions, minor grammatical looseness is fine
+4. The underlying information need must be the same
+
+Original question: {clean_question}
+
+Output only the rewritten message, no explanation.
+```
+
+## A.4 Typo Injection
+
+Apply to ~10% of questions. Do this programmatically, not via LLM — LLMs tend to over-correct or produce unrealistic typos.
+
+Pick 1–2 words per question, apply one of {adjacent-key swap, dropped letter, doubled letter, phonetic misspelling}. Keep the question readable. See QE-RAG (Zhang et al., 2025) for a taxonomy of realistic error patterns.
+
+## A.5 Fragment / Shorthand
+
+Apply to ~10% of questions.
+
+```
+Rewrite the following question as terse shorthand — how someone would type it into a search box in a hurry.
+
+Rules:
+1. Drop articles, auxiliaries, and full sentence structure
+2. Keep the essential nouns and any critical qualifiers
+3. It should still be understandable, just abbreviated
+4. Length: 3-6 words typically
+
+Original question: {clean_question}
+
+Output only the rewritten fragment, no explanation.
+```
+
+## A.6 Binary Judge Prompt (9 Questions, 3 Dimensions)
+
+Run the LLM judge on each (question, retrieved_context, generated_answer, gold_answer) tuple.
+
+```
+You are evaluating a RAG system's answer. Read carefully and answer each of the following questions with exactly "yes" or "no", followed by a one-sentence explanation.
+
+<question>
+{eval_question}
+</question>
+
+<retrieved_context>
+{retrieved_chunks_concatenated}
+</retrieved_context>
+
+<generated_answer>
+{system_answer}
+</generated_answer>
+
+<gold_answer>
+{gold_answer}
+</gold_answer>
+
+<is_question_unanswerable>
+{true or false}
+</is_question_unanswerable>
+
+Answer each question independently. Do not let your answer to one question influence another.
+
+FAITHFULNESS:
+F1. Is every factual claim in the generated answer supported by content in the retrieved context?
+F2. Is the generated answer free of fabricated entities, numbers, or facts not present in the retrieved context?
+F3. Does the generated answer avoid misattributing statements or facts to the wrong entity, source, or time period?
+
+CORRECTNESS:
+C1. Does the generated answer address the specific question that was asked (not a related but different question)?
+C2. Are the core facts in the generated answer consistent with the gold answer?
+C3. If the question has multiple parts, does the generated answer address all of them? (If the question has only one part, answer "yes".)
+
+ABSTENTION:
+A1. If <is_question_unanswerable> is true, does the generated answer clearly indicate the question cannot be answered from the available documentation? (If <is_question_unanswerable> is false, answer "yes".)
+A2. If <is_question_unanswerable> is false, does the generated answer provide a substantive response rather than refusing unnecessarily? (If <is_question_unanswerable> is true, answer "yes".)
+A3. Does the generated answer express appropriate uncertainty when the retrieved evidence is ambiguous or conflicting? (If evidence is unambiguous, answer "yes".)
+
+Output as JSON:
+{
+  "F1": {"verdict": "yes|no", "reason": "..."},
+  "F2": {"verdict": "yes|no", "reason": "..."},
+  "F3": {"verdict": "yes|no", "reason": "..."},
+  "C1": {"verdict": "yes|no", "reason": "..."},
+  "C2": {"verdict": "yes|no", "reason": "..."},
+  "C3": {"verdict": "yes|no", "reason": "..."},
+  "A1": {"verdict": "yes|no", "reason": "..."},
+  "A2": {"verdict": "yes|no", "reason": "..."},
+  "A3": {"verdict": "yes|no", "reason": "..."}
+}
+```
+
+## A.7 Aggregation
+
+```
+S_faithfulness = (F1 + F2 + F3) / 3
+S_correctness  = (C1 + C2 + C3) / 3
+S_abstention   = (A1 + A2 + A3) / 3
+
+S_overall = (S_faithfulness + S_correctness + S_abstention) / 3
+```
+
+Adjust weights when you have data. Faithfulness typically gets higher weight in safety-critical domains.
+
+## A.8 Judge Calibration Check
+
+Before trusting the judge, hand-label 20 records yourself with yes/no on each of the 9 questions. Compare to the LLM judge's verdicts.
+
+Per-question agreement rate = (matching verdicts across 20 records) / 20.
+
+If any question is below 80% agreement, rewrite it for clarity and re-check. Common fixes: add explicit "if X, answer yes" branches, tighten scope, or split the question into two.
+
+---
+
+# Appendix B — Sample Records with Expected Answers and Intent Coverage
+
+This appendix provides worked examples of eval records across question types and noise profiles. Each record includes the question, the gold answer, an atomic decomposition of what the answer must convey (intent points), and coverage tolerance — how much of the intent must be present at different quality levels.
+
+**How to read intent coverage tolerance:**
+
+- **Minimum acceptable:** the smallest subset of intent points that lets an answer count as "correct enough" — typically the required points marked P1, P2, etc. Missing this is a failure.
+- **Full credit:** all required points plus preferred points. This is the target.
+- **Over-scope (deduct):** things the answer should NOT include. Adding these signals the system is padding or misrouting content.
+
+Each record also shows the expected binary verdicts from the MVP 9-question judge (Section A.6) for a *correct* answer, so you can verify judge behavior.
+
+The corpus these examples reference is fictitious — a mid-sized SaaS company called "Northbeam" with product documentation, HR policies, and support content.
+
+---
+
+## B.1 — Single-Chunk Factual, Clean
+
+**Record ID:** eval-B01
+**Question type:** single-chunk factual
+**Noise profile:** clean
+**Difficulty:** easy
+
+**Question:** What is the maximum file upload size on the Northbeam free plan?
+
+**Source chunk:** `pricing_free_plan.md#chunk3`
+
+> "Free plan users can upload files up to 25 MB. Files larger than this must be split or the user must upgrade to Pro (100 MB) or Enterprise (500 MB)."
+
+**Gold answer:** The maximum file upload size on the Northbeam free plan is 25 MB. Users with larger files can either split them or upgrade to Pro (100 MB limit) or Enterprise (500 MB limit).
+
+**Intent decomposition:**
+
+| ID | Point | Required? |
+|---|---|---|
+| P1 | The free plan file upload limit is 25 MB | required |
+| P2 | Larger files require splitting or upgrade | preferred |
+| P3 | Mentions Pro (100 MB) and/or Enterprise (500 MB) limits | preferred |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 alone. "25 MB" answers the question directly.
+- **Full credit:** P1 + P2 + P3. Provides the workaround and shows the tiering.
+- **Over-scope (deduct):** discussing free plan pricing, feature comparisons unrelated to file size, or promotional language about upgrading.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1 | yes | All claims (25/100/500 MB) come from the chunk |
+| F2 | yes | No fabricated numbers |
+| F3 | yes | Plan names correctly mapped to limits |
+| C1 | yes | Directly addresses upload size question |
+| C2 | yes | Matches gold on 25 MB core fact |
+| C3 | yes | Question is single-part |
+| A1 | yes | Question is answerable |
+| A2 | yes | Substantive answer given |
+| A3 | yes | No ambiguity to hedge over |
+
+**Overall score:** 1.0
+
+---
+
+## B.2 — Single-Chunk with Vocabulary Mismatch
+
+**Record ID:** eval-B02
+**Question type:** single-chunk factual
+**Noise profile:** vocabulary-mismatch
+**Difficulty:** medium
+
+**Question:** how do i turn on the code thing where it texts me when i log in
+
+**Source chunk:** `security_mfa_setup.md#chunk2`
+
+> "To enable multi-factor authentication (MFA) via SMS, navigate to Account Settings → Security → Two-Step Verification. Choose 'Text Message' as your verification method, confirm your phone number, and enter the six-digit code sent to that number. MFA via authenticator apps (Authy, Google Authenticator) is also available under the same menu."
+
+**Gold answer:** To turn on the login code that gets texted to you (called multi-factor authentication or MFA via SMS), go to Account Settings → Security → Two-Step Verification, choose "Text Message" as your method, confirm your phone number, and enter the six-digit confirmation code. You can also use an authenticator app (Authy, Google Authenticator) instead if you prefer.
+
+**Intent decomposition:**
+
+| ID | Point | Required? |
+|---|---|---|
+| P1 | Navigation path: Account Settings → Security → Two-Step Verification | required |
+| P2 | Select "Text Message" as the method | required |
+| P3 | Confirm phone number, enter six-digit code | required |
+| P4 | Alternative: authenticator apps also available | preferred |
+| P5 | Names the feature (MFA / two-step verification) so user learns the term | preferred |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 + P2 + P3. The user can follow the steps.
+- **Full credit:** all five points. Bridges the user's casual language to the documented feature name.
+- **Over-scope (deduct):** long explanations of why MFA is important, alternative security features (hardware keys, IP allowlisting), or pricing information.
+
+**Why this record matters:** the source chunk uses "multi-factor authentication" and "SMS" — neither appears in the query. Retrieval must handle "code thing" → "MFA" and "texts me" → "SMS". This directly tests vocabulary mismatch robustness.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1 | yes | Steps come from the chunk |
+| F2 | yes | No fabrication |
+| F3 | yes | No misattribution |
+| C1 | yes | Addresses the user's actual need |
+| C2 | yes | Matches gold on setup steps |
+| C3 | yes | Single-part question |
+| A1 | yes | Answerable |
+| A2 | yes | Substantive |
+| A3 | yes | No ambiguity |
+
+**Overall score:** 1.0
+
+**Common failure mode to watch for:** a system that finds a *different* passage (e.g., about SMS notifications for billing) because it keyed on "text" without understanding the login context. The judge would then mark C1 = no.
+
+---
+
+## B.3 — Cross-Doc Synthesis
+
+**Record ID:** eval-B03
+**Question type:** multi-chunk cross-doc
+**Noise profile:** clean
+**Difficulty:** hard
+
+**Question:** How does the Enterprise plan's SLA compare to the standard support tier's SLA?
+
+**Source chunks:**
+- `enterprise_sla.md#chunk1` — describes Enterprise SLA: 99.9% uptime, 1-hour response for P1 issues, 24/7 phone support.
+- `standard_support.md#chunk4` — describes standard tier: 99.5% uptime, 24-hour response for critical issues, business-hours email support only.
+
+**Gold answer:** The Enterprise plan's SLA is significantly stronger than the standard support tier's. Enterprise guarantees 99.9% uptime versus 99.5% on the standard tier. Enterprise offers a 1-hour response time for P1 (critical) issues and 24/7 phone support, while the standard tier offers 24-hour response for critical issues and email-only support during business hours.
+
+**Intent decomposition:**
+
+| ID | Point | Required? | Source |
+|---|---|---|---|
+| P1 | Enterprise uptime is 99.9% | required | enterprise_sla |
+| P2 | Standard uptime is 99.5% | required | standard_support |
+| P3 | Enterprise P1 response is 1 hour | required | enterprise_sla |
+| P4 | Standard critical response is 24 hours | required | standard_support |
+| P5 | Enterprise has 24/7 phone support | preferred | enterprise_sla |
+| P6 | Standard has business-hours email only | preferred | standard_support |
+| P7 | Explicit comparison framing ("stronger", "compared to") | preferred | synthesis |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 + P2 + P3 + P4 with some form of contrast. Missing either side of the comparison is a failure — this is a comparative question.
+- **Full credit:** all seven points, with clear side-by-side contrast.
+- **Over-scope (deduct):** pricing details, other Enterprise features (SSO, audit logs), historical SLA changes.
+
+**Why this record matters:** this is a genuine cross-doc question. If the system retrieves only one chunk, the answer will be incomplete — likely missing either Enterprise or standard details. The set-level recall metric (Section 5.2) catches this; chunk-level recall would misleadingly show 50% for a completely unanswerable case.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1 | yes | All numbers from the two chunks |
+| F2 | yes | No fabrication |
+| F3 | yes | Enterprise features attributed to Enterprise, standard to standard |
+| C1 | yes | Addresses SLA comparison |
+| C2 | yes | Matches gold on all four numbers |
+| C3 | yes | Comparative question fully addressed |
+| A1 | yes | Answerable |
+| A2 | yes | Substantive |
+| A3 | yes | No ambiguity |
+
+**Overall score:** 1.0
+
+**Common failure mode:** the system retrieves Enterprise details but no standard-tier chunk, then generates a plausible-sounding "compared to typical support tiers, Enterprise offers..." that fabricates standard-tier numbers. F2 catches this (fabrication), F3 catches it (misattribution to a nonexistent source), and CP1 in the full completeness dimension catches it.
+
+---
+
+## B.4 — Cross-Doc Synthesis with Vocabulary Mismatch
+
+**Record ID:** eval-B04
+**Question type:** multi-chunk cross-doc
+**Noise profile:** vocabulary-mismatch, indirect-phrasing
+**Difficulty:** hard
+
+**Question:** we're a bigger customer paying for the top tier, if something breaks in the middle of the night can someone actually pick up the phone or do we have to wait for morning like everyone else
+
+**Same source chunks and gold answer as B03.**
+
+**Intent decomposition:** same as B03, but with elevated importance on:
+
+| ID | Point | Required? | Note |
+|---|---|---|---|
+| P5 | Enterprise has 24/7 phone support | **required** (was preferred) | User asks about this directly |
+| P6 | Standard has business-hours email only | required | The comparison the user is drawing |
+| P7 | Explicit answer to the underlying question ("yes, someone will pick up") | required | The user is asking for reassurance |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** direct answer to whether phone support is available at night (yes, for Enterprise 24/7), plus the contrast with standard tier (business hours only).
+- **Full credit:** the direct answer plus the SLA specifics (1-hour P1 response, 99.9% uptime) that contextualize why Enterprise pays more.
+- **Over-scope (deduct):** unrelated Enterprise features, upsell messaging, or lengthy explanation of the standard tier when the user has clearly identified as Enterprise.
+
+**Why this record matters:** the user never uses the words "SLA," "uptime," "response time," "Enterprise," or "standard tier." They say "bigger customer," "top tier," "if something breaks," "middle of the night," "pick up the phone," "wait for morning." Retrieval must handle *all* of these mappings simultaneously, in a cross-doc setting.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1–F3 | yes | Same as B03 |
+| C1 | yes | Answers the actual concern (phone-at-night availability) |
+| C2 | yes | Matches gold |
+| C3 | yes | Compound implicit question fully addressed |
+| A1–A3 | yes | Same as B03 |
+
+**Overall score:** 1.0
+
+---
+
+## B.5 — Unanswerable
+
+**Record ID:** eval-B05
+**Question type:** unanswerable / out-of-scope
+**Noise profile:** clean
+**Difficulty:** medium
+
+**Question:** What's Northbeam's carbon emissions per API call?
+
+**Source chunks:** none — the corpus does not cover environmental metrics at this granularity.
+
+**Gold answer:** Northbeam's documentation does not include information about carbon emissions per API call. The public documentation covers pricing, technical specs, security, and support policies, but sustainability metrics at this level of detail aren't published. For questions about environmental impact, contact sustainability@northbeam.example.
+
+**Intent decomposition:**
+
+| ID | Point | Required? |
+|---|---|---|
+| P1 | Explicit acknowledgment that this specific information is not in the documentation | required |
+| P2 | Does NOT fabricate a plausible-sounding number | required (via negative) |
+| P3 | Optional: points to what IS documented (pricing, specs, security, support) | preferred |
+| P4 | Optional: suggests an alternative channel (contact sustainability team) | preferred |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 alone — a clear, non-hedged "this isn't documented" answer.
+- **Full credit:** P1 + P3 + P4. Helpful redirection without pretending to have information.
+- **Over-scope (deduct — CRITICAL):** ANY specific number or estimate ("approximately 0.02g CO2 per call") is a hallucination. Also deduct for wishy-washy hedges that could be read as an answer ("emissions depend on factors X, Y, Z" without saying it's not documented).
+
+**Why this record matters:** unanswerable questions are the single best test for hallucination. A system that scores 95% on answerable questions but 20% on unanswerable ones will silently mislead users in production.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1 | yes | No claims made, so nothing to fail on support |
+| F2 | yes | No fabrication (this is the whole point) |
+| F3 | yes | No misattribution |
+| C1 | yes | Addresses the question by declining to answer |
+| C2 | yes | Matches gold's core stance |
+| C3 | yes | Single-part |
+| A1 | **yes — CRITICAL** | Correctly abstains |
+| A2 | yes | (question is unanswerable, so this rule waives) |
+| A3 | yes | No ambiguity |
+
+**Overall score:** 1.0
+
+**Common failure mode:** system says "Northbeam is committed to sustainability and our per-call emissions are estimated at ~0.05g CO2 based on typical cloud infrastructure." F2 catches this (fabricated statistic), A1 catches this (should have abstained), and score drops to ~0.55.
+
+---
+
+## B.6 — Contradiction
+
+**Record ID:** eval-B06
+**Question type:** contradiction / conflict resolution
+**Noise profile:** clean
+**Difficulty:** hard
+
+**Question:** How much PTO carries over from year to year at Northbeam?
+
+**Source chunks:**
+- `hr_pto_policy_2023.md#chunk2` (dated Jan 2023): "Unused PTO carries over year-to-year with no cap."
+- `hr_benefits_amendment_2025.md#chunk1` (dated Feb 2025): "Effective March 1, 2025, unused PTO carryover is capped at 40 hours. Hours in excess of 40 at year-end will be forfeited."
+
+**Gold answer:** There's a conflict in the documentation. The 2023 PTO policy states unused PTO carries over with no cap. However, a benefits amendment dated February 2025 supersedes this: effective March 1, 2025, carryover is capped at 40 hours, with excess hours forfeited at year-end. The more recent policy applies. For carryover in 2025 and later, the 40-hour cap is in effect.
+
+**Intent decomposition:**
+
+| ID | Point | Required? |
+|---|---|---|
+| P1 | Explicit acknowledgment that sources conflict | required |
+| P2 | States 2023 policy: no cap | required |
+| P3 | States 2025 policy: 40-hour cap | required |
+| P4 | Notes that 2025 policy is more recent and supersedes | required |
+| P5 | Attribution to the specific source documents | preferred |
+| P6 | Notes the effective date (March 1, 2025) | preferred |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 + P2 + P3 + P4. The user must be shown that (a) there's a conflict, (b) both positions, (c) which one is current.
+- **Full credit:** all six points, with source attribution and effective date.
+- **Over-scope (deduct):** silently picking one policy without acknowledging the other (this is the worst failure mode for contradiction handling); adding PTO accrual rates or other unrelated benefits detail.
+
+**Why this record matters:** without contradiction handling, a system will pick whichever chunk ranks higher in retrieval and confidently report a single answer. If the older 2023 policy ranks higher for any reason, the user gets misinformation with high confidence. This is a common production failure that ordinary Q&A evals miss entirely.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1 | yes | Both positions come from chunks |
+| F2 | yes | No fabrication |
+| F3 | yes | Attribution to correct documents and dates |
+| C1 | yes | Addresses the PTO carryover question |
+| C2 | yes | Matches gold on both policies and resolution |
+| C3 | yes | Single-part but with conflict — fully addressed |
+| A1 | yes | Answerable |
+| A2 | yes | Substantive |
+| A3 | **yes — key** | Expresses appropriate uncertainty by surfacing the conflict |
+
+**Overall score:** 1.0
+
+**Common failure modes:**
+1. System reports "PTO carries over with no cap" (based on older policy) — F3 fails (misattribution to current policy), C2 fails (opposite of gold on current policy).
+2. System reports "PTO is capped at 40 hours carryover" without acknowledging the prior policy — technically correct on the current state but A3 fails (should have expressed the source conflict).
+
+---
+
+## B.7 — Adversarial / Distractor
+
+**Record ID:** eval-B07
+**Question type:** adversarial / distractor-heavy
+**Noise profile:** clean
+**Difficulty:** hard
+
+**Question:** What's the cancellation policy for the Pro plan?
+
+**Source chunks (three plausibly-relevant chunks in corpus):**
+- `cancellation_free.md#chunk1`: Free plan — cancel anytime, no charges.
+- `cancellation_pro.md#chunk1` (the correct one): Pro plan — monthly cancellations effective end of billing period, annual cancellations require 30-day notice and are pro-rated.
+- `cancellation_enterprise.md#chunk1`: Enterprise plan — 90-day notice required, contract-specific terms may apply.
+
+**Gold answer:** The Pro plan cancellation policy has two variants depending on billing frequency. If you're on monthly billing, cancellation takes effect at the end of the current billing period. If you're on annual billing, you must give 30 days' notice, and refunds are pro-rated for the unused portion.
+
+**Intent decomposition:**
+
+| ID | Point | Required? |
+|---|---|---|
+| P1 | Distinguishes monthly vs annual Pro billing | required |
+| P2 | Monthly Pro: cancel effective end of billing period | required |
+| P3 | Annual Pro: 30-day notice required | required |
+| P4 | Annual Pro: pro-rated refund | preferred |
+| P5 | Explicitly identifies this as Pro (not blending with Free or Enterprise) | required (implicit) |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 + P2 + P3, with no blending of Free (no-charge cancellation) or Enterprise (90-day notice) terms.
+- **Full credit:** all five points.
+- **Over-scope (deduct — CRITICAL):** including "no charges" (that's Free) or "90-day notice" (that's Enterprise). This is the specific failure mode this question tests.
+
+**Why this record matters:** three chunks are topically similar and all mention "cancellation policy." Naive keyword retrieval will return all three, and the generator must not blend them. This tests both retrieval precision AND generator discrimination.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1 | yes | Pro-specific terms are in the Pro chunk |
+| F2 | yes | No fabrication |
+| F3 | **yes — key** | Does not misattribute Free or Enterprise terms to Pro |
+| C1 | yes | Addresses Pro plan specifically |
+| C2 | yes | Matches gold |
+| C3 | yes | Compound (monthly and annual) both addressed |
+| A1 | yes | Answerable |
+| A2 | yes | Substantive |
+| A3 | yes | No ambiguity in the correct chunk |
+
+**Overall score:** 1.0
+
+**Common failure mode:** answer says "Pro plan cancellations require 30-day notice and are subject to 90-day notice for enterprise contracts" — F3 fails (Enterprise terms attributed to Pro). This is precisely the misattribution failure the adversarial category is designed to expose.
+
+---
+
+## B.8 — Compound / Multi-Part Query
+
+**Record ID:** eval-B08
+**Question type:** compound (multi-question)
+**Noise profile:** compound-query, indirect-phrasing
+**Difficulty:** hard
+
+**Question:** thinking about switching from monthly pro to annual — what's the discount, when would the switch take effect, and would i lose any features during the transition
+
+**Source chunks:**
+- `pricing_pro_annual.md#chunk1`: 20% discount for annual vs monthly.
+- `billing_switch.md#chunk3`: switches from monthly to annual take effect immediately, with pro-rated credit for unused monthly time.
+- `feature_parity.md#chunk1`: monthly and annual Pro have identical features.
+
+**Gold answer:** Switching from monthly Pro to annual Pro gives you a 20% discount compared to monthly billing. The switch takes effect immediately, and you'll get a pro-rated credit for the unused portion of your current monthly billing period. There's no feature difference between monthly and annual Pro, so you won't lose access to anything during the transition.
+
+**Intent decomposition:**
+
+| ID | Point | Required? | Sub-question |
+|---|---|---|---|
+| P1 | 20% discount on annual vs monthly | required | Q1: discount |
+| P2 | Switch takes effect immediately | required | Q2: timing |
+| P3 | Pro-rated credit for unused monthly time | preferred | Q2: timing |
+| P4 | Monthly and annual Pro have identical features | required | Q3: features |
+| P5 | Explicit "no features lost" framing | preferred | Q3: features |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** all three sub-questions get at least the required point (P1, P2, P4). Missing any sub-question is a failure.
+- **Full credit:** all five points.
+- **Over-scope (deduct):** discussing switching to Enterprise, cancellation policies, or unrelated billing features.
+
+**Why this record matters:** compound queries are extremely common in real usage but rarely tested. The failure mode isn't wrong answers on individual parts — it's *silent omission* of one part while confidently answering the others.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1 | yes | All claims sourced |
+| F2 | yes | No fabrication |
+| F3 | yes | No misattribution |
+| C1 | yes | Addresses the switch scenario |
+| C2 | yes | Matches gold |
+| C3 | **yes — key** | All three sub-questions addressed |
+| A1 | yes | Answerable |
+| A2 | yes | Substantive |
+| A3 | yes | No ambiguity |
+
+**Overall score:** 1.0
+
+**Common failure mode:** answer covers discount and timing but silently omits the feature question. C3 catches this — the aggregate score would drop from 1.0 to about 0.89.
+
+---
+
+## B.9 — Fragment / Shorthand
+
+**Record ID:** eval-B09
+**Question type:** single-chunk factual (fragment form)
+**Noise profile:** fragment, typo
+**Difficulty:** medium
+
+**Question:** okta sso stup pro plan?
+
+**Source chunk:** `sso_okta_setup.md#chunk2`
+
+> "Single Sign-On via Okta is available on Pro and Enterprise plans. Setup requires an admin to configure the SAML integration in Okta's admin console using Northbeam's Entity ID (found in Account Settings → SSO), then upload the metadata XML back into Northbeam. Full setup usually takes 15–30 minutes."
+
+**Gold answer:** Yes, Okta SSO is available on the Pro plan (and Enterprise). Setup involves configuring the SAML integration in Okta's admin console using Northbeam's Entity ID (found in Account Settings → SSO), then uploading the metadata XML back into Northbeam. It usually takes 15–30 minutes.
+
+**Intent decomposition:**
+
+| ID | Point | Required? |
+|---|---|---|
+| P1 | Confirms Okta SSO is available on Pro plan | required |
+| P2 | Notes SAML integration required | preferred |
+| P3 | Explains Entity ID + metadata XML exchange | preferred |
+| P4 | Location: Account Settings → SSO | preferred |
+| P5 | Time estimate: 15–30 minutes | preferred |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 (Pro plan has Okta SSO — the user's core question). If the user wanted setup steps, they'd have asked more explicitly, but a good answer still provides them.
+- **Full credit:** P1–P5.
+- **Over-scope (deduct):** discussing other SSO providers (SAML for OneLogin, Azure AD), pricing details, or off-topic security features.
+
+**Why this record matters:** the query is heavily fragmented and contains a typo ("stup" for "setup"). This tests whether the retrieval system's embeddings and keyword matching survive both. The typo pattern (adjacent-key omission) is drawn from QE-RAG (Zhang et al., 2025).
+
+**Expected binary verdicts (for a correct answer):** all yes. Overall 1.0.
+
+**Common failure mode:** retrieval returns nothing (embedding model chokes on fragment + typo), and the system says "I couldn't find specific information about Okta SSO." A1 fails (question IS answerable), C1 fails (didn't address the actual query). This is the specific failure mode fragment/typo transformations are designed to expose.
+
+---
+
+## B.10 — Wrong Assumption
+
+**Record ID:** eval-B10
+**Question type:** wrong-premise (correction required)
+**Noise profile:** wrong-assumption
+**Difficulty:** medium
+
+**Question:** How do I downgrade from my annual Pro plan to monthly Pro mid-contract?
+
+**Source chunk:** `billing_downgrade.md#chunk1`
+
+> "Downgrades from annual to monthly billing are not supported mid-contract. You may cancel your annual plan at the end of your billing period and re-subscribe as monthly. Refunds for unused annual time are not issued outside of statutory consumer protection rights."
+
+**Gold answer:** Mid-contract downgrades from annual to monthly Pro aren't supported. Your options are: (1) wait until the end of your annual billing period, cancel, and re-subscribe on monthly, or (2) check whether you have statutory consumer protection rights in your region that would entitle you to a refund. Northbeam doesn't otherwise issue refunds for unused annual time.
+
+**Intent decomposition:**
+
+| ID | Point | Required? |
+|---|---|---|
+| P1 | Explicitly corrects the false premise (mid-contract downgrade is NOT supported) | required |
+| P2 | Provides the actual path: wait for period end, cancel, re-subscribe | required |
+| P3 | Notes no refunds outside statutory protections | preferred |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 + P2. The user must be corrected on the false premise AND given a workable path.
+- **Full credit:** all three points.
+- **Over-scope (deduct):** long explanations of why the policy exists, upsell to Enterprise, or discussion of other plan changes.
+- **CRITICAL failure:** an answer that describes "how to downgrade" as if it's possible — implicitly confirming the false premise. This is the exact failure mode this record tests.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1 | yes | Correction sourced from chunk |
+| F2 | yes | No fabrication |
+| F3 | yes | No misattribution |
+| C1 | **yes — key** | Addresses the ACTUAL question (which requires correcting the premise), not the literal question |
+| C2 | yes | Matches gold |
+| C3 | yes | Single-part |
+| A1 | yes | Answerable (once premise is corrected) |
+| A2 | yes | Substantive |
+| A3 | yes | No ambiguity |
+
+**Overall score:** 1.0
+
+**Common failure mode:** answer says "To downgrade from annual to monthly Pro, go to Account Settings → Billing → Change Plan..." — inventing steps that don't exist because the operation isn't supported. F2 catches this (fabrication), C2 catches it (opposite of gold).
+
+---
+
+## B.11 — Indirect Situational Phrasing
+
+**Record ID:** eval-B11
+**Question type:** single-chunk factual (indirect form)
+**Noise profile:** indirect-phrasing, vocabulary-mismatch
+**Difficulty:** medium
+
+**Question:** hey, forgot to submit my receipts from the offsite last month and my manager just reminded me. am i out of luck or is there still time?
+
+**Source chunk:** `expense_reimbursement.md#chunk3`
+
+> "Expense reimbursement requests must be submitted within 60 days of the expense being incurred. Requests submitted after 60 days require director-level approval and are considered on a case-by-case basis."
+
+**Gold answer:** You're likely still fine. Expense reimbursement requests are normally due within 60 days of the expense. Since your offsite was last month (roughly 30 days ago), you're well within that window — submit the receipts as normal. If for any reason you go past 60 days, submissions after that require director-level approval and are handled case-by-case.
+
+**Intent decomposition:**
+
+| ID | Point | Required? |
+|---|---|---|
+| P1 | Normal deadline is 60 days from expense | required |
+| P2 | User is within the window (offsite was ~30 days ago) | required |
+| P3 | After 60 days: requires director approval, case-by-case | preferred |
+| P4 | Reassuring tone acknowledging the user's concern | preferred |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 + P2. The user needs to know whether they're in the clear, not just the policy in abstract.
+- **Full credit:** all four points.
+- **Over-scope (deduct):** discussion of what expenses are eligible, per-diem rates, receipts requirements — user didn't ask.
+
+**Why this record matters:** the user never says "reimbursement deadline" or "60 days" or "expense policy." They describe a situation ("forgot to submit," "last month," "am i out of luck"). A good system recognizes this maps to the reimbursement deadline policy AND applies it to the user's specific case. A bad system either fails to retrieve or gives a generic policy statement without engaging with the user's situation.
+
+**Expected binary verdicts (for a correct answer):** all yes. Overall 1.0.
+
+**Failure mode to watch:** system gives a purely policy-response ("The reimbursement deadline is 60 days from expense") without applying it to the user's timeframe. C1 would still be yes (technically addresses the question) but a downstream user experience metric would drop — the answer doesn't help the user's actual decision.
+
+---
+
+## B.12 — Adversarial + Cross-Doc + Vocabulary Mismatch (Compound Difficulty)
+
+**Record ID:** eval-B12
+**Question type:** cross-doc + adversarial
+**Noise profile:** vocabulary-mismatch, indirect-phrasing
+**Difficulty:** hard
+
+**Question:** we're the big paid tier and something serious just broke — how fast do you actually respond and where do i even go to report it
+
+**Source chunks:**
+- `enterprise_sla.md#chunk1`: Enterprise SLA — 1-hour P1 response, 24/7 phone support.
+- `support_channels.md#chunk2`: Enterprise support channels — dedicated phone line +1-800-555-NBEM, priority email queue, Slack Connect optional.
+- Distractor: `standard_support.md#chunk4` (24-hour response, email only) — plausible retrieval match on "how fast do you respond."
+
+**Gold answer:** For Enterprise customers reporting P1 (critical) issues, the SLA is a 1-hour response. You can reach 24/7 phone support at +1-800-555-NBEM, or use the priority email queue. If your team has Slack Connect set up with us, you can also reach out there.
+
+**Intent decomposition:**
+
+| ID | Point | Required? | Source |
+|---|---|---|---|
+| P1 | 1-hour response for Enterprise P1 issues | required | enterprise_sla |
+| P2 | Dedicated phone line (with number) | required | support_channels |
+| P3 | 24/7 availability | required | enterprise_sla + support_channels |
+| P4 | Priority email queue | preferred | support_channels |
+| P5 | Slack Connect optional | preferred | support_channels |
+| P6 | Does NOT blend in standard-tier terms (24hr response, email-only) | required (negative) | discrimination |
+
+**Answer scope tolerance:**
+
+- **Minimum acceptable:** P1 + P2 + P3, no blending with standard tier.
+- **Full credit:** P1–P5, with clean Enterprise-only attribution.
+- **Over-scope (deduct — CRITICAL):** any reference to 24-hour response times or email-only support (both are standard-tier).
+
+**Why this record matters:** this is the hardest combination — vocabulary mismatch ("big paid tier" for Enterprise, "something serious just broke" for P1), cross-doc synthesis (SLA + channels), and adversarial distractor (standard-tier chunk with similar keywords). Getting this right requires all three capabilities working together.
+
+**Expected binary verdicts (for a correct answer):**
+
+| Q | Verdict | Reason |
+|---|---|---|
+| F1 | yes | All claims sourced |
+| F2 | yes | No fabrication |
+| F3 | **yes — key** | Enterprise terms not conflated with standard |
+| C1 | yes | Addresses both parts (speed + channel) |
+| C2 | yes | Matches gold |
+| C3 | yes | Compound implicit question addressed |
+| A1 | yes | Answerable |
+| A2 | yes | Substantive |
+| A3 | yes | No ambiguity |
+
+**Overall score:** 1.0
+
+**Common failure modes:**
+1. Retrieval brings back only `standard_support.md#chunk4` (matches "how fast do you respond" better on surface) → answer is completely wrong tier. C2 fails, F3 fails.
+2. Retrieval brings back both `enterprise_sla` and `standard_support` and the generator blends them: "We respond within 1 hour for critical issues via email or phone." F3 fails (email-only is standard, not Enterprise).
+3. Retrieval brings back `enterprise_sla` only, missing `support_channels`; answer has SLA times but no phone number. CP1 (completeness) or C3 (compound) fails.
+
+---
+
+## B.13 — Intent Coverage Scoring in Practice
+
+The intent decomposition in these records supports a partial-credit scoring approach that complements the binary decomposition in Section 6.2. For each record, you can compute:
+
+```
+intent_coverage = (required_points_covered + 0.5 * preferred_points_covered) / total_weighted_points
+```
+
+Where "covered" is determined by an LLM judge asking, for each intent point: "Does the generated answer clearly convey [intent point text]? yes/no."
+
+This gives a fine-grained coverage score that's more sensitive than the C2 binary question ("matches gold on core facts") — you can see exactly which intent points the answer missed.
+
+**Recommended usage:**
+- The 9-question binary judge (Section A.6) is the primary scoring mechanism. Intent coverage is a diagnostic overlay.
+- Records with intent coverage < 0.7 but binary score > 0.8 indicate that the answer is factually correct but incomplete — a signal to check the completeness dimension or add a completeness binary question.
+- Records with intent coverage > 0.9 but binary score < 0.7 indicate that the answer covered the right topics but with factual errors — a signal that faithfulness is the problem, not retrieval.
+
+**Aggregating across the eval set:**
+
+```
+per_intent_point_type = {
+  "required_coverage_rate":   fraction of required points covered across all records,
+  "preferred_coverage_rate":  fraction of preferred points covered across all records
+}
+```
+
+Required point coverage below 0.85 indicates systematic completeness problems. Preferred point coverage below 0.5 indicates the system is answering minimally without richness — sometimes appropriate, sometimes a signal that context isn't reaching the generator.
+
+---
+
+## B.14 — Record Templates for Copy-Paste
+
+For teams starting an eval set, here are two blank templates to copy.
+
+### Template A: Standard Answerable Record
+
+```yaml
+id: eval-XXX
+question_type: [single-chunk | multi-chunk-same-doc | multi-chunk-cross-doc | comparative | procedural | contradiction | adversarial]
+noise_profile: [clean | vocabulary-mismatch | indirect-phrasing | fragment | typo | wrong-assumption | compound]
+difficulty: [easy | medium | hard]
+domain_tags: [list of relevant domain labels]
+
+question: "..."
+
+gold_chunk_sets:
+  - [chunk_id_1, chunk_id_2]  # alternative valid retrieval paths
+  - [chunk_id_3]
+
+gold_answer: "..."
+
+intent_points:
+  - id: P1
+    text: "..."
+    required: true
+  - id: P2
+    text: "..."
+    required: true
+  - id: P3
+    text: "..."
+    required: false
+
+scope_notes:
+  minimum_acceptable: "..."
+  full_credit: "..."
+  over_scope_deduct: "..."
+
+unanswerable: false
+requires_synthesis: [true | false]
+```
+
+### Template B: Unanswerable Record
+
+```yaml
+id: eval-XXX
+question_type: unanswerable
+noise_profile: [as above]
+difficulty: [easy | medium | hard]
+
+question: "..."
+
+gold_chunk_sets: []  # no gold chunks — nothing in corpus answers this
+
+gold_answer: "The documentation does not cover [topic]. [Optional: pointer to related documented topics or alternative channels.]"
+
+intent_points:
+  - id: P1
+    text: "Explicit acknowledgment that this is not documented"
+    required: true
+  - id: P2
+    text: "Does NOT fabricate a plausible-sounding answer"
+    required: true  # negative constraint — no fabrication
+  - id: P3
+    text: "Optional pointer to related documented content"
+    required: false
+
+scope_notes:
+  minimum_acceptable: "Clear non-hedged 'not documented' answer"
+  full_credit: "Non-hedged decline + helpful redirection"
+  over_scope_deduct: "ANY specific number, name, or fact-shaped assertion is a hallucination"
+
+unanswerable: true
+requires_synthesis: false
+```
+
+---
+
+## References
+
+The following works are cited throughout this document. All have been verified to exist as of July 2026, with URLs provided so readers can validate any claim.
+
+- **Brehme, L., Ströhle, T., Breu, R.** (2026). *Evaluating Multi-Hop Reasoning in RAG Systems: A Comparison of LLM-Based Retriever Evaluation Strategies*. arXiv:2604.18234. Accepted to the SynIRgy Workshop at ECIR 2026. https://arxiv.org/abs/2604.18234
+
+- **Cho, S., Chawla, K., Cai, P., Liu, Z., Zhu, C., Zhang, S., Sahu, S.** (2026). *Ask, Don't Judge: Binary Questions for Interpretable LLM Evaluation and Self-Improvement* [BINEVAL]. arXiv:2606.27226. Accepted to the Second Workshop on Compositional Learning at ICML 2026. https://arxiv.org/abs/2606.27226
+
+- **Cohen, D., Burg, L., Barkan, G.** (2025). *RAGXplain: From Explainable Evaluation to Actionable Guidance of RAG Pipelines*. arXiv:2505.13538. https://arxiv.org/abs/2505.13538
+
+- **Es, S., James, J., Espinosa Anke, L., Schockaert, S.** (2024). *RAGAs: Automated Evaluation of Retrieval Augmented Generation*. Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations, pp. 150–158. arXiv:2309.15217. https://aclanthology.org/2024.eacl-demo.16/
+
+- **Microsoft Research.** *BenchmarkQED: Automated Benchmarking of Retrieval-Augmented Generation (RAG) Systems*. Open-source toolkit. https://github.com/microsoft/benchmark-qed and https://microsoft.github.io/benchmark-qed/
+
+- **Saad-Falcon, J., Khattab, O., Potts, C., Zaharia, M.** (2024). *ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems*. Proceedings of NAACL 2024: Human Language Technologies (Long Papers), pp. 338–354. arXiv:2311.09476. https://aclanthology.org/2024.naacl-long.20/
+
+- **Shen, Z., Liu, J., Pang, Y., Rao, Y., Wang, F. L., Yu, J.** (2025). *HopWeaver: Cross-Document Synthesis of High-Quality and Authentic Multi-Hop Questions*. arXiv:2505.15087. Accepted to ACL 2026. https://arxiv.org/abs/2505.15087
+
+- **Sun, Y., Rahmfeld, J., Weaver, C., Desai, R., Huang, W., Butler, M. H.** (2026). *EnterpriseRAG-Bench: A RAG Benchmark for Company Internal Knowledge*. arXiv:2605.05253. Dataset and leaderboard at https://github.com/onyx-dot-app/EnterpriseRAG-Bench. https://arxiv.org/abs/2605.05253
+
+- ***Generating Leakage-Free Benchmarks for Robust RAG Evaluation*** [SeedRG]. (2026). arXiv:2605.08838. https://arxiv.org/abs/2605.08838
+
+- **Zhang, K., Sun, Z., Yu, W., Zang, X., Zheng, K., Song, Y., Li, H., Xu, J.** (2025). *QE-RAG: A Robust Retrieval-Augmented Generation Benchmark for Query Entry Errors*. arXiv:2504.04062. https://arxiv.org/abs/2504.04062
+
+---
+
+*This document should be treated as a living reference. Revisit it when your corpus, user base, or RAG architecture changes materially.*

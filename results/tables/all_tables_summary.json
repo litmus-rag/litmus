@@ -1,0 +1,362 @@
+{
+  "table1": {
+    "overall": {
+      "kappa": 0.48062520351676985,
+      "precision": 0.5263157894736842,
+      "recall": 0.9375,
+      "f1": 0.6741573033707865,
+      "raw_agreement": 0.7363636363636363,
+      "n": 110
+    },
+    "per_question": {
+      "F1": {
+        "kappa": 0.48062520351676985,
+        "precision": 0.5263157894736842,
+        "recall": 0.9375,
+        "f1": 0.6741573033707865,
+        "raw_agreement": 0.7363636363636363,
+        "n": 110
+      },
+      "F2": {
+        "kappa": 0.5999307239348804,
+        "precision": 0.6122448979591837,
+        "recall": 0.9375,
+        "f1": 0.7407407407407407,
+        "raw_agreement": 0.8090909090909091,
+        "n": 110
+      },
+      "F3": {
+        "kappa": 0.5242214532871973,
+        "precision": 0.75,
+        "recall": 0.5625,
+        "f1": 0.6428571428571429,
+        "raw_agreement": 0.8181818181818182,
+        "n": 110
+      }
+    },
+    "hallucination_rate_ground_truth": 0.2909090909090909,
+    "hallucination_rate_judge": 0.5181818181818182
+  },
+  "table2": {
+    "corpus_a": {
+      "litmus_question_type_distribution": {
+        "single_chunk": 12,
+        "cross_doc": 11,
+        "unanswerable": 8,
+        "adversarial": 7
+      },
+      "litmus_noise_distribution": {
+        "vocab_mismatch": 15,
+        "clean": 23
+      },
+      "ragas_synthesizer_distribution": {
+        "single_hop_specific_query_synthesizer": 13,
+        "multi_hop_abstract_query_synthesizer": 13,
+        "multi_hop_specific_query_synthesizer": 13
+      },
+      "litmus_n": 38,
+      "ragas_n": 39
+    },
+    "corpus_b": {
+      "litmus_question_type_distribution": {
+        "single_chunk": 5,
+        "cross_doc": 2,
+        "unanswerable": 12,
+        "adversarial": 5
+      },
+      "litmus_noise_distribution": {
+        "vocab_mismatch": 12,
+        "clean": 12
+      },
+      "ragas_synthesizer_distribution": {
+        "single_hop_specific_query_synthesizer": 8,
+        "multi_hop_abstract_query_synthesizer": 2,
+        "multi_hop_specific_query_synthesizer": 8
+      },
+      "litmus_n": 24,
+      "ragas_n": 18
+    }
+  },
+  "table3": {
+    "corpus_a": {
+      "litmus_scoring_health": {
+        "yes_rate_per_question": {
+          "F1": 0.8421052631578947,
+          "F2": 0.8421052631578947,
+          "F3": 0.9210526315789473,
+          "C1": 0.7631578947368421,
+          "C2": 0.631578947368421,
+          "C3": 0.7631578947368421,
+          "A1": 1.0,
+          "A2": 0.9473684210526315,
+          "A3": 0.7894736842105263
+        },
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.07894736842105265,
+          "correctness": 0.13157894736842113,
+          "abstention": 0.21052631578947367
+        },
+        "verdict": "broken",
+        "recommendations": [
+          "Yes-rate spread as low as 0.08 in at least one dimension (target >0.20)",
+          "A1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "4 question pairs are near-duplicates (phi > 0.7): consider merging"
+        ],
+        "high_correlation_pairs": [
+          [
+            "C1",
+            "C3",
+            0.8544061302681992
+          ],
+          [
+            "F1",
+            "F2",
+            0.8020833333333334
+          ],
+          [
+            "C1",
+            "C2",
+            0.729396808625797
+          ],
+          [
+            "C2",
+            "C3",
+            0.729396808625797
+          ]
+        ],
+        "uncovered_failure_modes": []
+      },
+      "ragas_scoring_health": {
+        "yes_rate_per_question": {
+          "F1": 0.6666666666666666,
+          "F2": 0.717948717948718,
+          "F3": 0.9487179487179487,
+          "C1": 0.6410256410256411,
+          "C2": 0.41025641025641024,
+          "C3": 0.46153846153846156,
+          "A1": 1.0,
+          "A2": 0.8717948717948718,
+          "A3": 0.8205128205128205
+        },
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.28205128205128205,
+          "correctness": 0.23076923076923084,
+          "abstention": 0.17948717948717952
+        },
+        "verdict": "needs_work",
+        "recommendations": [
+          "Yes-rate spread of 0.18 below healthy threshold in at least one dimension",
+          "A1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "1 question pairs are near-duplicates (phi > 0.7): consider merging"
+        ],
+        "high_correlation_pairs": [
+          [
+            "F1",
+            "F2",
+            0.8864052604279182
+          ]
+        ],
+        "uncovered_failure_modes": []
+      }
+    },
+    "corpus_b": {
+      "litmus_scoring_health": {
+        "yes_rate_per_question": {
+          "F1": 0.9583333333333334,
+          "F2": 1.0,
+          "F3": 1.0,
+          "C1": 0.9583333333333334,
+          "C2": 0.875,
+          "C3": 1.0,
+          "A1": 0.9166666666666666,
+          "A2": 1.0,
+          "A3": 0.9583333333333334
+        },
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.04166666666666663,
+          "correctness": 0.125,
+          "abstention": 0.08333333333333337
+        },
+        "verdict": "broken",
+        "recommendations": [
+          "Yes-rate spread as low as 0.04 in at least one dimension (target >0.20)",
+          "F1 yes-rate 0.96 is too easy (>0.95), not discriminating",
+          "F2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "F3 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "C1 yes-rate 0.96 is too easy (>0.95), not discriminating",
+          "C3 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "A2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "A3 yes-rate 0.96 is too easy (>0.95), not discriminating"
+        ],
+        "high_correlation_pairs": [],
+        "uncovered_failure_modes": []
+      },
+      "ragas_scoring_health": {
+        "yes_rate_per_question": {
+          "F1": 1.0,
+          "F2": 1.0,
+          "F3": 1.0,
+          "C1": 1.0,
+          "C2": 1.0,
+          "C3": 0.9444444444444444,
+          "A1": 1.0,
+          "A2": 1.0,
+          "A3": 1.0
+        },
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.0,
+          "correctness": 0.05555555555555558,
+          "abstention": 0.0
+        },
+        "verdict": "broken",
+        "recommendations": [
+          "Yes-rate spread as low as 0.00 in at least one dimension (target >0.20)",
+          "F1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "F2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "F3 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "C1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "C2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "A1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "A2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+          "A3 yes-rate 1.00 is too easy (>0.95), not discriminating"
+        ],
+        "high_correlation_pairs": [],
+        "uncovered_failure_modes": []
+      }
+    }
+  },
+  "table4": {
+    "corpus": "musique",
+    "answerable_candidates_checked": 30,
+    "discarded_as_leaked": 24,
+    "discard_rate": 0.8,
+    "unanswerable_exempt_count": 12,
+    "final_answerable_records": 6,
+    "final_eval_set_size": 18,
+    "note": "Measures filter sensitivity on litmus's own generated questions over MuSiQue passages -- not a reproduction of SeedRG's leakage-rate numbers on MuSiQue's original human-written questions."
+  },
+  "table5": {
+    "corpus": "sample1_fda_labels",
+    "tier": "medium",
+    "n_records": 31,
+    "question_type_distribution": {
+      "single_chunk": 4,
+      "cross_doc": 6,
+      "unanswerable": 8,
+      "adversarial": 2,
+      "contradiction": 5,
+      "comparative": 4,
+      "compound": 2
+    },
+    "noise_distribution": {
+      "wrong_assumption": 3,
+      "compound": 4,
+      "fragment+typo": 6,
+      "clean": 5,
+      "vocab_mismatch": 7,
+      "indirect+vocab_mismatch": 6
+    },
+    "scoring_health": {
+      "yes_rate_per_question": {
+        "F1": 0.8387096774193549,
+        "F2": 0.9032258064516129,
+        "F3": 0.8709677419354839,
+        "C1": 0.5483870967741935,
+        "C2": 0.22580645161290322,
+        "C3": 0.5161290322580645,
+        "A1": 0.8709677419354839,
+        "A2": 0.6774193548387096,
+        "A3": 0.6129032258064516
+      },
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.06451612903225801,
+        "correctness": 0.32258064516129026,
+        "abstention": 0.25806451612903225
+      },
+      "verdict": "broken",
+      "recommendations": [
+        "Yes-rate spread as low as 0.06 in at least one dimension (target >0.20)",
+        "1 question pairs are near-duplicates (phi > 0.7): consider merging"
+      ],
+      "high_correlation_pairs": [
+        [
+          "F1",
+          "F2",
+          0.7464200272921789
+        ]
+      ],
+      "uncovered_failure_modes": []
+    }
+  },
+  "table6": {
+    "corpus_a": {
+      "litmus_1x": {
+        "n": 38,
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.07894736842105265,
+          "correctness": 0.13157894736842113,
+          "abstention": 0.21052631578947367
+        }
+      },
+      "litmus_2x": {
+        "n": 48,
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.04166666666666663,
+          "correctness": 0.22916666666666663,
+          "abstention": 0.25
+        }
+      },
+      "ragas_1x": {
+        "n": 39,
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.28205128205128205,
+          "correctness": 0.23076923076923084,
+          "abstention": 0.17948717948717952
+        }
+      },
+      "ragas_2x": {
+        "n": 47,
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.17021276595744683,
+          "correctness": 0.17021276595744678,
+          "abstention": 0.23404255319148937
+        }
+      }
+    },
+    "corpus_b": {
+      "litmus_1x": {
+        "n": 24,
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.04166666666666663,
+          "correctness": 0.125,
+          "abstention": 0.08333333333333337
+        }
+      },
+      "litmus_2x": {
+        "n": 29,
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.0,
+          "correctness": 0.2068965517241379,
+          "abstention": 0.10344827586206895
+        }
+      },
+      "ragas_1x": {
+        "n": 18,
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.0,
+          "correctness": 0.05555555555555558,
+          "abstention": 0.0
+        }
+      },
+      "ragas_2x": {
+        "n": 22,
+        "yes_rate_spread_per_dimension": {
+          "faithfulness": 0.0,
+          "correctness": 0.045454545454545414,
+          "abstention": 0.045454545454545414
+        }
+      }
+    },
+    "note": "Yes-rate spread at 1x (v3) and 2x (v4) corpus size. Bridge-entity candidate counts in the paper's Table 6 are from generation logs and are NOT recomputed here."
+  }
+}

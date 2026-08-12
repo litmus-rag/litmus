@@ -1,0 +1,53 @@
+{
+  "corpus": "sample1_fda_labels",
+  "tier": "medium",
+  "n_records": 31,
+  "question_type_distribution": {
+    "single_chunk": 4,
+    "cross_doc": 6,
+    "unanswerable": 8,
+    "adversarial": 2,
+    "contradiction": 5,
+    "comparative": 4,
+    "compound": 2
+  },
+  "noise_distribution": {
+    "wrong_assumption": 3,
+    "compound": 4,
+    "fragment+typo": 6,
+    "clean": 5,
+    "vocab_mismatch": 7,
+    "indirect+vocab_mismatch": 6
+  },
+  "scoring_health": {
+    "yes_rate_per_question": {
+      "F1": 0.8387096774193549,
+      "F2": 0.9032258064516129,
+      "F3": 0.8709677419354839,
+      "C1": 0.5483870967741935,
+      "C2": 0.22580645161290322,
+      "C3": 0.5161290322580645,
+      "A1": 0.8709677419354839,
+      "A2": 0.6774193548387096,
+      "A3": 0.6129032258064516
+    },
+    "yes_rate_spread_per_dimension": {
+      "faithfulness": 0.06451612903225801,
+      "correctness": 0.32258064516129026,
+      "abstention": 0.25806451612903225
+    },
+    "verdict": "broken",
+    "recommendations": [
+      "Yes-rate spread as low as 0.06 in at least one dimension (target >0.20)",
+      "1 question pairs are near-duplicates (phi > 0.7): consider merging"
+    ],
+    "high_correlation_pairs": [
+      [
+        "F1",
+        "F2",
+        0.7464200272921789
+      ]
+    ],
+    "uncovered_failure_modes": []
+  }
+}

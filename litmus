@@ -1,0 +1,1070 @@
+# `litmus` — RAG Evaluation Library Spec v2
+
+## What This Is
+
+A Python library that evaluates RAG systems in two steps:
+
+```python
+import litmus
+
+# Step 1: Generate eval set from your documents
+eval_set = litmus.generate(
+    docs_dir="./my_docs",
+    llm="gpt-4o",
+    tier="medium"
+)
+
+# Step 2: Evaluate your RAG
+results = litmus.evaluate(
+    eval_set=eval_set,
+    rag=my_rag_function
+)
+
+results.summary()
+```
+
+The developer provides:
+- A directory of documents
+- An LLM model string
+- A tier (`"minimal"`, `"medium"`, `"exhaustive"`)
+- A RAG callable
+
+The library handles everything else.
+
+---
+
+## The Three Tiers
+
+The `tier` parameter controls not just question count but the entire depth of generation, noise, scoring, and diagnostics. Each tier is a self-contained strategy — not a subset of the next.
+
+### `tier="minimal"` — Ship today, learn something real
+
+Based on Section 8 (MVP) of the source methodology. Designed for first eval, fast iteration, or small corpora. Runs in minutes, costs under $2 with GPT-4o.
+
+| Dimension | What You Get |
+|---|---|
+| **Question count** | 40–80 (auto-scaled to corpus, floor 40) |
+| **Question types** | 4: single-chunk, cross-doc, unanswerable, adversarial |
+| **Noise layers** | 2: vocab mismatch (40%), clean baseline (60%) |
+| **Scoring** | 9 binary questions, 3 dimensions (faithfulness, correctness, abstention) |
+| **Retrieval metric** | Set recall@K only |
+| **Quality checks** | Leakage filter only |
+| **Report** | Terminal summary + JSON export |
+| **Alternative chunk sets** | 1 per record (no discovery) |
+| **Eval set validation** | None |
+| **Diagnostics** | Top failure patterns only |
+
+### `tier="medium"` — Production-grade eval
+
+The full MVP plus expanded question types, all noise layers, and eval set self-validation. Good for ongoing regression testing. Takes 15–30 mins, costs $5–15.
+
+| Dimension | What You Get |
+|---|---|
+| **Question count** | 80–200 (corpus-aware sizing, Section 7 rules) |
+| **Question types** | 7: + contradiction, comparative, compound |
+| **Noise layers** | 5: vocab mismatch (30%), indirect (20%), typo+fragment (15%), clean (15%), compound (10%), wrong assumption (10%) |
+| **Scoring** | 9 binary questions, 3 dimensions (same as minimal but with intent coverage overlay) |
+| **Retrieval metrics** | Set recall@K + chunk recall@K + MRR |
+| **Quality checks** | Leakage filter + eval set self-validation (QQ, GA, GC dimensions) |
+| **Report** | Terminal + JSON + HTML report with charts |
+| **Alternative chunk sets** | Auto-discovery during evaluation (if RAG finds valid path not in gold) |
+| **Eval set validation** | 3 dimensions: question quality, gold answer quality, gold chunk quality |
+| **Diagnostics** | Failure patterns + per-noise-profile breakdown + per-question-type breakdown |
+
+### `tier="exhaustive"` — Full diagnostic framework
+
+Everything from the source methodology. All 9 question types, all 7 noise layers, full 5-dimension scoring with 24 binary questions, complete diagnostics including scoring health checks. For teams that need defensible numbers or are optimizing a mature RAG system. Takes 30–90 mins, costs $15–50.
+
+| Dimension | What You Get |
+|---|---|
+| **Question count** | 200–600 (full corpus-aware sizing with domain coverage targets) |
+| **Question types** | 9: + procedural, wrong-assumption, ambiguous |
+| **Noise layers** | 7: all of the above + register variation + multi-language (if applicable) |
+| **Scoring** | 24 binary questions, 5 dimensions (+ completeness, conciseness) |
+| **Retrieval metrics** | Set recall@K + chunk recall@K + MRR + precision@K + gold chunk rank positions |
+| **Quality checks** | Leakage + full eval set validation (all 5 QA dimensions + coverage/diversity CD1-CD7) |
+| **Report** | Terminal + JSON + HTML + pandas DataFrame + CSV for human review |
+| **Alternative chunk sets** | Auto-discovery + second-pass validation |
+| **Eval set validation** | All 5 dimensions: QQ, GA, GC, noise realism, coverage/diversity |
+| **Diagnostics** | Everything: failure patterns, yes-rate spread, phi-coefficient matrix, failure mode coverage audit, domain sparsity, scoring health dashboard |
+| **Staleness detection** | Enabled — flags records referencing modified docs |
+| **Contradiction detection** | Auto-detection during ingestion — finds conflicting chunk pairs |
+
+---
+
+## User-Facing API
+
+### `litmus.generate()`
+
+```python
+def generate(
+    docs_dir: str,                          # path to folder of docs
+    llm: str = "gpt-4o",                   # litellm model string
+    tier: str = "medium",                   # "minimal" | "medium" | "exhaustive"
+    size: int | str = "auto",              # "auto" (corpus-aware) | exact int
+    save_path: str | None = None,           # save eval set to JSON
+    chunking: str = "auto",                 # "auto" | "sentences" | "paragraphs" | callable
+    chunk_size: int = 512,                  # tokens per chunk
+    chunk_overlap: int = 64,
+    seed: int | None = None,
+    max_workers: int = 1,                   # sequential by default; set >1 to parallelize LLM calls
+    cache_dir: str | None = ".litmus_cache",  # cache + checkpoint dir
+    verbose: bool = True,
+) -> EvalSet:
+```
+
+### `litmus.evaluate()`
+
+```python
+def evaluate(
+    eval_set: EvalSet | str,                # EvalSet object or path to saved JSON
+    rag: Callable[[str], RAGResponse],      # user's RAG function
+    llm: str | None = None,                 # judge LLM (defaults to eval_set's LLM)
+    scoring: str | list[BinaryQuestion] | None = None,
+                                            # None = use tier's default scoring
+                                            # "mvp" = force 9 questions / 3 dimensions
+                                            # "full" = force 24 questions / 5 dimensions
+                                            # list[BinaryQuestion] = custom binary questions
+    weights: dict[str, float] | None = None,
+                                            # None = use tier's default weights
+                                            # e.g. {"faithfulness": 0.50, "correctness": 0.30, "abstention": 0.20}
+                                            # for safety-critical domains, push faithfulness higher
+    save_path: str | None = None,
+    max_workers: int = 1,                   # sequential by default; set >1 to parallelize
+    timeout: int = 60,                      # per-question RAG timeout in seconds
+    cache_dir: str | None = ".litmus_cache",
+    verbose: bool = True,
+) -> EvalResults:
+```
+
+### `litmus.estimate_cost()`
+
+```python
+def estimate_cost(
+    docs_dir: str,
+    llm: str = "gpt-4o",
+    tier: str = "medium",
+    size: int | str = "auto",
+) -> CostEstimate:
+    # Returns:
+    # CostEstimate(
+    #   generation_input_tokens=85000,
+    #   generation_output_tokens=25000,
+    #   generation_cost_usd=1.20,
+    #   evaluation_input_tokens=60000,
+    #   evaluation_output_tokens=15000,
+    #   evaluation_cost_usd=0.80,
+    #   total_cost_usd=2.00,
+    #   estimated_time_minutes=12,
+    #   question_count=80,
+    # )
+```
+
+### `litmus.load()`
+
+```python
+eval_set = litmus.load("my_eval_set.json")
+```
+
+### RAG Callable Interface
+
+```python
+# Option A: dict
+def my_rag(question: str) -> dict:
+    return {"answer": "...", "contexts": ["...", "..."]}
+
+# Option B: tuple
+def my_rag(question: str) -> tuple[str, list[str]]:
+    return ("...", ["...", "..."])
+
+# Option C: RAGResponse
+def my_rag(question: str) -> litmus.RAGResponse:
+    return litmus.RAGResponse(answer="...", contexts=["..."])
+```
+
+### Custom Binary Questions
+
+The `scoring` param on `evaluate()` accepts custom binary questions for domain-specific evaluation. This lets you decouple scoring depth from the generation tier — e.g., use `tier="medium"` for question generation but custom domain-specific scoring.
+
+```python
+from litmus import BinaryQuestion
+
+# Define custom binary questions grouped by dimension
+medical_scoring = [
+    BinaryQuestion(
+        id="MF1",
+        dimension="medical_faithfulness",
+        text="Are all drug names and dosages consistent with the retrieved clinical sources?",
+    ),
+    BinaryQuestion(
+        id="MF2",
+        dimension="medical_faithfulness",
+        text="Does the answer avoid stating drug interactions not present in the retrieved context?",
+    ),
+    BinaryQuestion(
+        id="MS1",
+        dimension="safety",
+        text="Does the answer include appropriate safety warnings present in the source material?",
+    ),
+    BinaryQuestion(
+        id="MS2",
+        dimension="safety",
+        text="Does the answer avoid recommending off-label usage not supported by the retrieved context?",
+    ),
+    # ... add as many as needed
+]
+
+results = litmus.evaluate(
+    eval_set=eval_set,
+    rag=my_rag,
+    scoring=medical_scoring,
+    weights={"medical_faithfulness": 0.50, "safety": 0.30, "correctness": 0.20}
+)
+```
+
+When custom binary questions are provided:
+- They fully replace the default tier scoring (not merged)
+- Dimensions are auto-discovered from the `dimension` field on each question
+- Weights must cover all custom dimensions (error if missing)
+- The judge prompt template is the same — questions are injected dynamically
+- Diagnostics (yes-rate, phi) work identically on custom questions
+
+```python
+@dataclass
+class BinaryQuestion:
+    id: str              # "MF1", unique within the set
+    dimension: str       # grouping key, e.g. "medical_faithfulness"
+    text: str            # the yes/no question for the judge
+    weight: float = 1.0  # relative weight within its dimension (default: equal)
+```
+
+---
+
+## Data Models
+
+### `EvalRecord`
+
+```python
+@dataclass
+class EvalRecord:
+    id: str                                  # "eval-0001"
+    question: str                            # the (possibly noised) question
+    question_clean: str                      # the original clean question
+    question_type: QuestionType              # enum
+    noise_profile: list[NoiseType]           # applied transformations
+    difficulty: Difficulty                    # easy | medium | hard
+    gold_answer: str
+    gold_chunk_ids: list[list[str]]          # alternative valid chunk sets
+    gold_chunks_text: list[list[str]]        # actual text of gold chunks
+    intent_points: list[IntentPoint]
+    unanswerable: bool
+    requires_synthesis: bool
+    domain_tags: list[str]
+    source_doc_ids: list[str]
+    scoring_notes: str                       # rubric edge cases
+```
+
+### `IntentPoint`
+
+```python
+@dataclass
+class IntentPoint:
+    id: str
+    text: str
+    required: bool
+    source_chunk_id: str | None = None       # which chunk this point comes from
+```
+
+### `EvalSet`
+
+```python
+@dataclass
+class EvalSet:
+    records: list[EvalRecord]
+    chunks: dict[str, Chunk]
+    metadata: EvalSetMetadata
+    version: str                             # semantic version "1.0.0"
+    changelog: list[ChangelogEntry]
+    tier: str                                # which tier was used to generate
+
+    # Persistence
+    def save(self, path: str): ...
+    @classmethod
+    def load(cls, path: str) -> EvalSet: ...
+
+    # Quality checks
+    def validate(self) -> ValidationReport: ...      # eval set self-scoring
+    def check_staleness(self, docs_dir: str) -> StalenessReport: ...
+
+    # Human review export/import
+    def to_review_csv(self, path: str): ...          # export for human review
+    def apply_review(self, path: str): ...           # import corrections from CSV
+
+    # Stats
+    def summary(self): ...
+    def filter(self, **kwargs) -> EvalSet: ...
+    @property
+    def question_type_distribution(self) -> dict: ...
+    @property
+    def noise_distribution(self) -> dict: ...
+    @property
+    def document_coverage(self) -> float: ...
+    @property
+    def domain_coverage(self) -> dict: ...
+
+    # Versioning
+    def add_records(self, records: list[EvalRecord]): ...  # auto-bumps version
+    def remove_records(self, ids: list[str]): ...
+    def retire_mastered(self, results: EvalResults, streak: int = 5): ...
+```
+
+### `RecordResult`
+
+```python
+@dataclass
+class RecordResult:
+    record_id: str
+    question: str
+    question_type: QuestionType
+    noise_profile: list[NoiseType]
+    difficulty: Difficulty
+
+    # RAG outputs
+    rag_answer: str
+    rag_contexts: list[str]
+    rag_error: str | None                    # if RAG errored on this question
+
+    # Retrieval scores
+    chunk_recall: float
+    set_recall: bool
+    mrr: float | None                        # medium+ tiers
+    precision_at_k: float | None             # exhaustive tier
+    gold_chunk_ranks: list[int] | None       # exhaustive tier
+
+    # Answer scores (binary decomposition)
+    faithfulness: DimensionScore
+    correctness: DimensionScore
+    abstention: DimensionScore
+    completeness: DimensionScore | None      # exhaustive tier only
+    conciseness: DimensionScore | None       # exhaustive tier only
+    overall_score: float
+
+    # Intent coverage
+    intent_coverage: float
+    intent_details: list[IntentVerdict]
+
+    # Discovered alternatives
+    discovered_alt_chunks: list[str] | None  # medium+ tiers
+```
+
+### `DimensionScore`
+
+```python
+@dataclass
+class DimensionScore:
+    score: float                             # 0.0 to 1.0
+    verdicts: dict[str, BinaryVerdict]
+
+@dataclass
+class BinaryVerdict:
+    question_id: str                         # "F1"
+    verdict: bool
+    reason: str
+```
+
+### `EvalResults`
+
+```python
+@dataclass
+class EvalResults:
+    records: list[RecordResult]
+    tier: str
+    metadata: dict
+
+    # Aggregates
+    def summary(self): ...                   # terminal output
+    def to_json(self, path: str): ...
+    def to_html(self, path: str): ...
+    def to_dataframe(self): ...
+
+    # Slicing
+    def by_question_type(self) -> dict[QuestionType, AggregateScore]: ...
+    def by_noise_profile(self) -> dict[NoiseType, AggregateScore]: ...
+    def by_difficulty(self) -> dict[Difficulty, AggregateScore]: ...
+    def by_domain(self) -> dict[str, AggregateScore]: ...
+    def failed_records(self, threshold: float = 0.7) -> list[RecordResult]: ...
+    def worst_dimensions(self) -> list[tuple[str, float]]: ...
+
+    # Diagnostics
+    def failure_patterns(self) -> FailurePatternReport: ...
+    def retrieval_summary(self) -> RetrievalReport: ...
+    def scoring_health(self) -> ScoringHealthReport: ...     # exhaustive tier
+
+    # Comparison
+    def compare(self, other: EvalResults) -> ComparisonReport: ...  # diff two runs
+```
+
+---
+
+## Internal Module Architecture
+
+```
+litmus/
+├── __init__.py                  # public API: generate(), evaluate(), load(), estimate_cost()
+├── api.py                       # top-level orchestration
+├── config.py                    # tier presets, weights, thresholds
+├── models.py                    # all dataclasses
+├── version.py                   # eval set versioning logic
+│
+├── ingest/
+│   ├── __init__.py
+│   ├── loader.py                # load files (txt, md, pdf, docx, html, csv)
+│   ├── chunker.py               # chunk with stable IDs
+│   ├── embedder.py              # embed chunks
+│   └── contradiction_detector.py  # find conflicting chunk pairs (exhaustive tier)
+│
+├── generate/
+│   ├── __init__.py
+│   ├── orchestrator.py          # full generation pipeline
+│   ├── question_types.py        # per-type generation logic (9 types)
+│   ├── bridge.py                # bridge-entity detection for cross-doc
+│   ├── noise.py                 # transformation layers (7 types)
+│   ├── leakage.py               # leakage filter
+│   ├── sizing.py                # corpus-aware question budget calculation
+│   ├── prompts.py               # all prompt templates
+│   └── quality.py               # eval set self-validation
+│
+├── evaluate/
+│   ├── __init__.py
+│   ├── orchestrator.py          # full evaluation pipeline
+│   ├── runner.py                # runs RAG callable (async, timeout, error handling)
+│   ├── retrieval_scorer.py      # context matching + recall metrics
+│   ├── answer_scorer.py         # binary decomposition judge
+│   ├── intent_scorer.py         # intent point coverage
+│   ├── chunk_discovery.py       # alternative chunk set discovery
+│   ├── prompts.py               # judge prompt templates
+│   └── diagnostics.py           # yes-rate spread, phi-coefficient, health checks
+│
+├── report/
+│   ├── __init__.py
+│   ├── summary.py               # terminal output
+│   ├── html_report.py           # visual HTML report
+│   ├── dataframe.py             # pandas export
+│   ├── comparison.py            # diff two eval runs
+│   └── review_export.py         # CSV export/import for human review
+│
+├── llm/
+│   ├── __init__.py
+│   ├── client.py                # litellm wrapper (retry, rate limits, JSON parsing)
+│   └── cost.py                  # token counting and cost estimation
+│
+├── cache/
+│   ├── __init__.py
+│   └── manager.py               # LLM response caching + checkpoint/resume
+│
+└── cli.py                       # CLI entry point
+```
+
+---
+
+## Tier Configuration Details
+
+### Question Type Budget by Tier
+
+```python
+TIER_CONFIG = {
+    "minimal": {
+        "question_types": {
+            "single_chunk":   0.30,   # proportions, not counts
+            "cross_doc":      0.30,
+            "unanswerable":   0.20,
+            "adversarial":    0.20,
+        },
+        "noise_layers": {
+            "vocab_mismatch": 0.40,
+            "clean":          0.60,
+        },
+        "scoring_dimensions": ["faithfulness", "correctness", "abstention"],
+        "binary_questions_per_dimension": 3,
+        "retrieval_metrics": ["set_recall"],
+        "quality_checks": ["leakage"],
+        "size_range": (40, 80),
+    },
+
+    "medium": {
+        "question_types": {
+            "single_chunk":   0.20,
+            "cross_doc":      0.25,
+            "unanswerable":   0.15,
+            "adversarial":    0.12,
+            "contradiction":  0.10,
+            "comparative":    0.10,
+            "compound":       0.08,
+        },
+        "noise_layers": {
+            "vocab_mismatch":           0.30,
+            "vocab_mismatch+indirect":  0.20,
+            "typo+fragment":            0.15,
+            "clean":                    0.15,
+            "wrong_assumption":         0.10,
+            "compound":                 0.10,
+        },
+        "scoring_dimensions": ["faithfulness", "correctness", "abstention"],
+        "binary_questions_per_dimension": 3,
+        "retrieval_metrics": ["set_recall", "chunk_recall", "mrr"],
+        "quality_checks": ["leakage", "eval_set_validation"],
+        "size_range": (80, 200),
+    },
+
+    "exhaustive": {
+        "question_types": {
+            "single_chunk":       0.15,
+            "cross_doc":          0.20,
+            "unanswerable":       0.12,
+            "adversarial":        0.10,
+            "contradiction":      0.08,
+            "comparative":        0.08,
+            "compound":           0.08,
+            "procedural":         0.07,
+            "wrong_assumption":   0.07,
+            "ambiguous":          0.05,
+        },
+        "noise_layers": {
+            "vocab_mismatch":           0.25,
+            "vocab_mismatch+indirect":  0.15,
+            "typo+fragment":            0.12,
+            "clean":                    0.13,
+            "wrong_assumption":         0.10,
+            "compound":                 0.08,
+            "indirect":                 0.07,
+            "register_variation":       0.05,
+            "fragment_only":            0.05,
+        },
+        "scoring_dimensions": [
+            "faithfulness", "correctness", "abstention",
+            "completeness", "conciseness"
+        ],
+        "binary_questions_per_dimension": {
+            "faithfulness": 8,    # F1-F8
+            "correctness": 5,     # C1-C5
+            "completeness": 5,    # CP1-CP5
+            "conciseness": 3,     # CN1-CN3
+            "abstention": 3,      # A1-A3
+        },
+        "retrieval_metrics": [
+            "set_recall", "chunk_recall", "mrr",
+            "precision_at_k", "gold_chunk_ranks"
+        ],
+        "quality_checks": [
+            "leakage", "eval_set_validation_full",
+            "coverage_diversity", "contradiction_detection",
+            "staleness"
+        ],
+        "size_range": (200, 600),
+    },
+}
+```
+
+### Corpus-Aware Sizing Logic (size="auto")
+
+```python
+def calculate_size(num_docs: int, num_chunks: int, tier: str) -> int:
+    """
+    Based on Section 7 of the source document.
+
+    Corpus Size     | minimal   | medium    | exhaustive
+    ----------------+-----------+-----------+------------
+    <50 docs        | 40        | 80-100    | 200
+    50-200 docs     | 50-60     | 100-150   | 200-280
+    200-500 docs    | 60-70     | 150-200   | 280-400
+    500-1000 docs   | 70-80     | 200-280   | 350-500
+    1000-5000 docs  | 80        | 280-370   | 500-600
+    5000+ docs      | 80        | 370       | 600
+
+    Also tracks document_coverage_target:
+    - minimal:    no target (best effort)
+    - medium:     15-30% document coverage
+    - exhaustive: 20-40% document coverage
+    """
+```
+
+---
+
+## Binary Decomposition Questions by Tier
+
+### Minimal + Medium: 9 Questions, 3 Dimensions
+
+**Faithfulness (F):**
+- F1: Every factual claim supported by retrieved context?
+- F2: No fabricated entities, numbers, or facts?
+- F3: No misattribution across chunks or sources?
+
+**Correctness (C):**
+- C1: Addresses the actual question asked?
+- C2: Core facts consistent with gold answer?
+- C3: All parts addressed if compound?
+
+**Abstention (A):**
+- A1: Says "I don't know" when unanswerable?
+- A2: Provides substantive answer when answerable?
+- A3: Appropriate uncertainty when evidence is ambiguous?
+
+**Scoring:**
+```
+S_faithfulness = (F1 + F2 + F3) / 3
+S_correctness  = (C1 + C2 + C3) / 3
+S_abstention   = (A1 + A2 + A3) / 3
+S_overall      = (S_faithfulness + S_correctness + S_abstention) / 3
+```
+
+### Exhaustive: 24 Questions, 5 Dimensions
+
+**Faithfulness (F) — 8 questions:**
+- F1: Every factual claim supported by retrieved context?
+- F2: No fabricated information not present in any chunk?
+- F3: All named entities accurately represented?
+- F4: All numerical claims consistent with source?
+- F5: Causal relationships and event sequences preserved?
+- F6: No misattribution of statements to wrong entity?
+- F7: No conflation of information from separate chunks that distorts meaning?
+- F8: When answer cites a source, is that source the one containing the claim?
+
+**Correctness (C) — 5 questions:**
+- C1: Addresses the question actually asked?
+- C2: Core facts consistent with gold answer?
+- C3: Does not state the opposite of the gold answer?
+- C4: If multi-part, addresses all parts?
+- C5: If comparative, preserves correct direction of comparison?
+
+**Completeness (CP) — 5 questions:**
+- CP1: Covers the most important point from gold answer?
+- CP2: Includes key supporting details, not just headline fact?
+- CP3: If gold answer mentions qualifications/caveats, includes them?
+- CP4: If cross-doc, integrates information from all required sources?
+- CP5: If conflicting sources, surfaces the conflict rather than silently picking one?
+
+**Conciseness (CN) — 3 questions:**
+- CN1: Free of information that doesn't help answer the question?
+- CN2: Avoids repeating the same point in different words?
+- CN3: Avoids dumping raw chunk content without synthesizing?
+
+**Abstention (A) — 3 questions:**
+- A1: If unanswerable, clearly says so?
+- A2: If answerable, provides substantive response?
+- A3: Appropriate uncertainty when evidence is ambiguous?
+
+**Scoring (exhaustive):**
+```
+S_overall = 0.35 * S_faithfulness
+          + 0.25 * S_correctness
+          + 0.20 * S_completeness
+          + 0.10 * S_conciseness
+          + 0.10 * S_abstention
+```
+
+Users can override weights:
+```python
+results = litmus.evaluate(
+    ...,
+    weights={"faithfulness": 0.50, "correctness": 0.25, ...}  # safety-critical domain
+)
+```
+
+---
+
+## Eval Set Self-Validation
+
+Runs automatically on `eval_set.validate()`. Enabled for medium (3 dimensions) and exhaustive (all 5).
+
+### Question Quality (QQ) — medium+
+```
+QQ1. Is the question unambiguous?
+QQ2. Does it test a real user need, not an artificial construct?
+QQ3. If noised, is it still understandable?
+QQ4. Does it avoid revealing which chunk contains the answer?
+QQ5. Is the difficulty label correct? (exhaustive only)
+```
+
+### Gold Answer Quality (GA) — medium+
+```
+GA1. Is the gold answer factually correct given the source docs?
+GA2. Is it complete — covers all parts of the question?
+GA3. Is it at the right level of detail?
+GA4. If unanswerable, does it correctly indicate this?
+GA5. Does it avoid info not present in any gold chunk?
+```
+
+### Gold Chunk Annotation Quality (GC) — medium+
+```
+GC1. Does at least one gold chunk set contain the needed info?
+GC2. Are alternative valid chunk sets annotated? (exhaustive only)
+GC3. Is each gold chunk set minimal — no extra chunks?
+GC4. If labeled "cross-doc," do chunks come from separate docs?
+GC5. Are chunk IDs valid and resolvable?
+```
+
+### Noise Realism (NR) — exhaustive only
+```
+NR1. Is the noise profile label accurate?
+NR2. Is the noise level realistic (1-2 typos, not 5)?
+NR3. After transformation, is the question still answerable by a human?
+NR4. Does vocab mismatch actually avoid source terminology?
+```
+
+### Coverage and Diversity (CD) — exhaustive only (set-level, not per-record)
+```
+CD1. All question types from the taxonomy represented?
+CD2. At least 10% unanswerable questions?
+CD3. Every document domain has at least 10 eval records?
+CD4. Noise profile distribution matches targets?
+CD5. Easy/medium/hard in roughly 30/40/30?
+CD6. Cross-doc at least 15%?
+CD7. Contradiction at least 5%?
+```
+
+**Output:**
+```python
+@dataclass
+class ValidationReport:
+    overall_pass: bool
+    flagged_records: list[FlaggedRecord]      # records that fail >1 check
+    dimension_scores: dict[str, float]        # per-dimension pass rate
+    coverage_report: CoverageReport | None    # exhaustive only
+    recommendations: list[str]                # "12 records have weak gold answers — review"
+```
+
+---
+
+## Scoring Health Diagnostics (exhaustive tier)
+
+Available via `results.scoring_health()`.
+
+### Yes-Rate Spread
+
+For each binary question, compute yes-rate across all records. Flags:
+- Questions with yes-rate > 0.95: too easy, not discriminating
+- Questions with yes-rate < 0.10: too strict, everything fails
+- Target: spread of at least 0.20 within each dimension
+
+### Phi-Coefficient Matrix
+
+Compute pairwise phi-coefficient between all binary questions within a dimension.
+- φ > 0.7: questions are near-duplicates, merge or replace
+- Mean off-diagonal φ > 0.4: too much redundancy
+- Target: >50% of pairs with |φ| < 0.3
+
+### Failure Mode Coverage
+
+Check that every known RAG failure mode is caught by at least one binary question:
+- Wrong document retrieved
+- Partial retrieval
+- Hallucinated entity
+- Fabricated statistic
+- Misattributed statement
+- Conflated chunks
+- Over-hedging / under-hedging
+- Silent conflict resolution
+
+**Output:**
+```python
+@dataclass
+class ScoringHealthReport:
+    yes_rate_per_question: dict[str, float]
+    yes_rate_spread_per_dimension: dict[str, float]
+    phi_matrix: dict[str, dict[str, float]]
+    high_correlation_pairs: list[tuple[str, str, float]]
+    uncovered_failure_modes: list[str]
+    verdict: str                              # "healthy" | "needs_work" | "broken"
+    recommendations: list[str]
+```
+
+---
+
+## Staleness Detection
+
+Available via `eval_set.check_staleness(docs_dir="./docs")`.
+
+Maps each eval record to its source document IDs. Compares document file hashes/modification times against when the eval set was generated.
+
+```python
+@dataclass
+class StalenessReport:
+    stale_records: list[StaleRecord]          # records whose source docs changed
+    total_records: int
+    stale_count: int
+    stale_ratio: float
+    recommendations: list[str]                # "Re-validate 15 records referencing updated docs"
+
+@dataclass
+class StaleRecord:
+    record_id: str
+    source_doc_ids: list[str]
+    change_type: str                          # "modified" | "deleted" | "moved"
+```
+
+---
+
+## Alternative Chunk Set Discovery (medium+ tier)
+
+During `evaluate()`, after the RAG returns its contexts:
+
+1. Score the RAG answer using binary decomposition
+2. If the answer scores > 0.8 overall BUT the retrieved chunks don't match any gold chunk set
+3. The retrieved chunks represent a valid alternative path
+4. Auto-add them to `eval_set.records[i].gold_chunk_ids` as a discovered alternative
+5. Log: "Discovered 8 alternative chunk sets across 6 records"
+
+This prevents penalizing correct retrievals that found valid paths the generator missed.
+
+---
+
+## Contradiction Detection (exhaustive tier)
+
+Runs during `generate()` in the ingestion phase:
+
+1. For each pair of chunks with embedding similarity > 0.8
+2. Send both to LLM: "Do these two passages make conflicting claims about the same topic?"
+3. If yes, store as a contradiction pair
+4. Use these pairs as inputs for contradiction question generation
+5. If no natural contradictions found, log warning (some corpora are consistent)
+
+---
+
+## Caching and Resumability
+
+### LLM Response Cache
+- Cache key: hash(prompt + model + temperature)
+- Stored in `cache_dir/llm_cache.json`
+- Avoids re-running identical LLM calls on retry or regeneration
+- Clear with `litmus.clear_cache()`
+
+### Checkpoint/Resume
+- During `generate()`: checkpoint after each question type batch
+  - If interrupted, resume from last completed batch
+  - Log: "Resuming from checkpoint: 45/80 questions generated"
+- During `evaluate()`: checkpoint after each record scored
+  - If interrupted, resume from last scored record
+- Checkpoint file: `cache_dir/checkpoint.json`
+
+---
+
+## Cost Estimation
+
+```python
+estimate = litmus.estimate_cost(
+    docs_dir="./my_docs",
+    llm="gpt-4o",
+    tier="medium"
+)
+print(estimate)
+```
+
+Output:
+```
+Cost Estimate (tier=medium, llm=gpt-4o):
+  Corpus: 147 docs, ~4,200 chunks
+  Questions to generate: 150
+
+  Generation phase:
+    LLM calls: ~450 (generation + noise + leakage)
+    Input tokens: ~180K
+    Output tokens: ~55K
+    Cost: ~$3.20
+
+  Evaluation phase (per run):
+    LLM calls: ~300 (judge + intent scorer)
+    Input tokens: ~120K
+    Output tokens: ~35K
+    Cost: ~$2.10
+
+  Total (generate + 1 eval run): ~$5.30
+  Estimated time: ~18 minutes
+```
+
+Estimation logic:
+- Count docs and estimate chunks from `docs_dir`
+- Calculate question budget from tier config
+- Estimate LLM calls per question (generation: 1-3, noise: 0-2, leakage: 1, judge: 1-2)
+- Use litellm's token pricing for the specified model
+
+---
+
+## Comparison Between Runs
+
+```python
+results_v1 = litmus.evaluate(eval_set, rag=old_rag)
+results_v2 = litmus.evaluate(eval_set, rag=new_rag)
+
+diff = results_v2.compare(results_v1)
+diff.summary()
+```
+
+Output:
+```
+Comparison: v2 vs v1 (80 questions)
+
+  Overall:         0.74 → 0.81  (+0.07) ↑
+  Faithfulness:    0.81 → 0.85  (+0.04) ↑
+  Correctness:     0.76 → 0.82  (+0.06) ↑
+  Abstention:      0.64 → 0.73  (+0.09) ↑
+
+  Retrieval:
+    Set Recall:    0.72 → 0.78  (+0.06) ↑
+
+  Biggest improvements:
+    cross_doc questions:    0.58 → 0.71  (+0.13)
+    vocab_mismatch noise:   0.67 → 0.76  (+0.09)
+
+  Regressions:
+    adversarial questions:  0.73 → 0.70  (-0.03)
+
+  Records that flipped:
+    5 records: fail → pass
+    2 records: pass → fail  ← investigate these
+```
+
+---
+
+## Human Review Workflow
+
+```python
+# Export for human review
+eval_set.to_review_csv("for_review.csv")
+
+# CSV columns:
+# id | question | question_clean | question_type | gold_answer | gold_chunks_preview |
+# intent_points_summary | reviewer_verdict (blank) | reviewer_notes (blank)
+
+# After human fills in reviewer_verdict and reviewer_notes:
+eval_set.apply_review("reviewed.csv")
+# Updates records, auto-bumps version, logs changes
+```
+
+---
+
+## CLI
+
+```bash
+# Estimate cost before running
+litmus estimate ./my_docs --llm gpt-4o --tier medium
+
+# Generate eval set
+litmus generate ./my_docs --llm gpt-4o --tier medium --save eval_set.json
+
+# Validate eval set quality
+litmus validate eval_set.json
+
+# Check staleness against updated docs
+litmus staleness eval_set.json --docs ./my_docs
+
+# Evaluate (requires a Python module:function path)
+litmus evaluate eval_set.json --rag my_module:rag_function --save results.json
+
+# Compare two runs
+litmus compare results_v1.json results_v2.json
+
+# Generate reports
+litmus report results.json --html report.html --csv results.csv
+
+# Export for human review
+litmus review-export eval_set.json --csv for_review.csv
+litmus review-import eval_set.json --csv reviewed.csv
+```
+
+---
+
+## Dependencies
+
+```
+# Core (required)
+litellm          # unified LLM interface
+numpy            # embeddings math, phi-coefficient
+tiktoken         # token counting
+pydantic>=2.0    # data validation
+rich             # terminal output
+tqdm             # progress bars
+aiohttp          # async HTTP for concurrent LLM calls
+
+# Document loading (required)
+pymupdf          # PDF
+python-docx      # DOCX
+beautifulsoup4   # HTML
+chardet          # encoding detection
+
+# Optional
+pandas           # DataFrame export
+jinja2           # HTML report templating
+```
+
+---
+
+## Build Order for Claude Code
+
+### Phase 1: Foundation (day 1)
+1. `models.py` — all dataclasses and enums
+2. `config.py` — tier configs, presets, thresholds
+3. `llm/client.py` — litellm wrapper with retry, JSON parsing, async
+4. `llm/cost.py` — token counting and cost estimation
+5. `cache/manager.py` — LLM cache + checkpoint logic
+6. `__init__.py` + `api.py` — public API stubs
+
+### Phase 2: Ingestion (day 1-2)
+7. `ingest/loader.py` — multi-format file loading
+8. `ingest/chunker.py` — chunking with stable IDs
+9. `ingest/embedder.py` — embed chunks via litellm
+
+### Phase 3: Generation — core (day 2-3)
+10. `generate/prompts.py` — all prompt templates
+11. `generate/bridge.py` — bridge-entity detection
+12. `generate/question_types.py` — all 9 type generators
+13. `generate/noise.py` — all 7 transformation layers
+14. `generate/leakage.py` — leakage filter
+15. `generate/sizing.py` — corpus-aware budget calculation
+16. `generate/orchestrator.py` — ties generation together
+
+### Phase 4: Evaluation — core (day 3-4)
+17. `evaluate/runner.py` — async RAG runner with timeout/error handling
+18. `evaluate/retrieval_scorer.py` — context matching + all recall metrics
+19. `evaluate/answer_scorer.py` — binary decomposition judge
+20. `evaluate/intent_scorer.py` — intent coverage
+21. `evaluate/prompts.py` — judge prompts
+22. `evaluate/orchestrator.py` — ties evaluation together
+
+### Phase 5: Reporting (day 4)
+23. `report/summary.py` — rich terminal output
+24. `report/html_report.py` — self-contained HTML report
+25. `report/dataframe.py` — pandas export
+26. `report/comparison.py` — diff two runs
+27. `report/review_export.py` — CSV for human review
+
+### Phase 6: Advanced features (day 5-6)
+28. `generate/quality.py` — eval set self-validation
+29. `evaluate/chunk_discovery.py` — alternative chunk set discovery
+30. `evaluate/diagnostics.py` — yes-rate, phi, scoring health
+31. `ingest/contradiction_detector.py` — auto-find contradictions
+32. `version.py` — semantic versioning + staleness detection
+
+### Phase 7: Polish (day 6-7)
+33. `cli.py` — CLI entry point
+34. Tests (unit + integration)
+35. `pyproject.toml` — packaging
+36. README.md
+37. Example scripts
+
+---
+
+## Key Design Decisions
+
+1. **litellm for all LLM calls.** One dependency, every provider works.
+2. **Tier controls everything.** Not just question count — scoring depth, quality checks, diagnostics all scale with tier.
+3. **Sequential by default, parallel opt-in.** `max_workers=1` by default for predictability and easy debugging. Set `max_workers=5` or higher to parallelize LLM calls when speed matters. Internally uses `asyncio` + `aiohttp` when `max_workers > 1`, plain synchronous calls when `max_workers=1`.
+4. **Cache by default.** LLM calls are expensive. Cache everything. Resume on crash.
+5. **Binary decomposition, not holistic scoring.** Every score traces to a yes/no verdict with a reason.
+6. **Set recall over chunk recall.** The headline retrieval metric that predicts generation success.
+7. **Corpus-aware sizing.** `size="auto"` reads the corpus and calculates the right question budget.
+8. **Eval set is versioned and versionable.** Add, remove, retire records. Track changes. Detect staleness.
+9. **Human review is first-class.** CSV export/import, not an afterthought.
+10. **Cost estimation before running.** No surprise bills.
+11. **Comparison between runs.** The whole point is iterating — make diffing easy.
+12. **Progressive output.** Show progress bars, log what's happening. Long runs should feel alive.
+13. **Scoring is decoupled from generation tier.** `tier` controls question generation by default, but `scoring` on `evaluate()` lets you override — use medium-tier questions with custom domain-specific binary questions, or minimal-tier questions with exhaustive scoring. Generation and scoring are independent axes.

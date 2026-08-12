@@ -1,0 +1,148 @@
+{
+  "corpus_a": {
+    "litmus_scoring_health": {
+      "yes_rate_per_question": {
+        "F1": 0.8421052631578947,
+        "F2": 0.8421052631578947,
+        "F3": 0.9210526315789473,
+        "C1": 0.7631578947368421,
+        "C2": 0.631578947368421,
+        "C3": 0.7631578947368421,
+        "A1": 1.0,
+        "A2": 0.9473684210526315,
+        "A3": 0.7894736842105263
+      },
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.07894736842105265,
+        "correctness": 0.13157894736842113,
+        "abstention": 0.21052631578947367
+      },
+      "verdict": "broken",
+      "recommendations": [
+        "Yes-rate spread as low as 0.08 in at least one dimension (target >0.20)",
+        "A1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "4 question pairs are near-duplicates (phi > 0.7): consider merging"
+      ],
+      "high_correlation_pairs": [
+        [
+          "C1",
+          "C3",
+          0.8544061302681992
+        ],
+        [
+          "F1",
+          "F2",
+          0.8020833333333334
+        ],
+        [
+          "C1",
+          "C2",
+          0.729396808625797
+        ],
+        [
+          "C2",
+          "C3",
+          0.729396808625797
+        ]
+      ],
+      "uncovered_failure_modes": []
+    },
+    "ragas_scoring_health": {
+      "yes_rate_per_question": {
+        "F1": 0.6666666666666666,
+        "F2": 0.717948717948718,
+        "F3": 0.9487179487179487,
+        "C1": 0.6410256410256411,
+        "C2": 0.41025641025641024,
+        "C3": 0.46153846153846156,
+        "A1": 1.0,
+        "A2": 0.8717948717948718,
+        "A3": 0.8205128205128205
+      },
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.28205128205128205,
+        "correctness": 0.23076923076923084,
+        "abstention": 0.17948717948717952
+      },
+      "verdict": "needs_work",
+      "recommendations": [
+        "Yes-rate spread of 0.18 below healthy threshold in at least one dimension",
+        "A1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "1 question pairs are near-duplicates (phi > 0.7): consider merging"
+      ],
+      "high_correlation_pairs": [
+        [
+          "F1",
+          "F2",
+          0.8864052604279182
+        ]
+      ],
+      "uncovered_failure_modes": []
+    }
+  },
+  "corpus_b": {
+    "litmus_scoring_health": {
+      "yes_rate_per_question": {
+        "F1": 0.9583333333333334,
+        "F2": 1.0,
+        "F3": 1.0,
+        "C1": 0.9583333333333334,
+        "C2": 0.875,
+        "C3": 1.0,
+        "A1": 0.9166666666666666,
+        "A2": 1.0,
+        "A3": 0.9583333333333334
+      },
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.04166666666666663,
+        "correctness": 0.125,
+        "abstention": 0.08333333333333337
+      },
+      "verdict": "broken",
+      "recommendations": [
+        "Yes-rate spread as low as 0.04 in at least one dimension (target >0.20)",
+        "F1 yes-rate 0.96 is too easy (>0.95), not discriminating",
+        "F2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "F3 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "C1 yes-rate 0.96 is too easy (>0.95), not discriminating",
+        "C3 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "A2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "A3 yes-rate 0.96 is too easy (>0.95), not discriminating"
+      ],
+      "high_correlation_pairs": [],
+      "uncovered_failure_modes": []
+    },
+    "ragas_scoring_health": {
+      "yes_rate_per_question": {
+        "F1": 1.0,
+        "F2": 1.0,
+        "F3": 1.0,
+        "C1": 1.0,
+        "C2": 1.0,
+        "C3": 0.9444444444444444,
+        "A1": 1.0,
+        "A2": 1.0,
+        "A3": 1.0
+      },
+      "yes_rate_spread_per_dimension": {
+        "faithfulness": 0.0,
+        "correctness": 0.05555555555555558,
+        "abstention": 0.0
+      },
+      "verdict": "broken",
+      "recommendations": [
+        "Yes-rate spread as low as 0.00 in at least one dimension (target >0.20)",
+        "F1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "F2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "F3 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "C1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "C2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "A1 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "A2 yes-rate 1.00 is too easy (>0.95), not discriminating",
+        "A3 yes-rate 1.00 is too easy (>0.95), not discriminating"
+      ],
+      "high_correlation_pairs": [],
+      "uncovered_failure_modes": []
+    }
+  }
+}

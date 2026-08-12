@@ -1,0 +1,24 @@
+{
+  "corpus_a": {
+    "generation_input_tokens": 108565,
+    "generation_output_tokens": 42000,
+    "generation_cost_usd": 0.9014125,
+    "evaluation_input_tokens": 43018,
+    "evaluation_output_tokens": 7200,
+    "evaluation_cost_usd": 0.21554500000000001,
+    "total_cost_usd": 1.1169575,
+    "estimated_time_minutes": 6.0,
+    "question_count": 40
+  },
+  "corpus_b": {
+    "generation_input_tokens": 47947,
+    "generation_output_tokens": 63000,
+    "generation_cost_usd": 1.0648675,
+    "evaluation_input_tokens": 31699,
+    "evaluation_output_tokens": 10800,
+    "evaluation_cost_usd": 0.2412475,
+    "total_cost_usd": 1.3061150000000001,
+    "estimated_time_minutes": 9.0,
+    "question_count": 60
+  }
+}

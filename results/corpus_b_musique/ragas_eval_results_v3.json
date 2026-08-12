@@ -1,0 +1,1604 @@
+{
+  "tier": "minimal",
+  "metadata": {
+    "llm": "azure/gpt-5.4",
+    "scoring": "mvp",
+    "weights": {
+      "faithfulness": 0.3333333333333333,
+      "correctness": 0.3333333333333333,
+      "abstention": 0.3333333333333333
+    },
+    "stub_rag_warnings": []
+  },
+  "records": [
+    {
+      "record_id": "ragas_0",
+      "question": "As an astrophyscis educator studying supernovae, how is uranium thoght to be formed during a type II supernova event, and what dose the context say about the proces involved?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Uranium is thought to be formed in the last few seconds of a type II supernova event. According to the context, supernova nucleosynthesis creates rarer elements heavier than iron and nickel by absorbing energy from the supernova explosion. Some of these heavy elements are formed through the absorption of multiple neutrons, called the R process, over a period of a few seconds during the explosion. The context specifically says that supernovas include the formation of the heaviest known elements, such as uranium and thorium.",
+      "rag_contexts": [
+        "Nucleosynthesis\n\nSupernova nucleosynthesis within exploding stars by fusing carbon and oxygen is responsible for the abundances of elements between magnesium (atomic number 12) and nickel (atomic number 28). Supernova nucleosynthesis is also thought to be responsible for the creation of rarer elements heavier than iron and nickel, in the last few seconds of a type II supernova event. The synthesis of these heavier elements absorbs energy (endothermic) as they are created, from the energy produced during the supernova explosion. Some of those elements are created from the absorption of multiple neutrons (the R process) in the period of a few seconds during the explosion. The elements formed in supernovas include the heaviest elements known, such as the long - lived elements uranium and thorium.",
+        "Uranium\n\nUranium is a chemical element with symbol U and atomic number 92. It is a silvery-white metal in the actinide series of the periodic table. A uranium atom has 92 protons and 92 electrons, of which 6 are valence electrons. Uranium is weakly radioactive because all its isotopes are unstable (with half-lives of the six naturally known isotopes, uranium-233 to uranium-238, varying between 69 years and 4.5 billion years). The most common isotopes of uranium are uranium-238 (which has 146 neutrons and accounts for almost 99.3% of the uranium found in nature) and uranium-235 (which has 143 neutrons, accounting for 0.7% of the element found naturally). Uranium has the second highest atomic weight of the primordially occurring elements, lighter only than plutonium. Its density is about 70% higher than that of lead, but slightly lower than that of gold or tungsten. It occurs naturally in low concentrations of a few parts per million in soil, rock and water, and is commercially extracted from uranium-bearing minerals such as uraninite.",
+        "History of nuclear weapons\n\nIn the first decades of the 20th century, physics was revolutionised with developments in the understanding of the nature of atoms. In 1898, Pierre and Marie Curie discovered that pitchblende, an ore of uranium, contained a substance -- which they named radium -- that emitted large amounts of radioactivity. Ernest Rutherford and Frederick Soddy identified that atoms were breaking down and turning into different elements. Hopes were raised among scientists and laymen that the elements around us could contain tremendous amounts of unseen energy, waiting to be harnessed.",
+        "Alpha decay\n\nAlpha decay or \u03b1 - decay is a type of radioactive decay in which an atomic nucleus emits an alpha particle (helium nucleus) and thereby transforms or 'decays' into an atom with a mass number that is reduced by four and an atomic number that is reduced by two. An alpha particle is identical to the nucleus of a helium - 4 atom, which consists of two protons and two neutrons. It has a charge of + 2e and a mass of 4u. For example, uranium - 238 decays to form thorium - 234. Alpha particles have a charge + 2, but as a nuclear equation describes a nuclear reaction without considering the electrons -- a convention that does not imply that the nuclei necessarily occur in neutral atoms -- the charge is not usually shown.",
+        "Oganesson\n\nOganesson is a synthetic chemical element with the symbol Og and atomic number 118. It was first synthesized in 2002 at the Joint Institute for Nuclear Research (JINR) in Dubna, near Moscow in Russia, by a joint team of Russian and American scientists. In December 2015, it was recognized as one of four new elements by the Joint Working Party of the international scientific bodies IUPAC and IUPAP. It was formally named on 28 November 2016. The name is in line with the tradition of honoring a scientist, in this case the nuclear physicist Yuri Oganessian, who has played a leading role in the discovery of the heaviest elements in the periodic table. It is one of only two elements named after a person who was alive at the time of naming, the other being seaborgium; it is also the only element whose namesake is alive today.Oganesson has the highest atomic number and highest atomic mass of all known elements. The radioactive oganesson atom is very unstable, and since 2005, only five (possibly six) atoms of the nuclide 294Og have been detected. Although this allowed very little experimental characterization of its properties and possible compounds, theoretical calculations have resulted in many predictions, including some surprising ones. For example, although oganesson is a member of group 18 \u2013 the first synthetic element to be so \u2013 it may be significantly reactive, unlike all the other elements of that group (the noble gases). It was formerly thought to be a gas under normal conditions but is now predicted to be a solid due to relativistic effects. On the periodic table of the elements it is a p-block element and the last one of period 7."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims in the generated answer are supported by the retrieved context's description of heavy-element formation in type II supernovae via the R process."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce any entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the statements about uranium formation to supernova nucleosynthesis during a type II supernova event."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers how uranium is thought to be formed in a type II supernova and what process the context says is involved."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "Its core facts match the gold answer, including timing, heavy-element creation, and the multiple-neutron absorption R process."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has two parts and the answer addresses both the formation timing/context and the process involved."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a substantive response using the retrieved context rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The evidence is unambiguous, so the answer appropriately states the information without unnecessary hedging."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_1",
+      "question": "Can you tell me who J. Michael Finley plays in I Can Only Imagine and what the movie be about with the song and his family relationship stuff?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "J. Michael Finley plays **Bart Millard**, the lead singer.\n\nAccording to the context, *I Can Only Imagine* is **based on the story behind the MercyMe song of the same name**, and Bart Millard **wrote the song about his relationship with his father**, who is played by **Dennis Quaid**.",
+      "rag_contexts": [
+        "I Can Only Imagine (film)\n\nI Can Only Imagine is a 2018 American Christian drama film directed by the Erwin Brothers and written by Alex Cramer, Jon Erwin and Brent McCorkle, based on the story behind the MercyMe song of the same name, the best - selling Christian single of all time. The film stars J. Michael Finley as Bart Millard, the lead singer who wrote the song about his relationship with his father (Dennis Quaid). Madeline Carroll, Priscilla Shirer, Cloris Leachman, and Trace Adkins also star.",
+        "You Don't Know My Name\n\nDirected by Chris Robinson, the music video follows Keys working as a waitress at a caf\u00e9. One day, Keys meets a man (played by Mos Def) in the restaurant, and she falls in love with him. Later on, Keys is at a house party where she runs into that same man (Mos Def) when a fight is about to break out, and the scene resembles the house party scene in the movie Cooley High. Later in the video, Keys imagines getting the courage to call him and to tell him about her feelings. However, at the end of the movie, she remembers his order but there is no other recognition and the scene ends with his card still being in the bowl and Keys staring out the window since she will never be able to reveal her true feelings for the man.",
+        "Scott Grimes\n\nScott Richard Grimes (born July 9, 1971) is an American actor, voice artist, singer, and songwriter. Some of his most prominent roles include appearances in ER as Dr. Archie Morris, Party of Five as Will McCorkle, Band of Brothers as Technical Sergeant Donald Malarkey, and the animated sitcom American Dad!, voicing Steve Smith. He is also well known by cult movie fans for his role as Bradley Brown in the first two Critters films. As of September 10, 2017, he has been cast as a regular on the Fox sci - fi series, The Orville.",
+        "Dian Bachar\n\nDian Bachar (; born October 26, 1970 in Denver, Colorado) is an American actor most notable for his roles in various films by or starring his friends Trey Parker and Matt Stone, such as \"Cannibal! The Musical\" (George Noon), \"Orgazmo\" (Ben Chapleski) and his most famous role as Kenny \"Squeak\" Scolari in 1998's \"BASEketball\", as well as making the occasional appearance on \"South Park\". He appeared as an alien engineer in \"Galaxy Quest\". Although the bulk of his scenes were cut, he can be seen on the DVD's \"Special Features\".",
+        "The Color Purple (film)\n\nThe Color Purple is a 1985 American coming - of - age period drama film directed by Steven Spielberg and written by Menno Meyjes, based on the Pulitzer Prize - winning novel of the same name by Alice Walker. It was Spielberg's eighth film as a director, and was a change from the summer blockbusters for which he had become famous. The film was also the first feature - length film directed by Spielberg for which John Williams did not compose the music. The film starred Danny Glover, Desreta Jackson, Margaret Avery, Oprah Winfrey (in her film debut), Adolph Caesar, Rae Dawn Chong, and featured Whoopi Goldberg (also in her film debut) as Celie Harris - Johnson."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every factual claim in the generated answer\u2014Finley plays Bart Millard, the film is based on the MercyMe song, and the song was written about Bart's relationship with his father played by Dennis Quaid\u2014is supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce any entities, dates, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The generated answer correctly attributes Bart Millard to J. Michael Finley and the father role to Dennis Quaid without mixing up sources or roles."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers who J. Michael Finley plays and what the movie is about in relation to the song and Bart's family relationship."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer: Finley plays Bart Millard and the film is about the story behind the MercyMe song and Bart's relationship with his father."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has two parts and the answer addresses both the character Finley plays and the movie's subject matter involving the song and family relationship."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer gives a substantive response and does not refuse despite the context clearly supporting an answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is straightforward and unambiguous, so answering without hedging is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_2",
+      "question": "As a fan of anime and video game voice acting, I would like to know: which American performer is described here as being best known for a deep and booming voice across numerous anime and video games, and what notable roles are listed for him in the context?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "The performer is **Jamieson Price**.\n\nThe context says he is best known for his **deep and booming voice** in numerous anime and video games. The notable roles listed are:\n\n- **Largo the Black Lion** in *Tales of the Abyss*\n- **Iron Tager** from the *BlazBlue* series\n- **The Count of Monte Cristo** in *Gankutsuou*\n- **Ovan** in *.hack//G.U.*\n- **Galbalan**, the main villain of \"\"\n- **Milton Grimm** from *Ever After High*\n\nIt also says he had a part in the 2000 movie **The Patriot**.",
+      "rag_contexts": [
+        "Jamieson Price\n\nJamieson Kent Price (born April 28, 1961) is an American voice actor, best known for his deep and booming voice for numerous anime and video games. He is known as the voice of Largo the Black Lion in \"Tales of the Abyss\", Iron Tager from the \"BlazBlue\" series, the Count of Monte Cristo in \"Gankutsuou\", Ovan in \".hack//G.U.\", and Galbalan, the main villain of \"\" and Milton Grimm from \"Ever After High\". Price also had a part in the 2000 movie \"The Patriot\".",
+        "Stephen Russell\n\nStephen Russell is an American actor, writer, theater director, and voice actor best known for his voice acting in the \"Thief\" video game series as the protagonist Garrett and the Mister Handys in the \"Fallout\" series.",
+        "List of South Park cast members\n\nTrey Parker voices four of the main characters: Stan Marsh, Eric Cartman, Randy Marsh and Mr. Garrison. He also provides the voices of several recurring characters, such as Clyde Donovan, Mr. Hankey, Mr. Mackey, Stephen Stotch, Jimmy Valmer, Timmy Burch, Tuong Lu Kim and Phillip.",
+        "Mr. Lawrence\n\nDouglas Lawrence Osowski, credited as Mr. Lawrence and sometimes Doug Lawrence, is an American voice actor, writer, director, comedian, and storyboard artist. He is known for his work as a writer and actor for the animated series Rocko's Modern Life and SpongeBob SquarePants.",
+        "Buzz Lightyear\n\nTim Allen voiced the character in the Toy Story film series and the Buzz Lightyear movie, while Patrick Warburton provided Buzz's voice for the TV series, and Pat Fraley voiced him for the video games and the attractions in Disney Parks."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims in the generated answer are directly supported by the Jamieson Price passage in the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce any entities, numbers, or facts beyond those explicitly present in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The generated answer correctly attributes the deep and booming voice description and listed roles to Jamieson Price without mixing in other entities."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly identifies the performer and lists the notable roles requested in the question."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer, including Jamieson Price's identity and the same set of listed roles and film mention."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has two parts\u2014who the performer is and what roles are listed\u2014and the answer covers both."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "The question is answerable, so this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "Because the question is answerable, the generated answer appropriately provides a substantive response."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is straightforward and unambiguous, and the answer reflects that without overstating uncertainty."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_3",
+      "question": "In Acts of the Apostles, how does Luke explain the spread of Christ's message to the Gentiles?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Luke explains it by saying that Christ\u2019s message was sent to the Gentiles because the Jews rejected it.",
+      "rag_contexts": [
+        "Acts of the Apostles\n\nLuke -- Acts is an attempt to answer a theological problem, namely how the Messiah of the Jews came to have an overwhelmingly non-Jewish church; the answer it provides, and its central theme, is that the message of Christ was sent to the Gentiles because the Jews rejected it. Luke -- Acts can be also seen as a defense of (or ``apology ''for) the Jesus movement addressed to the Jews: the bulk of the speeches and sermons in Acts are addressed to Jewish audiences, with the Romans serving as external arbiters on disputes concerning Jewish customs and law. On the one hand Luke portrays the Christians as a sect of the Jews, and therefore entitled to legal protection as a recognised religion; on the other, Luke seems unclear as to the future God intends for Jews and Christians, celebrating the Jewishness of Jesus and his immediate followers while also stressing how the Jews had rejected God's promised Messiah.",
+        "Census of Quirinius\n\nThe Census of Quirinius was a census of Judea taken by Publius Sulpicius Quirinius, Roman governor of Syria, upon the imposition of direct Roman rule in 6 CE. The Gospel of Luke uses it as the narrative means to establish the birth of Jesus (), but places it within the reign of Herod the Great, who died 9 years earlier. No satisfactory explanation of the contradiction seems possible, and most scholars think that the author of the gospel made an error.",
+        "Baptists\n\nDuring the Protestant Reformation, the Church of England (Anglicans) separated from the Roman Catholic Church. There were some Christians who were not content with the achievements of the mainstream Protestant Reformation. There also were Christians who were disappointed that the Church of England had not made corrections of what some considered to be errors and abuses. Of those most critical of the Church's direction, some chose to stay and try to make constructive changes from within the Anglican Church. They became known as \"Puritans\" and are described by Gourley as cousins of the English Separatists. Others decided they must leave the Church because of their dissatisfaction and became known as the Separatists.",
+        "Culture\n\nMatthew Arnold contrasted \"culture\" with anarchy; other Europeans, following philosophers Thomas Hobbes and Jean-Jacques Rousseau, contrasted \"culture\" with \"the state of nature\". According to Hobbes and Rousseau, the Native Americans who were being conquered by Europeans from the 16th centuries on were living in a state of nature; this opposition was expressed through the contrast between \"civilized\" and \"uncivilized.\" According to this way of thinking, one could classify some countries and nations as more civilized than others and some people as more cultured than others. This contrast led to Herbert Spencer's theory of Social Darwinism and Lewis Henry Morgan's theory of cultural evolution. Just as some critics have argued that the distinction between high and low cultures is really an expression of the conflict between European elites and non-elites, some critics have argued that the distinction between civilized and uncivilized people is really an expression of the conflict between European colonial powers and their colonial subjects.",
+        "Spiritual Exercises of Ignatius of Loyola\n\nThe Spiritual Exercises of Ignatius of Loyola (Latin original: \"Exercitia spiritualia\"), composed 1522\u20131524, are a set of Christian meditations, contemplations, and prayers written by Saint Ignatius of Loyola, a 16th-century Spanish priest, theologian, and founder of the Society of Jesus (Jesuits). Divided into four thematic \"weeks\" of variable length, they are designed to be carried out over a period of 28 to 30 days. They were composed with the intention of helping participants in religious retreats to discern the will of God in their lives, leading to a personal commitment to follow Jesus whatever the cost. Their underlying theology has been found agreeable to other Christian denominations who make use of them and also for addressing problems facing society in the 21st century."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The generated answer's claim that Christ's message was sent to the Gentiles because the Jews rejected it is explicitly stated in the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The statement is correctly attributed to Luke's explanation in Acts and does not assign it to the wrong source or period."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers how Luke explains the spread of Christ's message to the Gentiles."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "Its core claim matches the gold answer that the message went to the Gentiles because the Jews rejected it."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is effectively single-part, and the answer addresses it fully enough."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer gives a direct substantive response rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous on this point, so no additional uncertainty was needed."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_4",
+      "question": "As an anime and video game voice acting fan who appreciates notable performers, could you explain who Doug Lawrence is and describe the main kinds of work for which he is known, including the animated series mentioned in the context?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Doug Lawrence Osowski, credited as Mr. Lawrence and sometimes Doug Lawrence, is an American voice actor, writer, director, comedian, and storyboard artist.\n\nHe is known for work in several main areas:\n- voice acting\n- writing\n- directing\n- comedy\n- storyboard art\n\nAccording to the context, he is especially known for his work as a writer and actor on the animated series:\n- Rocko's Modern Life\n- SpongeBob SquarePants",
+      "rag_contexts": [
+        "Mr. Lawrence\n\nDouglas Lawrence Osowski, credited as Mr. Lawrence and sometimes Doug Lawrence, is an American voice actor, writer, director, comedian, and storyboard artist. He is known for his work as a writer and actor for the animated series Rocko's Modern Life and SpongeBob SquarePants.",
+        "List of South Park cast members\n\nTrey Parker voices four of the main characters: Stan Marsh, Eric Cartman, Randy Marsh and Mr. Garrison. He also provides the voices of several recurring characters, such as Clyde Donovan, Mr. Hankey, Mr. Mackey, Stephen Stotch, Jimmy Valmer, Timmy Burch, Tuong Lu Kim and Phillip.",
+        "Lawrence of Arabia (film)\n\nLawrence of Arabia is a 1962 epic historical drama film based on the life of T.E. Lawrence. It was directed by David Lean and produced by Sam Spiegel through his British company Horizon Pictures, with the screenplay by Robert Bolt and Michael Wilson. The film stars Peter O'Toole in the title role. It is widely considered one of the greatest and most influential films in the history of cinema. The dramatic score by Maurice Jarre and the Super Panavision 70 cinematography by Freddie Young are also highly acclaimed.",
+        "Stephen Russell\n\nStephen Russell is an American actor, writer, theater director, and voice actor best known for his voice acting in the \"Thief\" video game series as the protagonist Garrett and the Mister Handys in the \"Fallout\" series.",
+        "Chef (South Park)\n\nJerome ``Chef ''McElroy is a cartoon character on the Comedy Central series South Park who was voiced by Isaac Hayes. A cafeteria worker at the local elementary school in the town of South Park, Colorado, Chef is generally portrayed as more level - headed than the other adult residents of the town, and sympathetic to the children. His guidance is often sought by the show's core group of child protagonists -- Eric Cartman, Stan Marsh, Kyle Broflovski, and Kenny McCormick -- as he is usually the only adult whom they consistently trusted. To an inadvertent fault, he frequently gives inappropriate advice, usually in the non sequitur form of a lascivious soul song."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims in the generated answer are directly supported by the retrieved context about Douglas Lawrence Osowski and his credited roles and series work."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce any fabricated entities, numbers, or unsupported facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the listed professions and the Rocko's Modern Life and SpongeBob SquarePants work to Doug Lawrence/Mr. Lawrence."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It explains who Doug Lawrence is and describes the main kinds of work he is known for, including the animated series named in the question."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer, including his full name, credited names, professions, and his work on Rocko's Modern Life and SpongeBob SquarePants."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has multiple parts, and the answer covers both who he is and the main work and animated series for which he is known."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a substantive response using the available context rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is clear and unambiguous, so answering without hedging is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_5",
+      "question": "How did X-ray wavelenght help re-sequnce the periodic table?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Henry Moseley found a relationship between an element\u2019s X-ray wavelength and its atomic number. Using that relationship, he could determine atomic number experimentally and re-sequence the periodic table by nuclear charge rather than by atomic weight.",
+      "rag_contexts": [
+        "History of the periodic table\n\nIn 1914, a year before he was killed in action at Gallipoli, the English physicist Henry Moseley found a relationship between the X-ray wavelength of an element and its atomic number. He was then able to re-sequence the periodic table by nuclear charge, rather than by atomic weight. Before this discovery, atomic numbers were sequential numbers based on an element's atomic weight. Moseley's discovery showed that atomic numbers were in fact based upon experimental measurements.",
+        "Period (periodic table)\n\nA period in the periodic table is one of the horizontal rows, all of those elements have the same number of electron shells. Going across a period, each element has one more proton and is less metallic than its predecessor. Arranged this way, groups of elements in the same column have similar chemical and physical properties, reflecting the periodic law. For example, the alkali metals lie in the first column (group 1) and share similar properties, such as high reactivity and the tendency to lose one electron to arrive at a noble - gas electronic configuration. As of 2016 a total of 118 elements have been discovered and confirmed.",
+        "History of nuclear weapons\n\nIn the first decades of the 20th century, physics was revolutionised with developments in the understanding of the nature of atoms. In 1898, Pierre and Marie Curie discovered that pitchblende, an ore of uranium, contained a substance -- which they named radium -- that emitted large amounts of radioactivity. Ernest Rutherford and Frederick Soddy identified that atoms were breaking down and turning into different elements. Hopes were raised among scientists and laymen that the elements around us could contain tremendous amounts of unseen energy, waiting to be harnessed.",
+        "Period 4 element\n\nA period 4 element is one of the chemical elements in the fourth row (or period) of the periodic table of the elements. The periodic table is laid out in rows to illustrate recurring (periodic) trends in the chemical behaviour of the elements as their atomic number increases: a new row is begun when chemical behaviour begins to repeat, meaning that elements with similar behaviour fall into the same vertical columns. The fourth period contains 18 elements, beginning with potassium and ending with krypton. As a rule, period 4 elements fill their 4s shells first, then their 3d and 4p shells, in that order; however, there are exceptions, such as chromium.",
+        "Atomic number\n\nAll consideration of nuclear electrons ended with James Chadwick's discovery of the neutron in 1932. An atom of gold now was seen as containing 118 neutrons rather than 118 nuclear electrons, and its positive charge now was realized to come entirely from a content of 79 protons. After 1932, therefore, an element's atomic number Z was also realized to be identical to the proton number of its nuclei."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every claim in the generated answer is supported by the retrieved context, which states Moseley linked X-ray wavelength to atomic number and used this to reorder the table by nuclear charge instead of atomic weight."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no fabricated entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the discovery and its consequence to Henry Moseley without assigning them to the wrong person, source, or time."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly explains how X-ray wavelength helped re-sequence the periodic table by enabling determination of atomic number."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "Its core facts match the gold answer: Moseley related X-ray wavelength to atomic number and used that to reorder the table by nuclear charge rather than atomic weight."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is effectively single-part, and the answer fully addresses it."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The answer provides a substantive explanation rather than refusing or hedging unnecessarily."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The evidence is unambiguous, so expressing no additional uncertainty is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_6",
+      "question": "Which South Park character was voiced by Isaac Hayes?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Chef.",
+      "rag_contexts": [
+        "List of South Park cast members\n\nTrey Parker voices four of the main characters: Stan Marsh, Eric Cartman, Randy Marsh and Mr. Garrison. He also provides the voices of several recurring characters, such as Clyde Donovan, Mr. Hankey, Mr. Mackey, Stephen Stotch, Jimmy Valmer, Timmy Burch, Tuong Lu Kim and Phillip.",
+        "Chef (South Park)\n\nJerome ``Chef ''McElroy is a cartoon character on the Comedy Central series South Park who was voiced by Isaac Hayes. A cafeteria worker at the local elementary school in the town of South Park, Colorado, Chef is generally portrayed as more level - headed than the other adult residents of the town, and sympathetic to the children. His guidance is often sought by the show's core group of child protagonists -- Eric Cartman, Stan Marsh, Kyle Broflovski, and Kenny McCormick -- as he is usually the only adult whom they consistently trusted. To an inadvertent fault, he frequently gives inappropriate advice, usually in the non sequitur form of a lascivious soul song.",
+        "Insecurity (South Park)\n\n\"Insecurity\" is the tenth episode of the sixteenth season of the American animated sitcom \"South Park\", and the 233rd episode of the series overall. It aired on Comedy Central in the United States on October 10, 2012.",
+        "Not What He Seems\n\n\"Not What He Seems\" is the eleventh episode of the second season of the American animated television series \"Gravity Falls\", created by Alex Hirsch. The episode was written by Shion Takeuchi, Josh Weinstein, Jeff Rowe, Matt Chapman, and Hirsch, and directed by Stephen Sandoval. The series follows twelve-year-old twins Dipper (voiced by Jason Ritter) and Mabel Pines (voiced by Kristen Schaal), who stay for the summer with their great uncle Grunkle Stan (voiced by Hirsch) in a tourist trap called the Mystery Shack, set within the fictional town of Gravity Falls, Oregon. In this episode, Dipper and Mabel begin to question who Stan really is after officers arrest him for stealing chemical waste. The episode, which breaks the show's status quo by introducing Stan's long-lost twin brother, ends with a cliffhanger to the second half of the season.",
+        "Steve Smith (American Dad!)\n\nSteven Anita ``Steve ''Smith is a fictional character in the animated television series American Dad!, voiced by Scott Grimes. He is Stan and Francine Smith's only son and Hayley's younger brother as well as the youngest of the series' six main characters."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The retrieved context explicitly states that Jerome \"Chef\" McElroy was voiced by Isaac Hayes, supporting the answer \"Chef.\""
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer contains only the character name Chef, which appears in the retrieved context without adding any unsupported details."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the role voiced by Isaac Hayes to Chef and does not confuse it with any other character or source."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers which South Park character was voiced by Isaac Hayes by naming the character."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The answer matches the gold answer's core fact that Isaac Hayes voiced Chef."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question asks for a single character, and the answer fully addresses that single part."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a direct substantive response rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The evidence is unambiguous that Isaac Hayes voiced Chef, so giving a confident answer is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_7",
+      "question": "As Dr. Elena Voss i ask, what is He and what basic things say about it, like symbol, atomic number, and what kind gas it is?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "He is helium. Its symbol is **He** and its atomic number is **2**. It is a **colorless, odorless, tasteless, non-toxic, inert, monatomic gas**, and it is the **first in the noble gas group** in the periodic table.",
+      "rag_contexts": [
+        "Helium\n\nHelium (from Greek: \u1f25\u03bb\u03b9\u03bf\u03c2, translit. Helios, lit. 'Sun') is a chemical element with symbol He and atomic number 2. It is a colorless, odorless, tasteless, non-toxic, inert, monatomic gas, the first in the noble gas group in the periodic table. Its boiling point is the lowest among all the elements.",
+        "Oganesson\n\nOganesson is a synthetic chemical element with the symbol Og and atomic number 118. It was first synthesized in 2002 at the Joint Institute for Nuclear Research (JINR) in Dubna, near Moscow in Russia, by a joint team of Russian and American scientists. In December 2015, it was recognized as one of four new elements by the Joint Working Party of the international scientific bodies IUPAC and IUPAP. It was formally named on 28 November 2016. The name is in line with the tradition of honoring a scientist, in this case the nuclear physicist Yuri Oganessian, who has played a leading role in the discovery of the heaviest elements in the periodic table. It is one of only two elements named after a person who was alive at the time of naming, the other being seaborgium; it is also the only element whose namesake is alive today.Oganesson has the highest atomic number and highest atomic mass of all known elements. The radioactive oganesson atom is very unstable, and since 2005, only five (possibly six) atoms of the nuclide 294Og have been detected. Although this allowed very little experimental characterization of its properties and possible compounds, theoretical calculations have resulted in many predictions, including some surprising ones. For example, although oganesson is a member of group 18 \u2013 the first synthetic element to be so \u2013 it may be significantly reactive, unlike all the other elements of that group (the noble gases). It was formerly thought to be a gas under normal conditions but is now predicted to be a solid due to relativistic effects. On the periodic table of the elements it is a p-block element and the last one of period 7.",
+        "Uranium\n\nUranium is a chemical element with symbol U and atomic number 92. It is a silvery-white metal in the actinide series of the periodic table. A uranium atom has 92 protons and 92 electrons, of which 6 are valence electrons. Uranium is weakly radioactive because all its isotopes are unstable (with half-lives of the six naturally known isotopes, uranium-233 to uranium-238, varying between 69 years and 4.5 billion years). The most common isotopes of uranium are uranium-238 (which has 146 neutrons and accounts for almost 99.3% of the uranium found in nature) and uranium-235 (which has 143 neutrons, accounting for 0.7% of the element found naturally). Uranium has the second highest atomic weight of the primordially occurring elements, lighter only than plutonium. Its density is about 70% higher than that of lead, but slightly lower than that of gold or tungsten. It occurs naturally in low concentrations of a few parts per million in soil, rock and water, and is commercially extracted from uranium-bearing minerals such as uraninite.",
+        "History of the periodic table\n\nIn 1914, a year before he was killed in action at Gallipoli, the English physicist Henry Moseley found a relationship between the X-ray wavelength of an element and its atomic number. He was then able to re-sequence the periodic table by nuclear charge, rather than by atomic weight. Before this discovery, atomic numbers were sequential numbers based on an element's atomic weight. Moseley's discovery showed that atomic numbers were in fact based upon experimental measurements.",
+        "Oxygen\n\nOxygen is a chemical element with symbol O and atomic number 8. It is a member of the chalcogen group on the periodic table and is a highly reactive nonmetal and oxidizing agent that readily forms compounds (notably oxides) with most elements. By mass, oxygen is the third-most abundant element in the universe, after hydrogen and helium. At standard temperature and pressure, two atoms of the element bind to form dioxygen, a colorless and odorless diatomic gas with the formula O\n2. Diatomic oxygen gas constitutes 20.8% of the Earth's atmosphere. However, monitoring of atmospheric oxygen levels show a global downward trend, because of fossil-fuel burning. Oxygen is the most abundant element by mass in the Earth's crust as part of oxide compounds such as silicon dioxide, making up almost half of the crust's mass."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every factual claim in the generated answer is directly supported by the Helium passage in the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no fabricated facts, entities, or numbers beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "All statements are correctly attributed to helium and not confused with any other element in the context."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers what He is and gives the requested basic details such as symbol, atomic number, and gas type."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts given match the gold answer, even though it omits the boiling-point detail."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question asks for what He is plus basic facts like symbol, atomic number, and gas type, and the answer covers all of those parts."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a clear substantive response and does not refuse unnecessarily."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence about helium is unambiguous, so no uncertainty was needed and the answer is appropriately definite."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_8",
+      "question": "As Dr. Elena Voss, I wnat to explane how a Chemical element is organized in the Periodic table, so using Uranium as the exampel, what features show that it is a chemical element and how is it described within the periodic table, includng its atomic number, protons, electrons, and natral occurrence?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Uranium shows the defining feature of a chemical element because it is made of atoms with the same number of protons in the nucleus. A chemical element is defined as a species of atoms having the same number of protons, called the atomic number.\n\nUsing uranium as the example:\n\n- Symbol: U\n- Atomic number: 92\n- Protons: 92\n- Electrons: 92\n- Valence electrons: 6\n\nWithin the periodic table, uranium is described as a chemical element in the actinide series. The context also explains that elements in the periodic table are organized by atomic number, and that periods are horizontal rows where elements share the same number of electron shells.\n\nAs for natural occurrence, uranium is one of the first 94 elements that occur naturally on Earth. It occurs naturally in low concentrations of a few parts per million in soil, rock, and water, and is commercially extracted from uranium-bearing minerals such as uraninite.\n\nThe context also states that uranium is weakly radioactive because all its isotopes are unstable. The most common natural isotopes are:\n\n- Uranium-238: about 99.3% of natural uranium\n- Uranium-235: about 0.7% of natural uranium\n\nSo, uranium is identified as a chemical element by its fixed atomic number of 92, meaning every uranium atom has 92 protons, and a neutral uranium atom has 92 electrons. In the periodic table, it is organized by this atomic number and classified in the actinide series, and it occurs naturally on Earth.",
+      "rag_contexts": [
+        "Uranium\n\nUranium is a chemical element with symbol U and atomic number 92. It is a silvery-white metal in the actinide series of the periodic table. A uranium atom has 92 protons and 92 electrons, of which 6 are valence electrons. Uranium is weakly radioactive because all its isotopes are unstable (with half-lives of the six naturally known isotopes, uranium-233 to uranium-238, varying between 69 years and 4.5 billion years). The most common isotopes of uranium are uranium-238 (which has 146 neutrons and accounts for almost 99.3% of the uranium found in nature) and uranium-235 (which has 143 neutrons, accounting for 0.7% of the element found naturally). Uranium has the second highest atomic weight of the primordially occurring elements, lighter only than plutonium. Its density is about 70% higher than that of lead, but slightly lower than that of gold or tungsten. It occurs naturally in low concentrations of a few parts per million in soil, rock and water, and is commercially extracted from uranium-bearing minerals such as uraninite.",
+        "Chemical element\n\nA chemical element is a species of atoms having the same number of protons in their atomic nuclei (that is, the same atomic number, or Z). 118 elements are identified, of which the first 94 occur naturally on Earth with the remaining 24 being synthetic elements. There are 80 elements that have at least one stable isotope and 38 that have exclusively radionuclides, which decay over time into other elements. Iron is the most abundant element (by mass) making up Earth, while oxygen is the most common element in the Earth's crust.",
+        "Period (periodic table)\n\nA period in the periodic table is one of the horizontal rows, all of those elements have the same number of electron shells. Going across a period, each element has one more proton and is less metallic than its predecessor. Arranged this way, groups of elements in the same column have similar chemical and physical properties, reflecting the periodic law. For example, the alkali metals lie in the first column (group 1) and share similar properties, such as high reactivity and the tendency to lose one electron to arrive at a noble - gas electronic configuration. As of 2016 a total of 118 elements have been discovered and confirmed.",
+        "Period 4 element\n\nA period 4 element is one of the chemical elements in the fourth row (or period) of the periodic table of the elements. The periodic table is laid out in rows to illustrate recurring (periodic) trends in the chemical behaviour of the elements as their atomic number increases: a new row is begun when chemical behaviour begins to repeat, meaning that elements with similar behaviour fall into the same vertical columns. The fourth period contains 18 elements, beginning with potassium and ending with krypton. As a rule, period 4 elements fill their 4s shells first, then their 3d and 4p shells, in that order; however, there are exceptions, such as chromium.",
+        "History of the periodic table\n\nIn 1914, a year before he was killed in action at Gallipoli, the English physicist Henry Moseley found a relationship between the X-ray wavelength of an element and its atomic number. He was then able to re-sequence the periodic table by nuclear charge, rather than by atomic weight. Before this discovery, atomic numbers were sequential numbers based on an element's atomic weight. Moseley's discovery showed that atomic numbers were in fact based upon experimental measurements."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims in the generated answer, including uranium's symbol, atomic number, protons, electrons, valence electrons, actinide classification, natural occurrence, and isotope abundances, are supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce any fabricated entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the definition of a chemical element, the organization of the periodic table, and uranium-specific properties to the appropriate entities and descriptions in the context."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly explains how uranium exemplifies a chemical element and describes its periodic-table-related features, including atomic number, protons, electrons, and natural occurrence."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer, including the definition of a chemical element, uranium's atomic number 92, 92 protons and electrons, 6 valence electrons, actinide placement, and natural occurrence."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The answer covers all parts of the question by explaining what makes uranium a chemical element and describing its periodic table organization, atomic number, protons, electrons, and natural occurrence."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a substantive response using the available documentation rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is straightforward and unambiguous, so the answer appropriately states the facts without needing additional uncertainty."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_9",
+      "question": "Dian Bachar Curtis Armstrong notable roles voice acting deep powerful character roles",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "From the context:\n\n- **Dian Bachar** is most notable for roles in films by or starring Trey Parker and Matt Stone, including:\n  - **George Noon** in *Cannibal! The Musical*\n  - **Ben Chapleski** in *Orgazmo*\n  - **Kenny \"Squeak\" Scolari** in *BASEketball*\n  - He also made occasional appearances on *South Park*\n  - He appeared as an **alien engineer** in *Galaxy Quest*\n\n- **Curtis Armstrong** is known for:\n  - **Booger** in the *Revenge of the Nerds* movies\n  - **Herbert Viola** on *Moonlighting*\n  - **Miles Dalby** in *Risky Business*\n  - **Ahmet Erteg\u00fcn** in *Ray*\n  - Voice of **Maru** in *Planes: Fire & Rescue*\n  - Voice of **Schmuley \"Snot\" Lonstein** in *American Dad!*\n  - Voice of the title character in *Dan Vs.*\n  - **Metatron** in *Supernatural*\n  - Co-host of *King of the Nerds*\n\nThe context does **not** mention anything about \u201cdeep powerful character roles,\u201d so I can\u2019t answer that part from the provided information.",
+      "rag_contexts": [
+        "Dian Bachar\n\nDian Bachar (; born October 26, 1970 in Denver, Colorado) is an American actor most notable for his roles in various films by or starring his friends Trey Parker and Matt Stone, such as \"Cannibal! The Musical\" (George Noon), \"Orgazmo\" (Ben Chapleski) and his most famous role as Kenny \"Squeak\" Scolari in 1998's \"BASEketball\", as well as making the occasional appearance on \"South Park\". He appeared as an alien engineer in \"Galaxy Quest\". Although the bulk of his scenes were cut, he can be seen on the DVD's \"Special Features\".",
+        "Curtis Armstrong\n\nCurtis Armstrong (born November 27, 1953) is an American actor known for his portrayal as Booger in the Revenge of the Nerds movies, as Herbert Viola on Moonlighting, as Miles Dalby in Risky Business, as famed record producer Ahmet Erteg\u00fcn in the film Ray, as the voice of ``Maru ''in Planes: Fire & Rescue, and for voicing Schmuley`` Snot'' Lonstein in American Dad!, and the title character in the show Dan Vs. He is also the co-host of the TBS reality television competition series King of the Nerds, in addition to the role of Metatron in the series Supernatural.",
+        "Stephen Russell\n\nStephen Russell is an American actor, writer, theater director, and voice actor best known for his voice acting in the \"Thief\" video game series as the protagonist Garrett and the Mister Handys in the \"Fallout\" series.",
+        "List of South Park cast members\n\nTrey Parker voices four of the main characters: Stan Marsh, Eric Cartman, Randy Marsh and Mr. Garrison. He also provides the voices of several recurring characters, such as Clyde Donovan, Mr. Hankey, Mr. Mackey, Stephen Stotch, Jimmy Valmer, Timmy Burch, Tuong Lu Kim and Phillip.",
+        "Buzz Lightyear\n\nTim Allen voiced the character in the Toy Story film series and the Buzz Lightyear movie, while Patrick Warburton provided Buzz's voice for the TV series, and Pat Fraley voiced him for the video games and the attractions in Disney Parks."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "All factual claims about Dian Bachar and Curtis Armstrong match the retrieved context, including the note that the context does not mention 'deep powerful character roles.'"
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce unsupported entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The roles and voice credits are attributed to the correct person throughout the generated answer."
+          }
+        }
+      },
+      "correctness": {
+        "score": 0.6666666666666666,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It addresses the asked entities and their notable roles and voice acting, while explicitly noting the unsupported 'deep powerful character roles' phrase."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The main roles and voice-acting facts given for both Dian Bachar and Curtis Armstrong are consistent with the gold answer."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": false,
+            "reason": "The question includes a part about 'deep powerful character roles,' and the answer does not actually provide that information, only says it is not in context."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the overall question is marked answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The answer gives a substantive summary of the available roles and voice work rather than refusing the question unnecessarily."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The answer appropriately expresses uncertainty only for the unsupported phrase and otherwise states unambiguous facts confidently."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 0.8888888888888888,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_10",
+      "question": "What happen with Hubert L. Lee on November 5, 1982, and what was he known for from February 1, 1951?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Hubert L. Lee died on November 5, 1982. He was known for receiving the Medal of Honor for his actions on February 1, 1951, during the Korean War.",
+      "rag_contexts": [
+        "Hubert L. Lee\n\nHubert Louis Lee (February 2, 1915 \u2013 November 5, 1982) was a soldier in the United States Army during the Korean War. He received the Medal of Honor for his actions on February 1, 1951.",
+        "Cornelius H. Charlton\n\nCornelius H. Charlton (July 24, 1929 \u2013 June 2, 1951) was a soldier in the United States Army during the Korean War. Sergeant Charlton posthumously received the Medal of Honor for his actions near Chipo-ri, South Korea on June 2, 1951.",
+        "Korean War\n\nOn 27 June 1950, two days after the KPA invaded and three months before the Chinese entered the war, President Truman dispatched the United States Seventh Fleet to the Taiwan Strait, to prevent hostilities between the Nationalist Republic of China (Taiwan) and the People's Republic of China (PRC). On 4 August 1950, with the PRC invasion of Taiwan aborted, Mao Zedong reported to the Politburo that he would intervene in Korea when the People's Liberation Army's (PLA) Taiwan invasion force was reorganized into the PLA North East Frontier Force. China justified its entry into the war as a response to \"American aggression in the guise of the UN\".",
+        "USS Watts (DD-567)\n\nUSS \"Watts\" (DD-567) was a \"Fletcher\"-class destroyer of the United States Navy. It was named for Captain John Watts (\"ca.\"1778\u20131823), who fought French privateers during the Quasi-War with France.",
+        "USS Daly (DD-519)\n\nUSS \"Daly\" (DD-519), a \"Fletcher\"-class destroyer, was a ship of the United States Navy named for Marine Sergeant Major Daniel Daly, (1873\u20131937), one of the very few people to be twice awarded the Medal of Honor."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The claims that Hubert L. Lee died on November 5, 1982 and received the Medal of Honor for actions on February 1, 1951 are both directly supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The generated answer introduces no entities, dates, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the death date and Medal of Honor recognition to Hubert L. Lee and does not confuse him with any other person or event."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It answers what happened on November 5, 1982 and what he was known for from February 1, 1951, matching the question asked."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts given\u2014his death on November 5, 1982 and Medal of Honor recognition for February 1, 1951 actions\u2014are consistent with the gold answer."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has two parts and the generated answer addresses both his death date event and his recognition for actions on February 1, 1951."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a direct substantive response rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is clear and unambiguous, so stating the facts directly without uncertainty is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_11",
+      "question": "what happen on August 18, 2009 with The Law of Nines?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "On August 18, 2009, *The Law of Nines* was released.",
+      "rag_contexts": [
+        "The Law of Nines\n\nThe Law of Nines is a thriller/speculative fiction novel by American author Terry Goodkind. The book was released on August 18, 2009. It debuted at #10 on the Times bestseller list.",
+        "Future of an expanding universe\n\n1040 (10 duodecillion) yearsGiven our assumed half-life of the proton, nucleons (protons and bound neutrons) will have undergone roughly 1,000 half-lives by the time the universe is 1040 years old.  To put this into perspective, there are an estimated 1080 protons currently in the universe.  This means that the number of nucleons will be slashed in half 1,000 times by the time the universe is 1040 years old. Hence, there will be roughly 0.51,000 (approximately 10\u2212301) as many nucleons remaining as there are today; that is, zero nucleons remaining in the universe at the end of the Degenerate Age. Effectively, all baryonic matter will have been changed into photons and leptons. Some models predict the formation of stable positronium atoms with a greater diameter than the observable universe's current diameter in 1085 years, and that these will in turn decay to gamma radiation in 10141 years.",
+        "The Groomsmen\n\nThe Groomsmen is a 2006 comedy film written and directed by Edward Burns. It opened in New York City and Los Angeles on July 14, 2006. Filming took place at many locations on City Island, New York.",
+        "Rapture's Delight\n\n\"Rapture's Delight\" is the ninth episode of the sixth season of the American animated television series \"American Dad!\". It originally aired on Fox in the United States on December 13, 2009. This episode centers around Stan and Francine's life after the vast majority of the church, including Hayley and Steve, are raptured. When Stan begins to blame Francine for not getting into heaven, Francine ends their relationship and befriends a man whom she later finds out to be Jesus. Francine becomes his bride, leaving Stan behind to participate in the armageddon.",
+        "Louisiana Purchase\n\nIn 1798, Spain revoked the treaty allowing American use of New Orleans, greatly upsetting Americans. In 1801, Spanish Governor Don Juan Manuel de Salcedo took over from the Marquess of Casa Calvo, and restored the American right to deposit goods. However, in 1800 Spain had ceded the Louisiana territory back to France as part of Napoleon's secret Third Treaty of San Ildefonso. The territory nominally remained under Spanish control, until a transfer of power to France on 30 November 1803, just three weeks before the formal cession of the territory to the United States on 20 December 1803. A further ceremony was held in St. Louis a few months later partially due to winter conditions impeding the arrival of news, Upper Louisiana, regarding the New Orleans formalities. The 9 -- 10 March 1804 event is remembered as Three Flags Day."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The only factual claim, that The Law of Nines was released on August 18, 2009, is explicitly supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no entities, dates, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The release date is correctly attributed to The Law of Nines and to August 18, 2009."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers what happened on August 18, 2009 with The Law of Nines by stating that it was released."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The generated answer matches the gold answer in its core fact that The Law of Nines was released on August 18, 2009."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is single-part, so fully answering that one part satisfies this criterion."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The answer provides a direct substantive response instead of refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The evidence is unambiguous, so giving a confident answer without hedging is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_12",
+      "question": "What happened in the American Dad! episode \"Rapture's Delight,\" which originally aired on December 13, 2009?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "In \u201cRapture\u2019s Delight,\u201d Stan and Francine live through a time when most of the church congregation, including Hayley and Steve, are raptured. Stan starts blaming Francine for not getting into heaven, so Francine ends their relationship and befriends a man who turns out to be Jesus. She becomes his bride, leaving Stan behind to take part in the armageddon.",
+      "rag_contexts": [
+        "Rapture's Delight\n\n\"Rapture's Delight\" is the ninth episode of the sixth season of the American animated television series \"American Dad!\". It originally aired on Fox in the United States on December 13, 2009. This episode centers around Stan and Francine's life after the vast majority of the church, including Hayley and Steve, are raptured. When Stan begins to blame Francine for not getting into heaven, Francine ends their relationship and befriends a man whom she later finds out to be Jesus. Francine becomes his bride, leaving Stan behind to participate in the armageddon.",
+        "A Pi\u00f1ata Named Desire\n\n\"A Pi\u00f1ata Named Desire\" is the eleventh episode of the sixth season of the animated comedy series \"American Dad!\". It first aired on Fox in the United States on February 13, 2011. This episode mainly centers on Roger and Stan, who begin to experience tensions growing against each other for the dominant figure in the house. Roger becomes tired of Stan's stance as the authoritarian figure of the house, and he challenges Stan's leadership qualities. Stan insists that he is better at Roger at everything, and he tells him that he has a mission that involves acting. Unknown to Stan, Roger spies on him, only to find out that Stan is a terrible actor. Roger later boasts to the house that he is a better actor than Stan, but he eventually teaches him to improve his acting skills. Meanwhile, Steve and his friends plan to throw their last slumber party together.",
+        "Gemini Division\n\nGemini Division is an American science fiction series of five- to seven-minute long episodes created by Electric Farm Entertainment which went into production in March 2008. Based on an original story by Brent Friedman the online series was developed by Joshua Stern. The show currently airs on NBC.com as part of their online content lineup. The series began August 18, 2008. The series stars Rosario Dawson, who worked with Electric Farm Entertainment on the Webby nominated cult internet series \"Afterworld\". J Alex Reed and Duane Loose will be showrunners, while Brent Friedman and Stan Rowgow serve as executive producers. The writing staff includes Brent Friedman, Andy Black, Lawrence Frank, and Jacqui Zambrano. Stan Rogow is also credited as Director and is presumed to direct a number of the episodes with the rest being directed by Neal Israel. Web content development is being managed by producers Ben Raab and Deric Hugues web content producers.",
+        "My Dad Is Better than Your Dad\n\nMy Dad Is Better than Your Dad was a reality sports TV show on NBC that premiered on February 18, 2008. The show was produced by Mark Burnett, producer of other shows like \"Survivor\", \"The Apprentice\", and \"Are You Smarter Than a 5th Grader?\", and was hosted by actor Dan Cortese. Four teams of children and their fathers competed in each episode, with the winning team having the chance to win up to $50,000.",
+        "Steve Smith (American Dad!)\n\nSteven Anita ``Steve ''Smith is a fictional character in the animated television series American Dad!, voiced by Scott Grimes. He is Stan and Francine Smith's only son and Hayley's younger brother as well as the youngest of the series' six main characters."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every factual claim in the generated answer is directly supported by the retrieved context's summary of the episode."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer does not introduce any entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the episode events to Stan, Francine, Hayley, Steve, and Jesus without mixing them with other entries in the context."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers what happened in the episode rather than discussing a different episode or unrelated details."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The generated answer matches the gold answer's core facts about the rapture, Stan blaming Francine, Francine meeting Jesus, and becoming his bride."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "Although the question is effectively single-part, the answer covers the episode's events that the question asks about."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "The question is answerable, so this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "Because the question is answerable, the generated answer appropriately provides a substantive summary instead of refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is clear and consistent, so the answer appropriately states the events without unnecessary hedging."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_13",
+      "question": "What happend on November 17, 1982 to the Florida Power and Light Company Ice Plant in Melbourne, Florida?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "On November 17, 1982, the Florida Power and Light Company Ice Plant was added to the U.S. National Register of Historic Places.",
+      "rag_contexts": [
+        "Florida Power and Light Company Ice Plant\n\nThe Florida Power and Light Company Ice Plant (also known as the City Products Corporation Ice Plant or locally as the Ice Plant) is a historic site in Melbourne, Florida, United States. It is located at 1604 South Harbor City Boulevard. On November 17, 1982, it was added to the U.S. National Register of Historic Places.",
+        "Government-granted monopoly\n\nState Bar of Arizona Saudi Aramco British East India Company French East India Company Brewers Retail Theatre Royal, Drury Lane K -- 12 education Interest rates West Virginia American Water",
+        "WGLF\n\nWGLF (104.1 FM) is a classic hits radio station in the Tallahassee, Florida, market owned by Cumulus Licensing LLC. Its studios are located in the westside of Tallahassee and its transmitter is based east of the city near Lloyd, Florida.",
+        "John Anderson Lodge\n\nThe John Anderson Lodge is an historic site in Ormond Beach, Florida, United States, built for Ormond Beach promoter John Anderson (1853\u20131911). It is located at 71 Orchard Lane. On September 6, 1989, it was added to the U.S. National Register of Historic Places.",
+        "Vero Beach, Florida\n\nCity of Vero Beach, Florida City Nickname (s): Hibiscus City Motto (s): Where the Tropics Begin Location in Indian River County and the state of Florida Vero Beach Location in the United States Vero Beach Vero Beach (the US) Show map of Florida Show map of the US Show all Coordinates: 27 \u00b0 39 \u2032 N 80 \u00b0 23 \u2032 W \ufeff / \ufeff 27.650 \u00b0 N 80.383 \u00b0 W \ufeff / 27.650; - 80.383 Coordinates: 27 \u00b0 39 \u2032 N 80 \u00b0 23 \u2032 W \ufeff / \ufeff 27.650 \u00b0 N 80.383 \u00b0 W \ufeff / 27.650; - 80.383 Country United States State Florida County Indian River Settled 1870 Incorporated (Vero) 1919 Incorporated (Vero Beach) 1925 Government Type Commission - Manager Area City 13.34 sq mi (34.56 km) Land 11.44 sq mi (29.63 km) Water 1.91 sq mi (4.93 km) 14.31% Elevation 13 ft (4 m) Population (2010) City 15,220 Estimate (2016) 16,751 Density 1,464.38 / sq mi (565.42 / km) Metro 130,100 Census Bureau Time zone Eastern (EST) (UTC - 5) Summer (DST) EDT (UTC - 4) ZIP codes 32960 thru 32969 Area code (s) 772 FIPS code 12 - 74150 GNIS feature ID 0292760 Website http://www.covb.org"
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The generated answer's claim that the Ice Plant was added to the U.S. National Register of Historic Places on November 17, 1982 is explicitly supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no entities, dates, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The statement correctly attributes the November 17, 1982 event to the Florida Power and Light Company Ice Plant and does not confuse it with other listed entities."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers what happened on that date to the Florida Power and Light Company Ice Plant."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core fact matches the gold answer that the site was added to the U.S. National Register of Historic Places on November 17, 1982."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is effectively single-part, and the answer fully addresses it."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a direct substantive response rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous, so giving a confident answer without hedging is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_14",
+      "question": "How did the discovery of radium influence hopes about unseen energy in atoms?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "The context says that after Pierre and Marie Curie discovered radium in pitchblende and found that it emitted large amounts of radioactivity, hopes were raised among scientists and laymen that the elements around us contained tremendous amounts of unseen energy waiting to be harnessed.",
+      "rag_contexts": [
+        "History of nuclear weapons\n\nIn the first decades of the 20th century, physics was revolutionised with developments in the understanding of the nature of atoms. In 1898, Pierre and Marie Curie discovered that pitchblende, an ore of uranium, contained a substance -- which they named radium -- that emitted large amounts of radioactivity. Ernest Rutherford and Frederick Soddy identified that atoms were breaking down and turning into different elements. Hopes were raised among scientists and laymen that the elements around us could contain tremendous amounts of unseen energy, waiting to be harnessed.",
+        "Atomic number\n\nAll consideration of nuclear electrons ended with James Chadwick's discovery of the neutron in 1932. An atom of gold now was seen as containing 118 neutrons rather than 118 nuclear electrons, and its positive charge now was realized to come entirely from a content of 79 protons. After 1932, therefore, an element's atomic number Z was also realized to be identical to the proton number of its nuclei.",
+        "History of the periodic table\n\nIn 1914, a year before he was killed in action at Gallipoli, the English physicist Henry Moseley found a relationship between the X-ray wavelength of an element and its atomic number. He was then able to re-sequence the periodic table by nuclear charge, rather than by atomic weight. Before this discovery, atomic numbers were sequential numbers based on an element's atomic weight. Moseley's discovery showed that atomic numbers were in fact based upon experimental measurements.",
+        "Oganesson\n\nOganesson is a synthetic chemical element with the symbol Og and atomic number 118. It was first synthesized in 2002 at the Joint Institute for Nuclear Research (JINR) in Dubna, near Moscow in Russia, by a joint team of Russian and American scientists. In December 2015, it was recognized as one of four new elements by the Joint Working Party of the international scientific bodies IUPAC and IUPAP. It was formally named on 28 November 2016. The name is in line with the tradition of honoring a scientist, in this case the nuclear physicist Yuri Oganessian, who has played a leading role in the discovery of the heaviest elements in the periodic table. It is one of only two elements named after a person who was alive at the time of naming, the other being seaborgium; it is also the only element whose namesake is alive today.Oganesson has the highest atomic number and highest atomic mass of all known elements. The radioactive oganesson atom is very unstable, and since 2005, only five (possibly six) atoms of the nuclide 294Og have been detected. Although this allowed very little experimental characterization of its properties and possible compounds, theoretical calculations have resulted in many predictions, including some surprising ones. For example, although oganesson is a member of group 18 \u2013 the first synthetic element to be so \u2013 it may be significantly reactive, unlike all the other elements of that group (the noble gases). It was formerly thought to be a gas under normal conditions but is now predicted to be a solid due to relativistic effects. On the periodic table of the elements it is a p-block element and the last one of period 7.",
+        "Nucleosynthesis\n\nSupernova nucleosynthesis within exploding stars by fusing carbon and oxygen is responsible for the abundances of elements between magnesium (atomic number 12) and nickel (atomic number 28). Supernova nucleosynthesis is also thought to be responsible for the creation of rarer elements heavier than iron and nickel, in the last few seconds of a type II supernova event. The synthesis of these heavier elements absorbs energy (endothermic) as they are created, from the energy produced during the supernova explosion. Some of those elements are created from the absorption of multiple neutrons (the R process) in the period of a few seconds during the explosion. The elements formed in supernovas include the heaviest elements known, such as the long - lived elements uranium and thorium."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every factual claim in the generated answer is directly supported by the retrieved context's description of radium's discovery, radioactivity, and the hopes it inspired."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no fabricated entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the discovery of radium to Pierre and Marie Curie and the resulting hopes to scientists and laymen in that period."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly explains how radium's discovery influenced hopes about unseen energy in atoms by linking its radioactivity to expectations of harnessable atomic energy."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer in stating that radium's radioactivity raised hopes that atoms contained tremendous unseen energy."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is effectively single-part, and the answer fully addresses it."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a substantive response rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous, so giving a confident answer without added uncertainty is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_15",
+      "question": "What happen to Mexico Beach, Florida on October 10, 2018, and what FEMA say after it?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "On October 10, 2018, Mexico Beach, Florida was extensively damaged by Hurricane Michael. Afterward, FEMA declared the community \u201cwiped out.\u201d",
+      "rag_contexts": [
+        "Mexico Beach, Florida\n\nMexico Beach is a city in Bay County, Florida, United States. It is located southeast of Panama City. The population was 1,072 at the 2010 census. The community was extensively damaged by Hurricane Michael on October 10, 2018. The Federal Emergency Management Agency (FEMA) declared the community \"wiped out\" in the aftermath of the hurricane's devastating impact.",
+        "Vero Beach, Florida\n\nCity of Vero Beach, Florida City Nickname (s): Hibiscus City Motto (s): Where the Tropics Begin Location in Indian River County and the state of Florida Vero Beach Location in the United States Vero Beach Vero Beach (the US) Show map of Florida Show map of the US Show all Coordinates: 27 \u00b0 39 \u2032 N 80 \u00b0 23 \u2032 W \ufeff / \ufeff 27.650 \u00b0 N 80.383 \u00b0 W \ufeff / 27.650; - 80.383 Coordinates: 27 \u00b0 39 \u2032 N 80 \u00b0 23 \u2032 W \ufeff / \ufeff 27.650 \u00b0 N 80.383 \u00b0 W \ufeff / 27.650; - 80.383 Country United States State Florida County Indian River Settled 1870 Incorporated (Vero) 1919 Incorporated (Vero Beach) 1925 Government Type Commission - Manager Area City 13.34 sq mi (34.56 km) Land 11.44 sq mi (29.63 km) Water 1.91 sq mi (4.93 km) 14.31% Elevation 13 ft (4 m) Population (2010) City 15,220 Estimate (2016) 16,751 Density 1,464.38 / sq mi (565.42 / km) Metro 130,100 Census Bureau Time zone Eastern (EST) (UTC - 5) Summer (DST) EDT (UTC - 4) ZIP codes 32960 thru 32969 Area code (s) 772 FIPS code 12 - 74150 GNIS feature ID 0292760 Website http://www.covb.org",
+        "R\u00edo Rico, Tamaulipas\n\nR\u00edo Rico is a town located along the Rio Grande river in the Mexican state of Tamaulipas. It is notable for its partial occupation of the Horc\u00f3n Tract, a piece of land ceded by the United States to Mexico in 1977 under the terms of the Boundary Treaty of 1970.",
+        "Ocala, Florida\n\nOcala (/ o\u028a \u02c8k\u00e6l\u0259 / oh - KAL - \u0259) is a city located in Northern Florida. As of the 2013 census, its population, estimated by the United States Census Bureau, was 57,468, making it the 45th most populated city in Florida.",
+        "Isle of Normandy\n\nIsle of Normandy or Normandy Island or Normandy Isles or Normandy Isle is a neighborhood of North Beach in the city of Miami Beach, Florida, United States. It is located along the eastern shore of Biscayne Bay."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every factual claim in the generated answer is directly supported by the retrieved context about Mexico Beach and FEMA's statement."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no fabricated entities, numbers, or facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the damage to Hurricane Michael on October 10, 2018 and the 'wiped out' statement to FEMA afterward."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It directly answers what happened to Mexico Beach on October 10, 2018 and what FEMA said afterward."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer: extensive damage from Hurricane Michael and FEMA declaring the community 'wiped out.'"
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question has two parts, and the generated answer addresses both the event and FEMA's response."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a clear substantive response rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous, so expressing no additional uncertainty is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_16",
+      "question": "Scott Richard Grimes voice actor notable roles American Dad The Orville ER",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "Scott Richard Grimes is an American actor, voice artist, singer, and songwriter. His notable roles include:\n\n- Dr. Archie Morris in ER\n- Will McCorkle in Party of Five\n- Technical Sergeant Donald Malarkey in Band of Brothers\n- Steve Smith in American Dad!\n- Bradley Brown in the first two Critters films\n\nAs of September 10, 2017, he was cast as a regular on the Fox sci-fi series The Orville.",
+      "rag_contexts": [
+        "Scott Grimes\n\nScott Richard Grimes (born July 9, 1971) is an American actor, voice artist, singer, and songwriter. Some of his most prominent roles include appearances in ER as Dr. Archie Morris, Party of Five as Will McCorkle, Band of Brothers as Technical Sergeant Donald Malarkey, and the animated sitcom American Dad!, voicing Steve Smith. He is also well known by cult movie fans for his role as Bradley Brown in the first two Critters films. As of September 10, 2017, he has been cast as a regular on the Fox sci - fi series, The Orville.",
+        "Steve Smith (American Dad!)\n\nSteven Anita ``Steve ''Smith is a fictional character in the animated television series American Dad!, voiced by Scott Grimes. He is Stan and Francine Smith's only son and Hayley's younger brother as well as the youngest of the series' six main characters.",
+        "Curtis Armstrong\n\nCurtis Armstrong (born November 27, 1953) is an American actor known for his portrayal as Booger in the Revenge of the Nerds movies, as Herbert Viola on Moonlighting, as Miles Dalby in Risky Business, as famed record producer Ahmet Erteg\u00fcn in the film Ray, as the voice of ``Maru ''in Planes: Fire & Rescue, and for voicing Schmuley`` Snot'' Lonstein in American Dad!, and the title character in the show Dan Vs. He is also the co-host of the TBS reality television competition series King of the Nerds, in addition to the role of Metatron in the series Supernatural.",
+        "Seed of Chucky\n\nBrad Dourif as the voice of Chucky Jennifer Tilly as herself / the voice of Tiffany Billy Boyd as the voice of Glen Beans El - Balawi as Human Glen Kristina Hewitt as Human Glenda Redman as himself Hannah Spearritt as Joan John Waters as Pete Peters Jason Flemyng as himself / Santa Steve Lawton as Stan Tony Gardner as himself Rebecca Santos as Fulvia Keith - Lee Castle as Bill ``Psychs ''Sykes Paul Grossman as Little Boy Simon James Morgan as Richard Stephanie Chambers as Claudia's mom Betty Simons - Denville as Claudia",
+        "Stephen Russell\n\nStephen Russell is an American actor, writer, theater director, and voice actor best known for his voice acting in the \"Thief\" video game series as the protagonist Garrett and the Mister Handys in the \"Fallout\" series."
+      ],
+      "rag_error": null,
+      "chunk_recall": 1.0,
+      "set_recall": true,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "Every factual claim in the generated answer is directly supported by the retrieved context about Scott Grimes and his roles."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no fabricated people, dates, roles, or other facts beyond what appears in the retrieved context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes Steve Smith, ER, and The Orville details to Scott Grimes without mixing them up with other entities in the context."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It answers the query by identifying Scott Richard Grimes and listing his notable roles including American Dad!, The Orville, and ER."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "The core facts match the gold answer, including Steve Smith in American Dad!, Dr. Archie Morris in ER, and his casting on The Orville."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The answer covers all parts of the multi-part query by addressing Scott Richard Grimes and the notable roles tied to American Dad!, The Orville, and ER."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "Because the question is answerable, this criterion is satisfied by default."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "The generated answer provides a substantive response with relevant roles rather than refusing to answer."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The retrieved evidence is unambiguous, so giving a confident answer without extra uncertainty is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": null,
+      "domain_tags": []
+    },
+    {
+      "record_id": "ragas_17",
+      "question": "How is hydorgen releated to oxygn in abundnce?",
+      "question_type": "single_chunk",
+      "noise_profile": [],
+      "difficulty": "medium",
+      "rag_answer": "By mass, oxygen is the third-most abundant element in the universe, after hydrogen and helium. So hydrogen is more abundant than oxygen.",
+      "rag_contexts": [
+        "Oxygen\n\nOxygen is a chemical element with symbol O and atomic number 8. It is a member of the chalcogen group on the periodic table and is a highly reactive nonmetal and oxidizing agent that readily forms compounds (notably oxides) with most elements. By mass, oxygen is the third-most abundant element in the universe, after hydrogen and helium. At standard temperature and pressure, two atoms of the element bind to form dioxygen, a colorless and odorless diatomic gas with the formula O\n2. Diatomic oxygen gas constitutes 20.8% of the Earth's atmosphere. However, monitoring of atmospheric oxygen levels show a global downward trend, because of fossil-fuel burning. Oxygen is the most abundant element by mass in the Earth's crust as part of oxide compounds such as silicon dioxide, making up almost half of the crust's mass.",
+        "Axel Oxenstierna palace\n\nAxel Oxenstierna palace in the Old Town of Stockholm was designed by architect Jean de la Vall\u00e9e to Chancellor Axel Oxenstierna and the construction started in 1653.",
+        "Neodymium\n\nNeodymium is a chemical element with the symbol Nd and atomic number 60. Neodymium belongs to the lanthanide series and is a rare-earth element. It is a hard, slightly malleable silvery metal, that quickly tarnishes in air and moisture. When oxidized, neodymium reacts quickly to produce pink, purple/blue and yellow compounds in the +2, +3 and +4 oxidation state. Neodymium was discovered in 1885 by the Austrian chemist Carl Auer von Welsbach. It is present in significant quantities in the ore minerals monazite and bastn\u00e4site. Neodymium is not found naturally in metallic form or unmixed with other lanthanides, and it is usually refined for general use. Although neodymium is classed as a rare-earth element, it is fairly common, no rarer than cobalt, nickel, or copper, and is widely distributed in the Earth's crust. Most of the world's commercial neodymium is mined in China.",
+        "Buckingham\n\nBuckingham and the surrounding area has been settled for some time with evidence of Roman settlement found in several sites close the River Great Ouse, including a temple south of the A421 at Bourton Grounds which was excavated in the 1960s and dated to the 3rd century AD. A possible Roman building was identified at Castle Fields in the 19th century. Pottery, kiln furniture and areas of burning found at Buckingham industrial estate suggest the site of some early Roman pottery kilns here.",
+        "The Legend of Zelda: Twilight Princess\n\nGanondorf then revives, and Midna teleports Link and Zelda outside the castle so she can hold him off with the Fused Shadows. However, as Hyrule Castle collapses, it is revealed that Ganondorf was victorious as he crushes Midna's helmet. Ganondorf engages Link on horseback, and, assisted by Zelda and the Light Spirits, Link eventually knocks Ganondorf off his horse and they duel on foot before Link strikes down Ganondorf and plunges the Master Sword into his chest. With Ganondorf dead, the Light Spirits not only bring Midna back to life, but restore her to her true form. After bidding farewell to Link and Zelda, Midna returns home before destroying the Mirror of Twilight with a tear to maintain balance between Hyrule and the Twilight Realm. Near the end, as Hyrule Castle is rebuilt, Link is shown leaving Ordon Village heading to parts unknown."
+      ],
+      "rag_error": null,
+      "chunk_recall": 0.5,
+      "set_recall": false,
+      "mrr": null,
+      "precision_at_k": null,
+      "gold_chunk_ranks": null,
+      "faithfulness": {
+        "score": 1.0,
+        "verdicts": {
+          "F1": {
+            "question_id": "F1",
+            "verdict": true,
+            "reason": "The claims that oxygen is the third-most abundant element in the universe and that hydrogen is therefore more abundant are directly supported by the retrieved context."
+          },
+          "F2": {
+            "question_id": "F2",
+            "verdict": true,
+            "reason": "The answer introduces no entities, numbers, or facts beyond what is stated or directly implied in the context."
+          },
+          "F3": {
+            "question_id": "F3",
+            "verdict": true,
+            "reason": "The answer correctly attributes the abundance statement to oxygen in the universe and does not misassign it to another entity or setting."
+          }
+        }
+      },
+      "correctness": {
+        "score": 1.0,
+        "verdicts": {
+          "C1": {
+            "question_id": "C1",
+            "verdict": true,
+            "reason": "It answers the question about the abundance relationship between hydrogen and oxygen by stating that hydrogen is more abundant than oxygen."
+          },
+          "C2": {
+            "question_id": "C2",
+            "verdict": true,
+            "reason": "Its core fact matches the gold answer that hydrogen is more abundant than oxygen because oxygen is third after hydrogen and helium."
+          },
+          "C3": {
+            "question_id": "C3",
+            "verdict": true,
+            "reason": "The question is single-part, and the answer addresses it fully."
+          }
+        }
+      },
+      "abstention": {
+        "score": 1.0,
+        "verdicts": {
+          "A1": {
+            "question_id": "A1",
+            "verdict": true,
+            "reason": "The question is answerable from the context, so this criterion is satisfied."
+          },
+          "A2": {
+            "question_id": "A2",
+            "verdict": true,
+            "reason": "Because the question is answerable, the response appropriately provides a substantive answer rather than refusing."
+          },
+          "A3": {
+            "question_id": "A3",
+            "verdict": true,
+            "reason": "The evidence is clear and unambiguous, so giving a definite answer without hedging is appropriate."
+          }
+        }
+      },
+      "completeness": null,
+      "conciseness": null,
+      "overall_score": 1.0,
+      "intent_coverage": 1.0,
+      "intent_details": [],
+      "discovered_alt_chunks": [
+        "Axel Oxenstierna palace\n\nAxel Oxenstierna palace in the Old Town of Stockholm was designed by architect Jean de la Vall\u00e9e to Chancellor Axel Oxenstierna and the construction started in 1653.",
+        "Neodymium\n\nNeodymium is a chemical element with the symbol Nd and atomic number 60. Neodymium belongs to the lanthanide series and is a rare-earth element. It is a hard, slightly malleable silvery metal, that quickly tarnishes in air and moisture. When oxidized, neodymium reacts quickly to produce pink, purple/blue and yellow compounds in the +2, +3 and +4 oxidation state. Neodymium was discovered in 1885 by the Austrian chemist Carl Auer von Welsbach. It is present in significant quantities in the ore minerals monazite and bastn\u00e4site. Neodymium is not found naturally in metallic form or unmixed with other lanthanides, and it is usually refined for general use. Although neodymium is classed as a rare-earth element, it is fairly common, no rarer than cobalt, nickel, or copper, and is widely distributed in the Earth's crust. Most of the world's commercial neodymium is mined in China.",
+        "Buckingham\n\nBuckingham and the surrounding area has been settled for some time with evidence of Roman settlement found in several sites close the River Great Ouse, including a temple south of the A421 at Bourton Grounds which was excavated in the 1960s and dated to the 3rd century AD. A possible Roman building was identified at Castle Fields in the 19th century. Pottery, kiln furniture and areas of burning found at Buckingham industrial estate suggest the site of some early Roman pottery kilns here.",
+        "The Legend of Zelda: Twilight Princess\n\nGanondorf then revives, and Midna teleports Link and Zelda outside the castle so she can hold him off with the Fused Shadows. However, as Hyrule Castle collapses, it is revealed that Ganondorf was victorious as he crushes Midna's helmet. Ganondorf engages Link on horseback, and, assisted by Zelda and the Light Spirits, Link eventually knocks Ganondorf off his horse and they duel on foot before Link strikes down Ganondorf and plunges the Master Sword into his chest. With Ganondorf dead, the Light Spirits not only bring Midna back to life, but restore her to her true form. After bidding farewell to Link and Zelda, Midna returns home before destroying the Mirror of Twilight with a tear to maintain balance between Hyrule and the Twilight Realm. Near the end, as Hyrule Castle is rebuilt, Link is shown leaving Ordon Village heading to parts unknown."
+      ],
+      "domain_tags": []
+    }
+  ]
+}

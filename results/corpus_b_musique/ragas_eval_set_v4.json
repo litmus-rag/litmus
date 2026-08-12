@@ -1,0 +1,183 @@
+[
+  {
+    "question": "thorium supernova nucleosynthesis r process",
+    "contexts": [
+      "Nucleosynthesis\n\nSupernova nucleosynthesis within exploding stars by fusing carbon and oxygen is responsible for the abundances of elements between magnesium (atomic number 12) and nickel (atomic number 28). Supernova nucleosynthesis is also thought to be responsible for the creation of rarer elements heavier than iron and nickel, in the last few seconds of a type II supernova event. The synthesis of these heavier elements absorbs energy (endothermic) as they are created, from the energy produced during the supernova explosion. Some of those elements are created from the absorption of multiple neutrons (the R process) in the period of a few seconds during the explosion. The elements formed in supernovas include the heaviest elements known, such as the long - lived elements uranium and thorium."
+    ],
+    "ground_truth": "Thorium is one of the heaviest elements formed in supernovas. The context says supernova nucleosynthesis is thought to create rarer elements heavier than iron and nickel in the last few seconds of a type II supernova event, and some of those elements are created by absorbing multiple neutrons through the R process.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "What is I Can Only Imagine about and who stars in it?",
+    "contexts": [
+      "I Can Only Imagine (film)\n\nI Can Only Imagine is a 2018 American Christian drama film directed by the Erwin Brothers and written by Alex Cramer, Jon Erwin and Brent McCorkle, based on the story behind the MercyMe song of the same name, the best - selling Christian single of all time. The film stars J. Michael Finley as Bart Millard, the lead singer who wrote the song about his relationship with his father (Dennis Quaid). Madeline Carroll, Priscilla Shirer, Cloris Leachman, and Trace Adkins also star."
+    ],
+    "ground_truth": "I Can Only Imagine is a 2018 American Christian drama film based on the story behind the MercyMe song of the same name. It stars J. Michael Finley as Bart Millard, the lead singer who wrote the song about his relationship with his father, played by Dennis Quaid. Madeline Carroll, Priscilla Shirer, Cloris Leachman, and Trace Adkins also star.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Why Kampong Leaeng got problem with flood and dirty drinking water?",
+    "contexts": [
+      "Chol Kiri District\n\nChol Kiri District () is a district (\"srok\") in the east of Kampong Chhnang Province, in central Cambodia. The district capital is Chol Kiri town located around 8 kilometres south of the provincial capital of Kampong Chhnang by road. Chol Kiri District is the easternmost district of Kampong Chhnang. The district shares a border with Kampong Thom and Kampong Cham provinces to the east. Most of the district is low lying floodplain and the Tonl\u00e9 Sap river runs through the district roughly from north to south. This proximity to the river and the lack of high land make Chol Kiri one of the most flood prone districts in the country. The Kampong Chhnang Department of Development has estimated that both Chol Kiri and Kampong Leaeng districts are flooded for six months of the year and that after the floodwaters have receded drinking water sources are left contaminated."
+    ],
+    "ground_truth": "The Kampong Chhnang Department of Development estimated that Kampong Leaeng district is flooded for six months of the year, and after the floodwaters recede, drinking water sources are left contaminated.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Can u tell me what happend in 2003 with Equity Music Group and who founded it, cuz I am really into emotional music stories?",
+    "contexts": [
+      "Equity Music Group\n\nEquity Music Group was an American country music record label founded in 2003 by singer Clint Black. The label was distributed by Koch Entertainment (now E1 Entertainment)."
+    ],
+    "ground_truth": "Equity Music Group was an American country music record label founded in 2003 by singer Clint Black. The label was distributed by Koch Entertainment, which is now E1 Entertainment.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "In the story of the Charlotte Rangers, what role did Charlotte County Stadium play for the team in Port Charlotte, Florida?",
+    "contexts": [
+      "Charlotte Rangers\n\nThe Charlotte Rangers, based in Port Charlotte, Florida, were an American minor league baseball team that existed from 1987 through 2002. The team played at Charlotte County Stadium as a Class A Florida State League affiliate of the Texas Rangers, who at the time made their spring training base in Port Charlotte."
+    ],
+    "ground_truth": "Charlotte County Stadium was the ballpark where the Charlotte Rangers played while they were a Class A Florida State League affiliate of the Texas Rangers in Port Charlotte, Florida.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Acts of the Apostles Christians and Jews",
+    "contexts": [
+      "Acts of the Apostles\n\nLuke -- Acts is an attempt to answer a theological problem, namely how the Messiah of the Jews came to have an overwhelmingly non-Jewish church; the answer it provides, and its central theme, is that the message of Christ was sent to the Gentiles because the Jews rejected it. Luke -- Acts can be also seen as a defense of (or ``apology ''for) the Jesus movement addressed to the Jews: the bulk of the speeches and sermons in Acts are addressed to Jewish audiences, with the Romans serving as external arbiters on disputes concerning Jewish customs and law. On the one hand Luke portrays the Christians as a sect of the Jews, and therefore entitled to legal protection as a recognised religion; on the other, Luke seems unclear as to the future God intends for Jews and Christians, celebrating the Jewishness of Jesus and his immediate followers while also stressing how the Jews had rejected God's promised Messiah."
+    ],
+    "ground_truth": "In Acts of the Apostles, Luke portrays the Christians as a sect of the Jews and therefore entitled to legal protection as a recognised religion, while also stressing that the message of Christ was sent to the Gentiles because the Jews rejected it.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Wat hapens on 10 December?",
+    "contexts": [
+      "List of Nobel laureates in Chemistry\n\nThe Nobel Prize in Chemistry (Swedish: Nobelpriset i kemi) is awarded annually by the Royal Swedish Academy of Sciences to scientists in the various fields of chemistry. It is one of the five Nobel Prizes established by the 1895 will of Alfred Nobel, who died in 1896. These prizes are awarded for outstanding contributions in chemistry, physics, literature, peace, and physiology or medicine. As dictated by Nobel's will, the award is administered by the Nobel Foundation and awarded by a committee that consists of five members elected by the Royal Swedish Academy of Sciences. The first Nobel Prize in Chemistry was awarded in 1901 to Jacobus Henricus van 't Hoff, of the Netherlands. Each recipient receives a medal, a diploma and a monetary award prize that has varied throughout the years. In 1901, van' t Hoff received 150,782 SEK, which is equal to 7,731,004 SEK in December 2007. The award is presented in Stockholm at an annual ceremony on 10 December, the anniversary of Nobel's death."
+    ],
+    "ground_truth": "The award is presented in Stockholm at an annual ceremony on 10 December, the anniversary of Nobel's death.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "How did Moseley change the way the periodic table was organized, and what did his discovery show about atomic numbers?",
+    "contexts": [
+      "History of the periodic table\n\nIn 1914, a year before he was killed in action at Gallipoli, the English physicist Henry Moseley found a relationship between the X-ray wavelength of an element and its atomic number. He was then able to re-sequence the periodic table by nuclear charge, rather than by atomic weight. Before this discovery, atomic numbers were sequential numbers based on an element's atomic weight. Moseley's discovery showed that atomic numbers were in fact based upon experimental measurements."
+    ],
+    "ground_truth": "In 1914, Henry Moseley found a relationship between the X-ray wavelength of an element and its atomic number. This allowed him to re-sequence the periodic table by nuclear charge rather than by atomic weight. His discovery showed that atomic numbers were based upon experimental measurements, not simply sequential numbers based on an element's atomic weight.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "What does GH stand for, and what type of television program is it?",
+    "contexts": [
+      "General Hospital\n\nGeneral Hospital (commonly abbreviated GH) is an American daytime television medical drama. It is listed in Guinness World Records as the longest - running American soap opera in production and the second longest - running drama in television in American history after Guiding Light. Concurrently, it is the world's third longest - running scripted drama series in production after British serials The Archers and Coronation Street, as well as the world's second - longest - running televised soap opera still in production. General Hospital premiered on the ABC television network on April 1, 1963. Same - day broadcasts as well as classic episodes were aired on SOAPnet from January 20, 2000, to December 31, 2013, following Disney - ABC's decision to discontinue the network. General Hospital is the longest - running serial produced in Hollywood, and the longest - running entertainment program in ABC television history. It holds the record for most Daytime Emmy Awards for Outstanding Drama Series, with 13 wins."
+    ],
+    "ground_truth": "GH stands for General Hospital, which is an American daytime television medical drama.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "As someone who values meaningful settings and carefully told stories, I would like to understand the real place called Silver Lake more clearly: where is Silver Lake located, what nearby village is associated with it, and how does its water ultimately travel onward from the lake?",
+    "contexts": [
+      "Silver Lake (Madison, New Hampshire)\n\nSilver Lake is a water body located in Carroll County in eastern New Hampshire, United States, in the town of Madison. The village of Silver Lake within Madison lies at the north end of the lake. Water from Silver Lake flows via the West Branch, through the Ossipee Pine Barrens to Ossipee Lake and ultimately to the Saco River in Maine."
+    ],
+    "ground_truth": "Silver Lake is a water body in Carroll County in eastern New Hampshire, United States, in the town of Madison. The village of Silver Lake within Madison is at the north end of the lake. Water from Silver Lake flows by way of the West Branch, through the Ossipee Pine Barrens to Ossipee Lake, and ultimately to the Saco River in Maine.",
+    "synthesizer_name": "single_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "How do the Nobel Peace Prize, the Kavli Prize, and the Nobel Prize differ in where and how often they are presented?",
+    "contexts": [
+      "<1-hop>\n\nList of Nobel Peace Prize laureates\n\nThe Norwegian Nobel Committee each year awards the Nobel Peace Prize (Norwegian and Swedish: Nobels fredspris) ``to the person who shall have done the most or the best work for fraternity between nations, for the abolition or reduction of standing armies and for the holding and promotion of peace congresses. ''It is one of the five Nobel Prizes established by the 1895 will of Alfred Nobel (who died in 1896), awarded for outstanding contributions in chemistry, physics, literature, peace, and physiology or medicine. As dictated by Nobel's will, the award is administered by the Norwegian Nobel Committee and awarded by a committee of five people elected by the Parliament of Norway. The first Nobel Peace Prize was awarded in 1901 to Fr\u00e9d\u00e9ric Passy and Henry Dunant; the prize was most recently awarded to the International Campaign to Abolish Nuclear Weapons in 2017. Each recipient receives a medal, a diploma, and a monetary award prize that has varied throughout the years. In 1901, Passy and Dunant shared a Prize of 150,782 Swedish kronor, which was equal to 7,731,004 kronor in 2008. The Peace Prize is presented annually in Oslo, in the presence of the King of Norway, on December 10, the anniversary of Nobel's death, and is the only Nobel Prize not presented in Stockholm. Unlike the other prizes, the Peace Prize is occasionally awarded to an organisation (such as the International Committee of the Red Cross, a three - time recipient) rather than an individual.",
+      "<2-hop>\n\nKavli Prize\n\nThe Kavli Prize was established in 2005 through a joint venture between the Norwegian Academy of Science and Letters, the Norwegian Ministry of Education and Research, and The Kavli Foundation. The main objective for the Prize is to honor, support and recognize scientists for outstanding scientific work in the fields of astrophysics, nanoscience and neuroscience and award three international prizes every second year. The Kavli Prize was awarded the first time in Oslo, 9 September 2008. The Prizes were presented by Haakon, Crown Prince of Norway. Each of the three Kavli Prizes consists of a gold medal, a scroll, and a cash award of US $1,000,000.",
+      "<3-hop>\n\nNobel Prize\n\nExcept for the Peace Prize, the Nobel Prizes are presented in Stockholm, Sweden, at the annual Prize Award Ceremony on 10 December, the anniversary of Nobel's death. The recipients' lectures are normally held in the days prior to the award ceremony. The Peace Prize and its recipients' lectures are presented at the annual Prize Award Ceremony in Oslo, Norway, usually on 10 December. The award ceremonies and the associated banquets are typically major international events. The Prizes awarded in Sweden's ceremonies' are held at the Stockholm Concert Hall, with the Nobel banquet following immediately at Stockholm City Hall. The Nobel Peace Prize ceremony has been held at the Norwegian Nobel Institute (1905 -- 1946), at the auditorium of the University of Oslo (1947 -- 1989), and at Oslo City Hall (1990 -- present)."
+    ],
+    "ground_truth": "The Nobel Peace Prize is presented annually in Oslo, Norway, on 10 December. The Kavli Prize was first awarded in Oslo on 9 September 2008 and is awarded every second year. The Nobel Prize is presented in Stockholm, Sweden, at the annual Prize Award Ceremony on 10 December, except for the Peace Prize, which is presented in Oslo.",
+    "synthesizer_name": "multi_hop_abstract_query_synthesizer"
+  },
+  {
+    "question": "Drawing on the themes of Uranium and Francium, explain how the natural occurrence of francium is connected to uranium-bearing materials, and describe the key properties of uranium that provide the context for where francium can be found in nature. In your answer, include uranium\u2019s identity and natural occurrence, and then relate this to the rarity and source of francium.",
+    "contexts": [
+      "<1-hop>\n\nUranium\n\nUranium is a chemical element with symbol U and atomic number 92. It is a silvery-white metal in the actinide series of the periodic table. A uranium atom has 92 protons and 92 electrons, of which 6 are valence electrons. Uranium is weakly radioactive because all its isotopes are unstable (with half-lives of the six naturally known isotopes, uranium-233 to uranium-238, varying between 69 years and 4.5 billion years). The most common isotopes of uranium are uranium-238 (which has 146 neutrons and accounts for almost 99.3% of the uranium found in nature) and uranium-235 (which has 143 neutrons, accounting for 0.7% of the element found naturally). Uranium has the second highest atomic weight of the primordially occurring elements, lighter only than plutonium. Its density is about 70% higher than that of lead, but slightly lower than that of gold or tungsten. It occurs naturally in low concentrations of a few parts per million in soil, rock and water, and is commercially extracted from uranium-bearing minerals such as uraninite.",
+      "<2-hop>\n\nFrancium\n\nFrancium was discovered by Marguerite Perey in France (from which the element takes its name) in 1939. It was the last element first discovered in nature, rather than by synthesis. Outside the laboratory, francium is extremely rare, with trace amounts found in uranium and thorium ores, where the isotope francium-223 continually forms and decays. As little as 20\u201330\u00a0g (one ounce) exists at any given time throughout the Earth's crust; the other isotopes (except for francium-221) are entirely synthetic. The largest amount produced in the laboratory was a cluster of more than 300,000 atoms."
+    ],
+    "ground_truth": "Uranium is a chemical element with symbol U and atomic number 92. It is a silvery-white metal in the actinide series, is weakly radioactive because all of its isotopes are unstable, and occurs naturally in low concentrations in soil, rock, and water. It is commercially extracted from uranium-bearing minerals such as uraninite, and uranium found in nature is mostly uranium-238, with a smaller amount of uranium-235. Francium is connected to uranium in that, outside the laboratory, francium is extremely rare and is found only in trace amounts in uranium and thorium ores. In these ores, the isotope francium-223 continually forms and decays. Thus, uranium provides part of the natural geological setting in which francium can be found, while francium remains far rarer than uranium, with only about 20 to 30 grams existing at any given time throughout the Earth's crust.",
+    "synthesizer_name": "multi_hop_abstract_query_synthesizer"
+  },
+  {
+    "question": "Frank Marshall movies Land Before Time and Raiders of the Lost Ark role",
+    "contexts": [
+      "<1-hop>\n\nThe Land Before Time\n\nThe Land Before Time is a 1988 animated adventure drama film directed and produced by Don Bluth and executive produced by Steven Spielberg, George Lucas, Kathleen Kennedy, and Frank Marshall.",
+      "<2-hop>\n\nRaiders of the Lost Ark\n\nRaiders of the Lost Ark (later marketed as Indiana Jones and the Raiders of the Lost Ark) is a 1981 American action-adventure film directed by Steven Spielberg, written by Lawrence Kasdan from a story by George Lucas and Philip Kaufman. It was produced by Frank Marshall for Lucasfilm Ltd., with Lucas and Howard Kazanjian as executive producers. The film originated from Lucas's desire to create a modern version of the serials of the 1930s and 1940s."
+    ],
+    "ground_truth": "Frank Marshall is connected to both films, but in different roles. In The Land Before Time, he is listed as an executive producer. In Raiders of the Lost Ark, he is listed as the producer for Lucasfilm Ltd.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Constantine French Algeria department of France after 1848 what changed in local government and Muslim political rights",
+    "contexts": [
+      "<1-hop>\n\nFrench Algeria\n\nShortly after Louis Philippe's constitutional monarchy was overthrown in the revolution of 1848, the new government of the Second Republic ended Algeria's status as a colony and declared in the 1848 Constitution the occupied lands an integral part of France. Three civil territories -- Alger, Oran, and Constantine -- were organized as Departments of France (local administrative units) under a civilian government. This made them a part of France proper as opposed to a colony. For the first time, French citizens in the civil territories elected their own councils and mayors; Muslims had to be appointed, could not hold more than one - third of council seats, and could not serve as mayors or assistant mayors. The administration of territories outside the zones settled by colons remained under the French Army. Local Muslim administration was allowed to continue under the supervision of French Army commanders, charged with maintaining order in newly pacified regions, and the bureaux arabes. Theoretically, these areas were closed to European colonization."
+    ],
+    "ground_truth": "After the 1848 revolution, the new government of the Second Republic ended Algeria's status as a colony and made the occupied lands an integral part of France in the 1848 Constitution. Constantine, along with Alger and Oran, was organized as a Department of France under a civilian government. This meant French citizens in these civil territories could elect their own councils and mayors. Muslims, however, had more limited political rights: they had to be appointed rather than elected, could not hold more than one-third of council seats, and could not serve as mayors or assistant mayors.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "September 2017 Dominion Enterprises sold what and to whom?",
+    "contexts": [
+      "<1-hop>\n\nDominion Enterprises\n\nDominion Enterprises is a Norfolk, Virginia-based media and information services company for the automotive, real estate, and travel industries. It has Internet and printed media operations. Dominion Enterprises was established in September 2006 by Landmark Media Enterprises (formerly Landmark Communications), following a division of assets of its predecessor company, Trader Publishing, between shared owners Landmark and Cox Enterprises. In September 2017, Dominion Enterprises sold ForRent.com to CoStar Group for $350 million in cash and $35 million worth of stock. In May 2017, Dominion Domains, division of Dominion Enterprises, launched new website servicing the domain name industry."
+    ],
+    "ground_truth": "In September 2017, Dominion Enterprises sold ForRent.com to CoStar Group for $350 million in cash and $35 million worth of stock.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Since September 2014, wut specific weeknight titel has ABC World News Tonight used, and who has anchord the weekday broadcasts since 2014?",
+    "contexts": [
+      "<1-hop>\n\nABC World News Tonight\n\nABC World News Tonight (titled as ABC World News Tonight with David Muir for its weeknight broadcasts since September 2014 and simply ABC World News Tonight for its weekend broadcasts) is the flagship daily evening television news program of ABC News, the news division of the American Broadcasting Company (ABC) television network in the United States. Since 2014, the program's weekday broadcasts have been anchored by David Muir. Cecilia Vega and Tom Llamas rotated as anchors of the Saturday editions and Sunday editions until Llamas was named sole weekend anchor in January 2017."
+    ],
+    "ground_truth": "Since September 2014, the weeknight broadcasts have used the title \"ABC World News Tonight with David Muir,\" and the weekday broadcasts have been anchored by David Muir since 2014.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "In 1993, wich American rock band from Vacaville, California was formed, and who were in its original lineup?",
+    "contexts": [
+      "<1-hop>\n\nPapa Roach\n\nPapa Roach is an American rock band from Vacaville, California, formed in 1993. The original lineup consisted of lead vocalist Jacoby Shaddix, guitarist Jerry Horton, drummer Dave Buckner, bassist Will James, and trombonist Ben Luther."
+    ],
+    "ground_truth": "The band was Papa Roach, an American rock band from Vacaville, California, formed in 1993. Its original lineup consisted of lead vocalist Jacoby Shaddix, guitarist Jerry Horton, drummer Dave Buckner, bassist Will James, and trombonist Ben Luther.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Australia Constitution state and territory parliaments sovereign entities Commonwealth powers which states or territories are unicameral vs bicameral and who heads each government?",
+    "contexts": [
+      "<1-hop>\n\nAustralia\n\nEach state and major mainland territory has its own parliament \u2014 unicameral in the Northern Territory, the ACT and Queensland, and bicameral in the other states. The states are sovereign entities, although subject to certain powers of the Commonwealth as defined by the Constitution. The lower houses are known as the Legislative Assembly (the House of Assembly in South Australia and Tasmania); the upper houses are known as the Legislative Council. The head of the government in each state is the Premier and in each territory the Chief Minister. The Queen is represented in each state by a governor; and in the Northern Territory, the Administrator. In the Commonwealth, the Queen's representative is the Governor-General.The Commonwealth Parliament also directly administers the following external territories: Ashmore and Cartier Islands; Australian Antarctic Territory; Christmas Island; Cocos (Keeling) Islands; Coral Sea Islands; Heard Island and McDonald Islands; and Jervis Bay Territory, a naval base and sea port for the national capital in land that was formerly part of New South Wales. The external territory of Norfolk Island previously exercised considerable autonomy under the Norfolk Island Act 1979 through its own legislative assembly and an Administrator to represent the Queen. In 2015, the Commonwealth Parliament abolished self-government, integrating Norfolk Island into the Australian tax and welfare systems and replacing its legislative assembly with a council. Macquarie Island is administered by Tasmania, and Lord Howe Island by New South Wales."
+    ],
+    "ground_truth": "Under the Constitution, the Australian states are sovereign entities, although they are subject to certain powers of the Commonwealth. Each state and major mainland territory has its own parliament. The Northern Territory, the ACT, and Queensland have unicameral parliaments, while the other states have bicameral parliaments. In the states, the head of government is the Premier, and in the territories, the head of government is the Chief Minister.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "According to the context, what happened on February 1, 1951, and how does it relate to Hubert L. Lee's service in the United States Army during the Korean War?",
+    "contexts": [
+      "<1-hop>\n\nHubert L. Lee\n\nHubert Louis Lee (February 2, 1915 \u2013 November 5, 1982) was a soldier in the United States Army during the Korean War. He received the Medal of Honor for his actions on February 1, 1951."
+    ],
+    "ground_truth": "On February 1, 1951, Hubert L. Lee performed the actions for which he later received the Medal of Honor. This is related to his service because he was a soldier in the United States Army during the Korean War.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "How did the Church of England seperating from the Roman Catholic Church relate to later leaders of the Roman Catholic Church like Pope John XXIII and Pope John Paul II?",
+    "contexts": [
+      "<1-hop>\n\nBaptists\n\nDuring the Protestant Reformation, the Church of England (Anglicans) separated from the Roman Catholic Church. There were some Christians who were not content with the achievements of the mainstream Protestant Reformation. There also were Christians who were disappointed that the Church of England had not made corrections of what some considered to be errors and abuses. Of those most critical of the Church's direction, some chose to stay and try to make constructive changes from within the Anglican Church. They became known as \"Puritans\" and are described by Gourley as cousins of the English Separatists. Others decided they must leave the Church because of their dissatisfaction and became known as the Separatists.",
+      "<2-hop>\n\nCanonization of Pope John XXIII and Pope John Paul II\n\nPope John XXIII (25 November 1881 \u2013 3 June 1963) and Pope John Paul II (18 May 1920 \u2013 2 April 2005) reigned as popes of the Roman Catholic Church and the sovereigns of Vatican City (respectively from 1958 to 1963 and 1978 to 2005). Their canonizations were held on 27 April 2014. The decision to canonize was made official by Pope Francis on 5 July 2013 following the recognition of a miracle attributed to the intercession of John Paul II, while John XXIII was canonized for his merits of opening the Second Vatican Council. The date of the canonization was assigned on 30 September 2013."
+    ],
+    "ground_truth": "The context shows two different developments connected by the theme of the Roman Catholic Church. In the first segment, the Church of England separated from the Roman Catholic Church during the Protestant Reformation, which led to dissatisfaction among some Christians and contributed to groups such as the Puritans and the Separatists. In the second segment, Pope John XXIII and Pope John Paul II are described as later popes of the Roman Catholic Church, and their canonizations were held on 27 April 2014. So, the relation is that the first segment describes a historical split away from the Roman Catholic Church, while the second describes major Roman Catholic leaders who reigned much later within that same church.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "Wut happend on February 21, 1834, and how is that date conected to John Breathitt and Breathitt County, Kentucky?",
+    "contexts": [
+      "<1-hop>\n\nJohn Breathitt\n\nJohn Breathitt (September 9, 1786 \u2013 February 21, 1834) was the 11th Governor of Kentucky. He was the first Democrat to hold this office and was the second Kentucky governor to die in office. Shortly after his death, Breathitt County, Kentucky was created and named in his honor."
+    ],
+    "ground_truth": "February 21, 1834 was the date John Breathitt died. He was the 11th Governor of Kentucky, the first Democrat to hold that office, and the second Kentucky governor to die in office. Shortly after his death, Breathitt County, Kentucky was created and named in his honor.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  },
+  {
+    "question": "America affirmative action controversy effectiveness class inequality poor people of color race-based vs class-based affirmative action in the United States explained",
+    "contexts": [
+      "<1-hop>\n\nAffirmative action in the United States\n\nThe controversy surrounding affirmative action's effectiveness is based on the idea of class inequality. Opponents of racial affirmative action argue that the program actually benefits middle- and upper-class African Americans and Hispanic Americans at the expense of lower-class European Americans and Asian Americans. This argument supports the idea of class-based affirmative action. America's poor is disproportionately made up of people of color, so class-based affirmative action would disproportionately help people of color. This would eliminate the need for race-based affirmative action as well as reducing any disproportionate benefits for middle- and upper-class people of color."
+    ],
+    "ground_truth": "In the United States, the controversy over affirmative action's effectiveness is described in terms of class inequality. Opponents of racial affirmative action argue that it benefits middle- and upper-class African Americans and Hispanic Americans while disadvantaging lower-class European Americans and Asian Americans. The context says this supports the idea of class-based affirmative action. It also explains that America's poor is disproportionately made up of people of color, so class-based affirmative action would disproportionately help people of color. According to the context, this could eliminate the need for race-based affirmative action while also reducing disproportionate benefits for middle- and upper-class people of color.",
+    "synthesizer_name": "multi_hop_specific_query_synthesizer"
+  }
+]
